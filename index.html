@@ -4,38 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WalkPet Software</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
-
-    <!-- CABECERA / NAVBAR -->
-    <header class="main-header">
-        <div class="header-container">
-            <!-- Contenedor del Logo Optimizado -->
-            <div class="logo-container">
-                <div class="logo-placeholder">
-                    <img src="/images/WalkPet 2.png" alt="WalkPet Logo">
+<body class="bg-[#F5F3FF] text-gray-800 min-h-screen flex flex-col justify-between font-sans">
+    
+    <header class="bg-white border-b-4 border-emerald-500 shadow-sm relative z-50">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center py-1">
+                <div class="w-[60px] h-auto flex items-center justify-center overflow-hidden">
+                    <img src="/images/WalkPet 2.png" alt="WalkPet Logo" class="w-full h-auto object-contain block">
                 </div>
             </div>
-
-            <!-- Menú de Navegación / Desplegable -->
-            <nav class="navigation-menu">
-                <div class="dropdown">
-                    <button class="dropdown-toggle">Menú</button>
-                    <div class="dropdown-content">
-                        <a href="#inicio" class="dropdown-item">
-                            <i data-lucide="home"></i> Inicio
+            
+            <nav class="relative">
+                <div class="relative inline-block group">
+                    <button class="bg-gray-100 border-none px-5 py-2.5 rounded-lg font-semibold text-gray-600 cursor-pointer transition-colors duration-200 group-hover:bg-gray-200 group-hover:text-violet-700">
+                        Menú
+                    </button>
+                    <div class="hidden group-hover:block absolute right-0 top-full bg-white min-w-[200px] shadow-lg border border-gray-200 rounded-lg py-2 mt-0">
+                        <a href="#inicio" class="text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 text-ea transition-colors duration-150 hover:bg-[#F5F3FF] hover:text-violet-700">
+                            <i data-lucide="home" class="w-4 h-4"></i> Inicio
                         </a>
-                        <!-- Vinculado correctamente a la sección Nosotros -->
-                        <a href="#Nosotros" class="dropdown-item">
-                            <i data-lucide="users" style="color: var(--brand-purple);"></i> Nosotros
+                        <a href="/Nosotros.html" class="text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 text-ea transition-colors duration-150 hover:bg-[#F5F3FF] hover:text-violet-700">
+                            <i data-lucide="users" class="w-4 h-4 text-violet-700"></i> Nosotros
                         </a>
-                        <a href="#precios" class="dropdown-item">
-                            <i data-lucide="credit-card"></i> Precios
+                        <a href="/Catalogo.html" class="text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 text-ea transition-colors duration-150 hover:bg-[#F5F3FF] hover:text-violet-700">
+                            <i data-lucide="credit-card" class="w-4 h-4"></i> Productos
                         </a>
-                        <a href="#soporte" class="dropdown-item">
-                            <i data-lucide="life-buoy"></i> Soporte
+                        <a href="#soporte" class="text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 text-ea transition-colors duration-150 hover:bg-[#F5F3FF] hover:text-violet-700">
+                            <i data-lucide="life-buoy" class="w-4 h-4"></i> Soporte
                         </a>
                     </div>
                 </div>
@@ -43,60 +41,69 @@
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL (Recepción de Pacientes) -->
-    <main class="main-content">
-        <div class="dashboard-container">
+    <section class="max-w-7xl mx-auto px-6 mt-6 w-full">
+        <div class="bg-white p-4 rounded-xl border border-[#EDE9FE] shadow-sm flex gap-3">
+            <div class="relative flex-grow">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                <input type="text" placeholder="Buscar mascota, propietario, chip o teléfono..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-violet-700 focus:bg-white transition-all">
+            </div>
+            <button class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition-colors">
+                <i data-lucide="calendar" class="w-4 h-4"></i> Agendar Cita
+            </button>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-6 py-8 w-full flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-[2.5fr_1fr] gap-8">
             
-            <!-- Panel Central: Tabla de Pacientes -->
-            <section class="table-section">
-                <div class="section-header">
-                    <h2>Recepción de Pacientes</h2>
-                    <button class="btn-primary">
-                        <i data-lucide="plus"></i> Nuevo Ingreso
+            <section class="bg-white rounded-2xl p-6 border border-[#EDE9FE] shadow-sm">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Recepción de Pacientes</h2>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white border-none px-4 py-2 rounded-lg font-semibold cursor-pointer flex items-center gap-2 transition-colors duration-200">
+                        <i data-lucide="plus" class="w-4 h-4"></i> Nuevo Ingreso
                     </button>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="data-table">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full border-collapse text-left text-sm">
                         <thead>
-                            <tr>
-                                <th>Motivo</th>
-                                <th>Estado</th>
-                                <th>Acción</th>
+                            <tr class="bg-[#F5F3FF] text-violet-700 font-semibold">
+                                <th class="p-3.5">Motivo</th>
+                                <th class="p-3.5">Estado</th>
+                                <th class="p-3.5">Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><span class="badge badge-vacuna">Vacunación</span></td>
-                                <td><span class="status-waiting">En Espera</span></td>
-                                <td><button class="btn-action">Atender</button></td>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-3.5"><span class="px-2 py-1 rounded bg-amber-100 text-amber-800 text-xs font-semibold">Vacunación</span></td>
+                                <td class="p-3.5"><span class="text-emerald-500 font-semibold">En Espera</span></td>
+                                <td class="p-3.5"><button class="bg-none border-none text-violet-700 font-bold cursor-pointer hover:underline">Atender</button></td>
                             </tr>
-                            <tr>
-                                <td><span class="badge badge-urgencia">Urgencia Física</span></td>
-                                <td><span class="status-triage">Triaje</span></td>
-                                <td><button class="btn-action">Atender</button></td>
+                            <tr class="border-b border-gray-100">
+                                <td class="p-3.5"><span class="px-2 py-1 rounded bg-red-100 text-red-800 text-xs font-semibold">Urgencia Física</span></td>
+                                <td class="p-3.5"><span class="text-blue-500 font-semibold">Triaje</span></td>
+                                <td class="p-3.5"><button class="bg-none border-none text-violet-700 font-bold cursor-pointer hover:underline">Atender</button></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- Panel Lateral Derecho: Bienvenida/Métricas -->
-            <aside class="summary-sidebar">
-                <div class="welcome-card">
-                    <h3>Bienvenido</h3>
-                    <p>El software veterinario para el control de tus pacientes.</p>
-                    <div class="metric-box">
-                        <span class="metric-label">Atendidos hoy</span>
-                        <span class="metric-value">14 Mascotas</span>
+            <aside class="flex flex-col gap-6">
+                <div class="bg-gradient-to-br from-violet-700 to-violet-900 text-white rounded-2xl p-6">
+                    <h3 class="mb-1 text-lg font-bold">Bienvenido</h3>
+                    <p class="text-xs text-[#DDD6FE] mb-4">El software veterinario para el control de tus pacientes.</p>
+                    <div class="bg-white/10 p-3 rounded-lg flex justify-between items-center">
+                        <span class="text-xs text-[#DDD6FE]">Atendidos hoy</span>
+                        <span class="text-xl font-extrabold">14 Mascotas</span>
                     </div>
                 </div>
 
-                <div class="tools-card">
-                    <h4>Herramientas</h4>
-                    <ul>
-                        <li><a href="#consultas">Historial Clínico</a></li>
-                        <li><a href="#inventario">Inventario Medicinas</a></li>
+                <div class="bg-white rounded-2xl p-6 border border-[#EDE9FE]">
+                    <h4 class="mb-3 text-sm font-bold">Herramientas</h4>
+                    <ul class="list-none">
+                        <li><a href="#consultas" class="block py-2 text-blue-500 no-underline text-xs hover:underline">Historial Clínico</a></li>
+                        <li><a href="#inventario" class="block py-2 text-blue-500 no-underline text-xs hover:underline">Inventario Medicinas</a></li>
                     </ul>
                 </div>
             </aside>
@@ -104,92 +111,160 @@
         </div>
     </main>
 
-    <!-- SECCIÓN INDEPENDIENTE: MISIÓN Y VISIÓN -->
-    <section id="Nosotros" class="philosophy-section">
-        <div class="section-container">
+    <section id="Nosotros" class="py-16 px-6 bg-gray-50">
+        <div class="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            <!-- Tarjeta Misión -->
-            <div class="philosophy-card mission-card">
-                <div class="card-icon-circle">
-                    <i data-lucide="target" style="color: var(--brand-purple);"></i>
+            <div class="bg-white p-10 rounded-2xl shadow-sm text-center border border-gray-200 transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-md">
+                <div class="w-[60px] h-[60px] bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <i data-lucide="target" class="w-7 h-7 text-violet-700"></i>
                 </div>
-                <h2>Nuestra Misión</h2>
-                <div class="card-divider"></div>
-                <p>Brindar una recepción médica ágil y un cuidado excepcional que garantice la salud y felicidad de cada mascota, tratándolas siempre como parte de nuestra propia familia.</p>
+                <h2 class="text-2xl font-extrabold text-gray-800 mb-3">Nuestra Misión</h2>
+                <div class="w-[50px] h-1 bg-violet-700 mx-auto mb-5 rounded-sm"></div>
+                <p class="text-sm text-gray-600 leading-relaxed">Brindar una recepción médica ágil y un cuidado exceptional que garantice la salud y felicidad de cada mascota, tratándolas siempre como parte de nuestra propia familia.</p>
             </div>
 
-            <!-- Tarjeta Visión -->
-            <div class="philosophy-card vision-card">
-                <div class="card-icon-circle">
-                    <i data-lucide="compass" style="color: var(--brand-green);"></i>
+            <div class="bg-white p-10 rounded-2xl shadow-sm text-center border border-gray-200 transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-md">
+                <div class="w-[60px] h-[60px] bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <i data-lucide="compass" class="w-7 h-7 text-emerald-500"></i>
                 </div>
-                <h2>Nuestra Visión</h2>
-                <div class="card-divider"></div>
-                <p>Ser el software veterinario y centro de atención líder, reconocido por nuestra empatía, innovación tecnológica y amor incondicional hacia los animales.</p>
+                <h2 class="text-2xl font-extrabold text-gray-800 mb-3">Nuestra Visión</h2>
+                <div class="w-[50px] h-1 bg-emerald-500 mx-auto mb-5 rounded-sm"></div>
+                <p class="text-sm text-gray-600 leading-relaxed">Ser el software veterinario y centro de atención líder, reconocido por nuestra empatía, innovación tecnológica y amor incondicional hacia los animales.</p>
             </div>
 
         </div>
     </section>
+    <section id="Nosotros" class="py-16 px-6 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-[1100px] mx-auto mb-10 text-center">
+            <h2 class="text-3xl font-black text-gray-800 mb-4">Conoce WalkPet</h2>
+            <p class="text-sm text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                Nacido en Aguascalientes como un pequeño proyecto familiar, WalkPet creció gracias a la necesidad de optimizar los tiempos de respuesta en clínicas veterinarias. Hoy en día, nos enorgullece ser la herramienta digital de confianza para cientos de especialistas dedicados a la salud animal.
+            </p>
+        </div>
 
-    <!-- PIE DE PÁGINA (FOOTER) -->
-    <footer class="main-footer">
-        <div class="footer-container">
+    <!-- ================= SECCIÓN DE UBICACIÓN Y HORARIOS ================= -->
+    <section id="contacto-info" class="py-12 px-6 bg-white border-t border-b border-[#EDE9FE]">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
             
-            <!-- Columna 1: Identidad Corta -->
-            <div class="footer-column info-brand">
-                <h3>WalkPet</h3>
-                <p class="slogan">"Donde nuestra mascota es más que solo eso"</p>
-                <p class="brand-description">Innovación y tecnología aplicadas al cuidado y bienestar de tus compañeros más fieles.</p>
+            <!-- Bloque de Ubicación -->
+            <div class="bg-[#F5F3FF] p-6 rounded-2xl border border-[#EDE9FE] flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-2.5 bg-violet-100 text-violet-700 rounded-xl">
+                            <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800">Nuestra Ubicación</h3>
+                    </div>
+                    <!-- Cambia la dirección aquí si lo necesitas -->
+                    <p class="text-sm text-gray-600 mb-4">Alcaldes Sn, Ortega Douglas, 20009 Aguascalientes, Ags.</p>
+                </div>
+                
+                <!-- Contenedor para tu Imagen o Mapa -->
+                <div class="w-full h-[250px] bg-gray-200 rounded-xl overflow-hidden shadow-inner border border-gray-300 flex items-center justify-center relative">
+                    <img src="/images/Ubicacion Walkpet.png" />
+                    <i data-lucide="map" class="w-12 h-12 text-gray-400 absolute"></i>
+                    <span class="text-xs text-gray-500 pt-16">Espacio para mapa o imagen de ubicación</span>
+                </div>
             </div>
 
-            <!-- Columna 2: Navegación Principal -->
-            <div class="footer-column">
-                <h4>Principal</h4>
-                <ul class="footer-links">
-                    <li><a href="#inicio"><i data-lucide="chevron-right"></i> Inicio</a></li>
-                    <li><a href="#precios"><i data-lucide="chevron-right"></i> Precios</a></li>
-                    <li><a href="#Nosotros"><i data-lucide="chevron-right"></i> Nosotros</a></li>
-                    <li><a href="#soporte"><i data-lucide="chevron-right"></i> Soporte</a></li>
+            <!-- Bloque de Horarios de Atención -->
+            <div class="bg-[#F2FBF7] p-6 rounded-2xl border border-emerald-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2.5 bg-emerald-100 text-emerald-600 rounded-xl">
+                            <i data-lucide="clock" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800">Horarios de Atención</h3>
+                    </div>
+                    
+                    <!-- Tabla / Lista de horarios estilizada -->
+                    <div class="space-y-3.5">
+                        <div class="flex justify-between items-center border-b border-emerald-100/50 pb-2">
+                            <span class="font-semibold text-sm text-gray-700">Lunes a Viernes</span>
+                            <span class="text-sm bg-emerald-500 text-white px-3 py-1 rounded-md font-medium">8:00 AM - 8:00 PM</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-emerald-100/50 pb-2">
+                            <span class="font-semibold text-sm text-gray-700">Sábados</span>
+                            <span class="text-sm bg-emerald-500 text-white px-3 py-1 rounded-md font-medium">9:00 AM - 4:00 PM</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-emerald-100/50 pb-2">
+                            <span class="font-semibold text-sm text-gray-700">Domingos</span>
+                            <span class="text-sm bg-amber-500 text-white px-3 py-1 rounded-md font-medium">Solo Urgencias</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nota de emergencias -->
+               <a href="/Nosotros.html" class="mt-6 p-3 bg-white rounded-xl border border-emerald-200/60 flex items-center gap-3 cursor-pointer transition-colors duration-200 hover:bg-emerald-50/50 block no-underline">
+    <i data-lucide="phone-call" class="w-5 h-5 text-emerald-500 shrink-0"></i>
+    <p class="text-xs text-gray-600 leading-normal">
+        ¿Tienes una emergencia fuera de horario? Llámanos directamente al <strong class="text-emerald-600 font-bold">+1 234 567 890</strong> o conoce más sobre nosotros.
+    </p>
+</a>
+            </div>
+
+        </div>
+    </section>
+    <footer class="bg-white border-t border-gray-200 text-gray-800">
+        <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10">
+            
+            <div class="flex flex-col">
+                <h3 class="text-2xl font-black text-violet-700 mb-2">WalkPet</h3>
+                <p class="text-xs text-gray-500 italic mb-2">"Donde nuestra mascota es más que solo eso"</p>
+                <p class="text-xs text-gray-500 leading-normal">Innovación y tecnología aplicadas al cuidado y bienestar de tus compañeros más fieles.</p>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-bold text-gray-800 mb-4">Principal</h4>
+                <ul class="list-none space-y-2.5">
+                    <li><a href="#inicio" class="text-sm text-gray-600 no-underline flex items-center group transition-all duration-200 hover:text-violet-700 hover:translate-x-1"><i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-blue-500"></i> Inicio</a></li>
+                    <li><a href="#precios" class="text-sm text-gray-600 no-underline flex items-center group transition-all duration-200 hover:text-violet-700 hover:translate-x-1"><i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-blue-500"></i> Precios</a></li>
+                    <li><a href="#Nosotros" class="text-sm text-gray-600 no-underline flex items-center group transition-all duration-200 hover:text-violet-700 hover:translate-x-1"><i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-blue-500"></i> Nosotros</a></li>
+                    <li><a href="#soporte" class="text-sm text-gray-600 no-underline flex items-center group transition-all duration-200 hover:text-violet-700 hover:translate-x-1"><i data-lucide="chevron-right" class="w-4 h-4 mr-2 text-blue-500"></i> Soporte</a></li>
                 </ul>
             </div>
 
-            <!-- Columna 3: Información -->
-            <div class="footer-column">
-                <h4>Información</h4>
-                <ul class="footer-links">
-                    <li><a href="#terminos"><i data-lucide="shield-check"></i> Términos de Servicio</a></li>
-                    <li><a href="#privacidad"><i data-lucide="eye"></i> Privacidad</a></li>
-                    <li><a href="#faq"><i data-lucide="help-circle"></i> Preguntas Frecuentes</a></li>
+            <div>
+                <h4 class="text-sm font-bold text-gray-800 mb-4">Información</h4>
+                <ul class="list-none space-y-2.5">
+                    <li><a href="#terminos" class="text-sm text-gray-600 no-underline flex items-center transition-colors duration-200 hover:text-violet-700"><i data-lucide="shield-check" class="w-4 h-4 mr-2 text-blue-500"></i> Términos de Servicio</a></li>
+                    <li><a href="#privacidad" class="text-sm text-gray-600 no-underline flex items-center transition-colors duration-200 hover:text-violet-700"><i data-lucide="eye" class="w-4 h-4 mr-2 text-blue-500"></i> Privacidad</a></li>
+                    <li><a href="#faq" class="text-sm text-gray-600 no-underline flex items-center transition-colors duration-200 hover:text-violet-700"><i data-lucide="help-circle" class="w-4 h-4 mr-2 text-blue-500"></i> Preguntas Frecuentes</a></li>
                 </ul>
             </div>
 
-            <!-- Columna 4: Contáctanos y Redes Sociales -->
-            <div class="footer-column">
-                <h4>Contáctanos</h4>
-                <ul class="footer-contact">
-                    <li><i data-lucide="phone" style="color: var(--brand-green);"></i> +1 234 567 890</li>
-                    <li><i data-lucide="mail" style="color: var(--brand-blue);"></i> soporte@walkpet.com</li>
+            <div>
+                <h4 class="text-sm font-bold text-gray-800 mb-4">Contáctanos</h4>
+                <ul class="list-none space-y-3">
+                    <li class="text-sm text-gray-600 flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4 text-emerald-500"></i> +1 234 567 890</li>
+                    <li class="text-sm text-gray-600 flex items-center gap-2"><i data-lucide="mail" class="w-4 h-4 text-blue-500"></i> soporte@walkpet.com</li>
+                    <li class="text-sm text-gray-600 flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-blue-500"></i>Beethoven 517, Col del Trabajo, 20180 Aguascalientes, Ags.</li>
                 </ul>
                 
-                <h4 class="social-title">Redes Sociales</h4>
-                <div class="social-icons">
-                    <a href="#facebook" aria-label="Facebook" class="icon-fb"><i data-lucide="facebook"></i></a>
-                    <a href="#instagram" aria-label="Instagram" class="icon-ig"><i data-lucide="instagram"></i></a>
-                    <a href="#twitter" aria-label="Twitter" class="icon-tw"><i data-lucide="twitter"></i></a>
+                <h4 class="text-sm font-bold text-gray-800 mt-6 mb-2">Redes Sociales</h4>
+                <div class="flex gap-3">
+                    <a href="#facebook" aria-label="Facebook" class="flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 text-gray-600 no-underline transition-all duration-200 hover:bg-blue-100 hover:text-blue-500 hover:scale-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="#instagram" aria-label="Instagram" class="flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 text-gray-600 no-underline transition-all duration-200 hover:bg-pink-100 hover:text-pink-600 hover:scale-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                    </a>
+                    <a href="#twitter" aria-label="Twitter" class="flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 text-gray-600 no-underline transition-all duration-200 hover:bg-sky-100 hover:text-sky-600 hover:scale-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                    </a>
                 </div>
             </div>
 
         </div>
 
-        <!-- Barra del Copyright -->
-        <div class="footer-bottom">
+        <div class="bg-gray-50 border-t border-gray-200 py-5 text-center text-xs text-gray-500">
             &copy; 2026 WalkPet Software. Todos los derechos reservados.
         </div>
     </footer>
 
-    <!-- Inicialización de los iconos de Lucide -->
     <script>
         lucide.createIcons();
     </script>
+    
 </body>
 </html>

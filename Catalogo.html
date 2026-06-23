@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalkPet Software</title>
+    <!-- El script de Tailwind DEBE ir aquí adentro -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<!-- ================= SECCIÓN DE CATÁLOGO ================= -->
+<section id="catalogo" class="py-16 px-6 bg-white border-t border-b border-[#EDE9FE]">
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- Encabezado del Catálogo -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end mb-10 gap-4">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Tienda WalkPet</span>
+                <h2 class="text-3xl font-black text-gray-800 mt-2">Catálogo de Productos</h2>
+                <p class="text-sm text-gray-500 mt-1">Medicamentos de venta libre y accesorios premium para el cuidado diario.</p>
+            </div>
+            
+            <!-- Filtros Rápidos (Estéticos) -->
+            <div class="flex flex-wrap gap-2">
+                <span class="text-xs font-semibold px-3 py-1.5 bg-violet-700 text-white rounded-lg cursor-pointer">Todos</span>
+                <span class="text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Farmacia</span>
+                <span class="text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Estética e Higiene</span>
+                <span class="text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Accesorios</span>
+            </div>
+        </div>
+
+        <!-- Rejilla de Productos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Producto 1: Medicamento No Controlado -->
+            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
+                        <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
+                        <!-- Reemplaza el icono por tu <img src="..." /> -->
+                        <i data-lucide="pill" class="w-12 h-12 text-violet-600"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1">Complejo Vitamínico Canino B12</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Suplemento multivitamínico de venta libre para el refuerzo inmunológico y vitalidad en perros adultos.</p>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-base font-black text-gray-900">$240.00</span>
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
+                    </div>
+                    <button class="w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 2: Perfume / Colonia -->
+            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
+                        <span class="absolute top-2 left-2 bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Estética</span>
+                        <i data-lucide="sparkles" class="w-12 h-12 text-pink-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1">Perfume "GlowPet" Lavanda</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Colonia desodorante premium de larga duración. Fórmula libre de alcohol, segura para pieles sensibles.</p>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-base font-black text-gray-900">$185.00</span>
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
+                    </div>
+                    <button class="w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 3: Peines / Cepillos -->
+            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
+                        <span class="absolute top-2 left-2 bg-amber-100 text-amber-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Higiene</span>
+                        <i data-lucide="scissors" class="w-12 h-12 text-amber-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1">Peine Deslanador Profesional</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Cepillo ergonómico de acero inoxidable ideal para eliminar el pelo muerto en razas de pelaje largo o denso.</p>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-base font-black text-gray-900">$320.00</span>
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
+                    </div>
+                    <button class="w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Producto 4: Antiparásitos Libres (Medicamento No Controlado) -->
+            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
+                        <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
+                        <i data-lucide="shield" class="w-12 h-12 text-emerald-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1">Pipeta Antiparasitaria Externa</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Tratamiento cutáneo preventivo de venta libre contra pulgas, garrapatas y mosquitos para felinos y caninos.</p>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-base font-black text-gray-900">$150.00</span>
+                        <span class="text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">Pocas Unidades</span>
+                    </div>
+                    <button class="w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- BOTÓN REGRESAR AL INICIO -->
+<a href="/index.html" 
+   aria-label="Regresar al inicio" 
+   class="fixed bottom-6 right-6 z-50 bg-violet-700 hover:bg-violet-800 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center border border-violet-600/50 group no-underline">
+    <i data-lucide="arrow-up" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-0.5"></i>
+</a>
+</body>
+</html>
