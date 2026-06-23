@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - WalkPet Software</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#F5F3FF] text-gray-800 min-h-screen flex flex-col font-sans">
+    
+    <header class="bg-white border-b-4 border-violet-700 shadow-sm relative z-50">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center py-1">
+                <div class="w-[60px] h-auto flex items-center justify-center overflow-hidden">
+                    <img src="/images/WalkPet 2.png" alt="WalkPet Logo" class="w-full h-auto object-contain block">
+                </div>
+                <span class="ml-3 font-bold text-gray-700">| Panel de Gestión</span>
+            </div>
+            
+            <nav class="flex gap-4 items-center">
+                <a href="/index.html" class="text-sm text-gray-500 hover:text-violet-700 transition-colors flex items-center gap-1">
+                    <i data-lucide="external-link" class="w-4 h-4"></i> Ver Sitio Web
+                </a>
+                <div class="w-10 h-10 bg-violet-100 rounded-full flex items-center justify-center text-violet-700 font-bold border border-violet-200 cursor-pointer">
+                    MV
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-6 mt-6 w-full">
+        <div class="bg-white p-4 rounded-xl border border-[#EDE9FE] shadow-sm flex gap-3">
+            <div class="relative flex-grow">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                <input type="text" placeholder="Buscar mascota, propietario, chip o teléfono..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-violet-700 focus:bg-white transition-all">
+            </div>
+            <button class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition-colors">
+                <i data-lucide="calendar" class="w-4 h-4"></i> Agendar Cita
+            </button>
+        </div>
+    </section>
+
+    <main class="max-w-7xl mx-auto px-6 py-8 w-full flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-[2.5fr_1fr] gap-8">
+            
+            <section class="bg-white rounded-2xl p-6 border border-[#EDE9FE] shadow-sm">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold">Recepción de Pacientes</h2>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white border-none px-4 py-2 rounded-lg font-semibold cursor-pointer flex items-center gap-2 transition-colors duration-200">
+                        <i data-lucide="plus" class="w-4 h-4"></i> Nuevo Ingreso
+                    </button>
+                </div>
+
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full border-collapse text-left text-sm">
+                        <thead>
+                            <tr class="bg-[#F5F3FF] text-violet-700 font-semibold">
+                                <th class="p-3.5">Motivo</th>
+                                <th class="p-3.5">Estado</th>
+                                <th class="p-3.5">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                <td class="p-3.5"><span class="px-2 py-1 rounded bg-amber-100 text-amber-800 text-xs font-semibold">Vacunación</span></td>
+                                <td class="p-3.5"><span class="text-emerald-500 font-semibold">En Espera</span></td>
+                                <td class="p-3.5"><button class="bg-none border-none text-violet-700 font-bold cursor-pointer hover:underline">Atender</button></td>
+                            </tr>
+                            <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                <td class="p-3.5"><span class="px-2 py-1 rounded bg-red-100 text-red-800 text-xs font-semibold">Urgencia Física</span></td>
+                                <td class="p-3.5"><span class="text-blue-500 font-semibold">Triaje</span></td>
+                                <td class="p-3.5"><button class="bg-none border-none text-violet-700 font-bold cursor-pointer hover:underline">Atender</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <aside class="flex flex-col gap-6">
+                <div class="bg-gradient-to-br from-violet-700 to-violet-900 text-white rounded-2xl p-6 shadow-sm">
+                    <h3 class="mb-1 text-lg font-bold">Bienvenido, Dr.</h3>
+                    <p class="text-xs text-[#DDD6FE] mb-4">El software veterinario para el control de tus pacientes.</p>
+                    <div class="bg-white/10 p-3 rounded-lg flex justify-between items-center">
+                        <span class="text-xs text-[#DDD6FE]">Atendidos hoy</span>
+                        <span class="text-xl font-extrabold flex items-center gap-2">
+                            <i data-lucide="activity" class="w-5 h-5 text-emerald-400"></i> 14
+                        </span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 border border-[#EDE9FE] shadow-sm">
+                    <h4 class="mb-3 text-sm font-bold text-gray-800">Herramientas Rápidas</h4>
+                    <ul class="list-none space-y-1">
+                        <li>
+                            <a href="#consultas" class="flex items-center gap-2 py-2 text-gray-600 no-underline text-sm hover:text-violet-700 hover:bg-[#F5F3FF] rounded-md px-2 transition-colors">
+                                <i data-lucide="clipboard-list" class="w-4 h-4 text-blue-500"></i> Historial Clínico
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#inventario" class="flex items-center gap-2 py-2 text-gray-600 no-underline text-sm hover:text-violet-700 hover:bg-[#F5F3FF] rounded-md px-2 transition-colors">
+                                <i data-lucide="package" class="w-4 h-4 text-emerald-500"></i> Inventario Medicinas
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
