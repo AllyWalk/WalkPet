@@ -7,51 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body class="bg-slate-50 text-gray-800 min-h-screen flex flex-col justify-between font-sans relative overflow-x-hidden">
-    
+    <div id="header-container"></div>
     <div class="absolute top-0 left-1/4 w-96 h-96 bg-violet-200/40 rounded-full blur-3xl -z-10 pointer-events-none"></div>
     <div class="absolute top-[40rem] right-1/4 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-
-    <header class="bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm sticky top-0 z-50 transition-all">
-        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center py-1">
-                <div class="w-[60px] h-auto flex items-center justify-center overflow-hidden">
-                    <img src="/images/WalkPet 2.png" alt="WalkPet Logo" class="w-full h-auto object-contain block">
-                </div>
-                <span class="text-xl font-black text-gray-800 tracking-tight ml-2">Walk<span class="text-emerald-500">Pet</span></span>
-            </div>
-            
-            <nav class="relative">
-                <div class="relative inline-block group">
-                    <button class="bg-gray-100 border-none px-5 py-2.5 rounded-xl font-bold text-gray-600 cursor-pointer transition-all duration-200 group-hover:bg-violet-50 group-hover:text-violet-700 flex items-center gap-2">
-                        <i data-lucide="menu" class="w-4 h-4"></i> Menú
-                    </button>
-                    <div class="hidden group-hover:block absolute right-0 top-full bg-white min-w-[220px] shadow-xl border border-gray-100 rounded-xl py-2 mt-1 animate-in fade-in slide-in-from-top-2 duration-200">
-                        <a href="#inicio" class="group text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
-                            <i data-lucide="home" class="w-4 h-4 text-gray-400 transition-colors group-hover:text-violet-700"></i> Inicio
-                        </a>
-                        
-                        <a href="#contacto-info" class="group text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-gray-400 transition-colors group-hover:text-violet-700"></i> Ubicación
-                        </a>
-                        
-                        <a href="/Catalogo.html" class="group text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
-                            <i data-lucide="shopping-cart" class="w-4 h-4 text-gray-400 transition-colors group-hover:text-violet-700"></i> Catálogo
-                        </a>
-                        
-                        <a href="Nosotros.html" class="group text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
-                            <i data-lucide="users" class="w-4 h-4 text-gray-400 transition-colors group-hover:text-violet-700"></i> Nosotros
-                        </a>
-                        
-                        <a href="/dashboard.html" class="group text-emerald-600 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-emerald-50 font-bold border-t border-gray-100 mt-1">
-                            <i data-lucide="log-in" class="w-4 h-4 text-emerald-500 transition-colors group-hover:text-emerald-600"></i> Acceso Personal
-                        </a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
-
     <div class="fixed right-6 bottom-6 flex flex-col gap-3 z-50">
         <a href="#facebook" aria-label="Facebook" class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-blue-600 shadow-xl border border-gray-100 backdrop-blur-sm transition-all duration-200 hover:bg-blue-600 hover:text-white hover:-translate-y-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -263,6 +223,19 @@
     <script>
         // Inicializa los iconos de Lucide
         lucide.createIcons();
+    </script>
+    <script>
+        fetch('/header.html')
+            .then(response => response.text())
+            .then(data => {
+                // Inserta todo el código del header dentro del div
+                document.getElementById('header-container').innerHTML = data;
+                
+                // Activa los iconos de Lucide (Menú, Home, Log-in, etc.)
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            });
     </script>
 </body>
 </html>

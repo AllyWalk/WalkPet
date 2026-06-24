@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-gray-50">
-
+<div id="header-container"></div>
 <section id="catalogo" class="py-16 px-6 bg-white border-t border-b border-[#EDE9FE] relative">
     <div class="max-w-7xl mx-auto">
         
@@ -317,7 +317,7 @@
 <a href="/index.html" 
    aria-label="Regresar al inicio" 
    class="fixed bottom-6 right-6 z-50 bg-violet-700 hover:bg-violet-800 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center border border-violet-600/50 group no-underline">
-    <i data-lucide="arrow-up" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-0.5"></i>
+    <i data-lucide="home" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-0.5"></i>
 </a>
 
 <script>
@@ -468,5 +468,18 @@
         });
     });
 </script>
+<script>
+        fetch('/header.html')
+            .then(response => response.text())
+            .then(data => {
+                // Inserta todo el código del header dentro del div
+                document.getElementById('header-container').innerHTML = data;
+                
+                // Activa los iconos de Lucide (Menú, Home, Log-in, etc.)
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            });
+    </script>
 </body>
 </html>
