@@ -9,11 +9,9 @@
 </head>
 <body class="bg-slate-50 text-gray-800 min-h-screen flex flex-col justify-between font-sans relative overflow-x-hidden">
     
-    <!-- ELEMENTOS DE DISEÑO DE FONDO (ORBES DE COLOR) -->
     <div class="absolute top-0 left-1/4 w-96 h-96 bg-violet-200/40 rounded-full blur-3xl -z-10 pointer-events-none"></div>
     <div class="absolute top-[40rem] right-1/4 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl -z-10 pointer-events-none"></div>
 
-    <!-- HEADER PÚBLICO -->
     <header class="bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm sticky top-0 z-50 transition-all">
         <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center py-1">
@@ -29,17 +27,24 @@
                         <i data-lucide="menu" class="w-4 h-4"></i> Menú
                     </button>
                     <div class="hidden group-hover:block absolute right-0 top-full bg-white min-w-[220px] shadow-xl border border-gray-100 rounded-xl py-2 mt-1 animate-in fade-in slide-in-from-top-2 duration-200">
-                        <a href="#inicio" class="text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
-                            <i data-lucide="home" class="w-4 h-4"></i> Inicio
+                        <a href="#inicio" class="group text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
+                            <i data-lucide="home" class="w-4 h-4 text-gray-400 transition-colors group-hover:text-violet-700"></i> Inicio
                         </a>
-                        <a href="#Nosotros" class="text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
-                            <i data-lucide="users" class="w-4 h-4 text-violet-700"></i> Nosotros
+                        
+                        <a href="#contacto-info" class="group text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-gray-400 transition-colors group-hover:text-violet-700"></i> Ubicación
                         </a>
-                        <a href="#contacto-info" class="text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
-                            <i data-lucide="map-pin" class="w-4 h-4"></i> Ubicación
+                        
+                        <a href="/Catalogo.html" class="group text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
+                            <i data-lucide="shopping-cart" class="w-4 h-4 text-gray-400 transition-colors group-hover:text-violet-700"></i> Catálogo
                         </a>
-                        <a href="/dashboard.html" class="text-emerald-600 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-emerald-50 font-bold border-t border-gray-100 mt-1">
-                            <i data-lucide="log-in" class="w-4 h-4"></i> Acceso Personal
+                        
+                        <a href="Nosotros.html" class="group text-gray-700 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-violet-50 hover:text-violet-700 font-medium">
+                            <i data-lucide="users" class="w-4 h-4 text-gray-400 transition-colors group-hover:text-violet-700"></i> Nosotros
+                        </a>
+                        
+                        <a href="/dashboard.html" class="group text-emerald-600 px-4 py-2.5 no-underline flex items-center gap-3 transition-colors duration-150 hover:bg-emerald-50 font-bold border-t border-gray-100 mt-1">
+                            <i data-lucide="log-in" class="w-4 h-4 text-emerald-500 transition-colors group-hover:text-emerald-600"></i> Acceso Personal
                         </a>
                     </div>
                 </div>
@@ -47,7 +52,6 @@
         </div>
     </header>
 
-    <!-- REDES SOCIALES FLOTANTES -->
     <div class="fixed right-6 bottom-6 flex flex-col gap-3 z-50">
         <a href="#facebook" aria-label="Facebook" class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-blue-600 shadow-xl border border-gray-100 backdrop-blur-sm transition-all duration-200 hover:bg-blue-600 hover:text-white hover:-translate-y-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -61,7 +65,6 @@
     </div>
 
     <main class="flex-grow">
-        <!-- SECCIÓN HERO NUEVA (Para que la web no se vea vacía al entrar) -->
         <section id="inicio" class="py-20 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="space-y-6 text-center lg:text-left">
                 <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
@@ -77,12 +80,11 @@
                     <a href="#contacto-info" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/20 transition-all hover:-translate-y-0.5 no-underline">
                         Agendar Cita
                     </a>
-                    <a href="#Nosotros" class="px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-bold rounded-xl shadow-md border border-gray-100 transition-all hover:-translate-y-0.5 no-underline flex items-center gap-2">
+                    <a href="#Nosotros-Tarjetas" class="px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-bold rounded-xl shadow-md border border-gray-100 transition-all hover:-translate-y-0.5 no-underline flex items-center gap-2">
                         Saber Más <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
                 </div>
             </div>
-            <!-- Elemento visual representativo de UI/Mascotas -->
             <div class="relative flex justify-center items-center">
                 <div class="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] bg-gradient-to-tr from-violet-500 to-emerald-400 rounded-3xl rotate-6 absolute opacity-20 blur-xl"></div>
                 <div class="relative bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 max-w-md w-full transition-transform hover:rotate-0 duration-500 cursor-pointer md:rotate-3">
@@ -109,7 +111,6 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE NÚMEROS / ESTADÍSTICAS -->
         <section class="bg-white border-y border-gray-100 py-12 px-6">
             <div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div>
@@ -131,7 +132,6 @@
             </div>
         </section>
 
-        <!-- TARJETAS DE MISIÓN Y VISIÓN -->
         <section id="Nosotros-Tarjetas" class="py-20 px-6">
             <div class="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-white p-10 rounded-2xl shadow-md text-center border border-gray-100 transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl relative overflow-hidden group">
@@ -154,7 +154,6 @@
             </div>
         </section>
 
-        <!-- CONOCE WALKPET -->
         <section id="Nosotros" class="py-20 px-6 bg-gradient-to-b from-transparent to-white border-t border-gray-100">
             <div class="max-w-[1100px] mx-auto text-center space-y-4">
                 <h2 class="text-3xl font-black text-gray-900">Conoce WalkPet</h2>
@@ -165,10 +164,8 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE UBICACIÓN Y HORARIOS -->
         <section id="contacto-info" class="py-16 px-6 bg-slate-50 border-t border-gray-100">
             <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Ubicación -->
                 <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="flex items-center gap-3 mb-4">
@@ -186,7 +183,6 @@
                     </div>
                 </div>
 
-                <!-- Horarios -->
                 <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                     <div>
                         <div class="flex items-center gap-3 mb-6">
@@ -223,7 +219,6 @@
         </section>
     </main>
 
-    <!-- FOOTER CON REDES SOCIALES -->
     <footer class="bg-white border-t border-gray-100 text-gray-800">
         <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-10">
             <div class="flex flex-col space-y-3">

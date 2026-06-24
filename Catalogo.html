@@ -4,127 +4,469 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WalkPet Software</title>
-    <!-- El script de Tailwind DEBE ir aquí adentro -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<!-- ================= SECCIÓN DE CATÁLOGO ================= -->
-<section id="catalogo" class="py-16 px-6 bg-white border-t border-b border-[#EDE9FE]">
+<body class="bg-gray-50">
+
+<section id="catalogo" class="py-16 px-6 bg-white border-t border-b border-[#EDE9FE] relative">
     <div class="max-w-7xl mx-auto">
         
-        <!-- Encabezado del Catálogo -->
-        <div class="flex flex-col md:flex-row md:justify-between md:items-end mb-10 gap-4">
+        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-end mb-10 gap-6">
             <div>
                 <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Tienda WalkPet</span>
                 <h2 class="text-3xl font-black text-gray-800 mt-2">Catálogo de Productos</h2>
                 <p class="text-sm text-gray-500 mt-1">Medicamentos de venta libre y accesorios premium para el cuidado diario.</p>
             </div>
             
-            <!-- Filtros Rápidos (Estéticos) -->
-            <div class="flex flex-wrap gap-2">
-                <span class="text-xs font-semibold px-3 py-1.5 bg-violet-700 text-white rounded-lg cursor-pointer">Todos</span>
-                <span class="text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Farmacia</span>
-                <span class="text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Estética e Higiene</span>
-                <span class="text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Accesorios</span>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto">
+                <div class="relative flex-1 sm:w-64">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
+                        <i data-lucide="search" class="w-4 h-4"></i>
+                    </span>
+                    <input 
+                        type="text" 
+                        id="input-busqueda" 
+                        placeholder="Buscar producto..." 
+                        class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent placeholder-gray-400 transition-all"
+                    >
+                </div>
+
+                <div class="flex flex-wrap gap-2" id="filtro-contenedor">
+                    <span data-target="todos" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-violet-700 text-white rounded-lg cursor-pointer transition-colors shadow-sm">Todos</span>
+                    <span data-target="farmacia" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Farmacia</span>
+                    <span data-target="estetica" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Estética e Higiene</span>
+                    <span data-target="accesorios" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Accesorios</span>
+                </div>
             </div>
         </div>
 
-        <!-- Rejilla de Productos -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div id="sin-resultados" class="hidden text-center py-12">
+            <i data-lucide="package-x" class="w-12 h-12 text-gray-300 mx-auto mb-3"></i>
+            <p class="text-gray-500 font-medium">No se encontraron productos que coincidan con tu búsqueda.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="productos-grid">
             
-            <!-- Producto 1: Medicamento No Controlado -->
-            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div data-categoria="farmacia" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
                         <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
-                        <!-- Reemplaza el icono por tu <img src="..." /> -->
                         <i data-lucide="pill" class="w-12 h-12 text-violet-600"></i>
                     </div>
-                    <h3 class="font-bold text-sm text-gray-800 mb-1">Complejo Vitamínico Canino B12</h3>
-                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Suplemento multivitamínico de venta libre para el refuerzo inmunológico y vitalidad en perros adultos.</p>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Complejo Vitamínico Canino B12</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Suplemento multivitamínico de venta libre.</p>
+                    <button 
+                        data-titulo="Complejo Vitamínico Canino B12" 
+                        data-descripcion="Suplemento multivitamínico de venta libre. Ideal para el refuerzo inmunológico, aumento de energía, apetito y vitalidad integral en perros adultos o seniors de todas las razas que requieran soporte nutricional extra." 
+                        data-precio="$240.00" 
+                        data-categoria="Farmacia"
+                        data-color-badge="bg-blue-100 text-blue-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
                 </div>
                 <div>
                     <div class="flex justify-between items-center mt-2">
                         <span class="text-base font-black text-gray-900">$240.00</span>
                         <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
                     </div>
-                    <button class="w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                    <button class="btn-agregar-directo w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
                         <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
                     </button>
                 </div>
             </div>
 
-            <!-- Producto 2: Perfume / Colonia -->
-            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div data-categoria="estetica" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
                         <span class="absolute top-2 left-2 bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Estética</span>
                         <i data-lucide="sparkles" class="w-12 h-12 text-pink-500"></i>
                     </div>
-                    <h3 class="font-bold text-sm text-gray-800 mb-1">Perfume "GlowPet" Lavanda</h3>
-                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Colonia desodorante premium de larga duración. Fórmula libre de alcohol, segura para pieles sensibles.</p>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Perfume "GlowPet" Lavanda</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Colonia desodorante premium.</p>
+                    <button 
+                        data-titulo="Perfume 'GlowPet' Lavanda" 
+                        data-descripcion="Colonia desodorante premium. Fragancia relajante de larga duración con fórmula hipoalergénica libre de alcohol, completamente segura para el pelaje y pieles sumamente sensibles o delicadas." 
+                        data-precio="$185.00" 
+                        data-categoria="Estética"
+                        data-color-badge="bg-pink-100 text-pink-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
                 </div>
                 <div>
                     <div class="flex justify-between items-center mt-2">
                         <span class="text-base font-black text-gray-900">$185.00</span>
                         <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
                     </div>
-                    <button class="w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                    <button class="btn-agregar-directo w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
                         <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
                     </button>
                 </div>
             </div>
 
-            <!-- Producto 3: Peines / Cepillos -->
-            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div data-categoria="estetica" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
                         <span class="absolute top-2 left-2 bg-amber-100 text-amber-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Higiene</span>
                         <i data-lucide="scissors" class="w-12 h-12 text-amber-500"></i>
                     </div>
-                    <h3 class="font-bold text-sm text-gray-800 mb-1">Peine Deslanador Profesional</h3>
-                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Cepillo ergonómico de acero inoxidable ideal para eliminar el pelo muerto en razas de pelaje largo o denso.</p>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Peine Deslanador Profesional</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Cepillo ergonómico de acero inoxidable.</p>
+                    <button 
+                        data-titulo="Peine Deslanador Profesional" 
+                        data-descripcion="Cepillo ergonómico fabricado en acero inoxidable de alta calidad. Diseñado especialmente para remover y eliminar eficazmente hasta el 95% del pelo muerto y subcapa suelta en razas de pelaje largo, grueso o muy denso." 
+                        data-precio="$320.00" 
+                        data-categoria="Higiene"
+                        data-color-badge="bg-amber-100 text-amber-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
                 </div>
                 <div>
                     <div class="flex justify-between items-center mt-2">
                         <span class="text-base font-black text-gray-900">$320.00</span>
                         <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
                     </div>
-                    <button class="w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                    <button class="btn-agregar-directo w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
                         <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
                     </button>
                 </div>
             </div>
 
-            <!-- Producto 4: Antiparásitos Libres (Medicamento No Controlado) -->
-            <div class="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+            <div data-categoria="farmacia" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
                         <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
                         <i data-lucide="shield" class="w-12 h-12 text-emerald-500"></i>
                     </div>
-                    <h3 class="font-bold text-sm text-gray-800 mb-1">Pipeta Antiparasitaria Externa</h3>
-                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-3">Tratamiento cutáneo preventivo de venta libre contra pulgas, garrapatas y mosquitos para felinos y caninos.</p>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Pipeta Antiparasitaria Externa</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Tratamiento cutáneo preventivo.</p>
+                    <button 
+                        data-titulo="Pipeta Antiparasitaria Externa" 
+                        data-descripcion="Tratamiento cutáneo preventivo mensual. Solución tópica de venta libre altamente eficaz para repeler y eliminar pulgas, garrapatas y mosquitos transmisores de enfermedades en felinos y caninos." 
+                        data-precio="$150.00" 
+                        data-categoria="Farmacia"
+                        data-color-badge="bg-blue-100 text-blue-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
                 </div>
                 <div>
                     <div class="flex justify-between items-center mt-2">
                         <span class="text-base font-black text-gray-900">$150.00</span>
                         <span class="text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">Pocas Unidades</span>
                     </div>
-                    <button class="w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                    <button class="btn-agregar-directo w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
                         <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <div data-categoria="accesorios" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
+                        <span class="absolute top-2 left-2 bg-purple-100 text-purple-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Accesorios</span>
+                        <i data-lucide="heart-pulse" class="w-12 h-12 text-purple-600"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Arnés Ergonómico Reflectante</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Arnés ajustable de alta resistencia.</p>
+                    <button 
+                        data-titulo="Arnés Ergonómico Reflectante" 
+                        data-descripcion="Arnés ajustable fabricado con nylon de alta resistencia y acolchado transpirable. Diseñado con bandas reflejantes de seguridad avanzada para paseos nocturnos, distribuyendo la presión equitativamente para evitar tirones de cuello." 
+                        data-precio="$480.00" 
+                        data-categoria="Accesorios"
+                        data-color-badge="bg-purple-100 text-purple-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-base font-black text-gray-900">$480.00</span>
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
+                    </div>
+                    <button class="btn-agregar-directo w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <div data-categoria="estetica" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
+                        <span class="absolute top-2 left-2 bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Estética</span>
+                        <i data-lucide="droplet" class="w-12 h-12 text-sky-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Shampoo de Avena y Aloe Vera</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Fórmula hipoalergénica natural.</p>
+                    <button 
+                        data-titulo="Shampoo de Avena y Aloe Vera" 
+                        data-descripcion="Fórmula hipoalergénica 100% natural. Ideal para el baño frecuente de caninos y felinos con piel sensible. Calma la comezón, humecta profundamente las capas dermis y devuelve un brillo sedoso y manejable al pelo." 
+                        data-precio="$195.00" 
+                        data-categoria="Estética"
+                        data-color-badge="bg-pink-100 text-pink-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-base font-black text-gray-900">$195.00</span>
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
+                    </div>
+                    <button class="btn-agregar-directo w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <div data-categoria="farmacia" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
+                        <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
+                        <i data-lucide="activity" class="w-12 h-12 text-red-500"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Protector de Almohadillas</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Bálsamo hidratante de venta libre.</p>
+                    <button 
+                        data-titulo="Protector y Regenerador de Almohadillas" 
+                        data-descripcion="Bálsamo ultra-hidratante protector de venta libre. Formulado para crear una barrera aislante que protege y repara grietas severas en los cojinetes de las patas, provocadas por andar sobre asfalto ardiente o hielo." 
+                        data-precio="$210.00" 
+                        data-categoria="Farmacia"
+                        data-color-badge="bg-blue-100 text-blue-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-base font-black text-gray-900">$210.00</span>
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
+                    </div>
+                    <button class="btn-agregar-directo w-full mt-4 bg-violet-700 hover:bg-violet-800 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <div data-categoria="accesorios" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
+                        <span class="absolute top-2 left-2 bg-purple-100 text-purple-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Accesorios</span>
+                        <i data-lucide="package" class="w-12 h-12 text-amber-600"></i>
+                    </div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Comedero Antivoracidad</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Plato con diseño de laberinto interno.</p>
+                    <button 
+                        data-titulo="Comedero Antivoracidad Antideslizante" 
+                        data-descripcion="Plato interactivo con diseño laberíntico interno obstaculizador. Ralentiza hasta 5 veces la ingesta rápida de croquetas, previniendo asfixias, torsión gástrica y mejorando drásticamente el proceso digestivo pesado." 
+                        data-precio="$275.00" 
+                        data-categoria="Accesorios"
+                        data-color-badge="bg-purple-100 text-purple-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-base font-black text-gray-900">$275.00</span>
+                        <span class="text-[10px] font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded">Agotado</span>
+                    </div>
+                    <button class="w-full mt-4 bg-gray-300 text-gray-500 font-bold py-2 rounded-lg text-xs cursor-not-allowed flex items-center justify-center gap-2" disabled>
+                        No Disponible
                     </button>
                 </div>
             </div>
 
         </div>
     </div>
+
+    <div id="modal-producto" class="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl border border-gray-100 transform scale-95 transition-transform duration-300 relative">
+            <button id="btn-cerrar-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 p-2 rounded-full transition-colors">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+            <div class="mt-2">
+                <span id="modal-badge" class="font-bold text-[10px] px-2.5 py-1 rounded shadow-sm inline-block mb-3">Categoría</span>
+                <h3 id="modal-titulo" class="text-xl font-black text-gray-900 mb-3 leading-snug">Título del Producto</h3>
+                <div class="border-t border-b border-gray-100 py-4 my-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">Descripción Completa</h4>
+                    <p id="modal-descripcion" class="text-sm text-gray-600 leading-relaxed">Descripción...</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-between mt-6 pt-2">
+                <div class="flex flex-col">
+                    <span class="text-xs text-gray-400 font-semibold uppercase tracking-tight">Precio</span>
+                    <span id="modal-precio" class="text-2xl font-black text-gray-900">$0.00</span>
+                </div>
+                <button id="modal-btn-agregar" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-3 px-6 rounded-xl text-xs transition-colors flex items-center gap-2 shadow-md shadow-violet-200">
+                    <i data-lucide="shopping-cart" class="w-4 h-4"></i> Agregar al Carrito
+                </button>
+            </div>
+        </div>
+    </div>
 </section>
-<!-- BOTÓN REGRESAR AL INICIO -->
+
+<div id="toast-proximamente" class="fixed bottom-5 right-5 bg-gray-900 text-white text-xs font-bold px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 transform translate-y-10 opacity-0 pointer-events-none transition-all duration-300 z-[60]">
+    <i data-lucide="info" class="w-4 h-4 text-violet-400"></i>
+    <span>Función disponible próximamente</span>
+</div>
+
 <a href="/index.html" 
    aria-label="Regresar al inicio" 
    class="fixed bottom-6 right-6 z-50 bg-violet-700 hover:bg-violet-800 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center border border-violet-600/50 group no-underline">
     <i data-lucide="arrow-up" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-0.5"></i>
 </a>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+
+        const botonesFiltro = document.querySelectorAll(".btn-filtro");
+        const productos = document.querySelectorAll(".producto-card");
+        const inputBusqueda = document.getElementById("input-busqueda");
+        const msgSinResultados = document.getElementById("sin-resultados");
+        
+        // Modal
+        const modal = document.getElementById("modal-producto");
+        const btnCerrar = document.getElementById("btn-cerrar-modal");
+        const botonesAbrirModal = document.querySelectorAll(".btn-abrir-modal");
+        const modalBadge = document.getElementById("modal-badge");
+        const modalTitulo = document.getElementById("modal-titulo");
+        const modalDescripcion = document.getElementById("modal-descripcion");
+        const modalPrecio = document.getElementById("modal-precio");
+
+        // Toast Notificación
+        const toastProximamente = document.getElementById("toast-proximamente");
+        const btnAgregarCarritoModal = document.getElementById("modal-btn-agregar");
+        const botonesAgregarDirecto = document.querySelectorAll(".btn-agregar-directo");
+        let timeoutToast;
+
+        // Estado global de los filtros
+        let categoriaActiva = "todos";
+        let textoBusqueda = "";
+
+        // Mostrar Toast Informativo
+        function mostrarToast() {
+            clearTimeout(timeoutToast);
+            toastProximamente.classList.remove("translate-y-10", "opacity-0", "pointer-events-none");
+            toastProximamente.classList.add("translate-y-0", "opacity-100");
+
+            timeoutToast = setTimeout(() => {
+                toastProximamente.classList.remove("translate-y-0", "opacity-100");
+                toastProximamente.classList.add("translate-y-10", "opacity-0", "pointer-events-none");
+            }, 3000);
+        }
+
+        // FUNCIÓN CORE: Filtra y busca al mismo tiempo
+        function aplicarFiltrosYBusqueda() {
+            let productosVisibles = 0;
+
+            productos.forEach(producto => {
+                const categoriaProducto = producto.getAttribute("data-categoria");
+                const tituloProducto = producto.querySelector("h3").textContent.toLowerCase();
+                
+                const coincideCategoria = (categoriaActiva === "todos" || categoriaActiva === categoriaProducto);
+                const coincideBusqueda = tituloProducto.includes(textoBusqueda);
+
+                if (coincideCategoria && coincideBusqueda) {
+                    producto.classList.remove("hidden");
+                    productosVisibles++;
+                    // Pequeño delay para permitir que la transición css se ejecute tras remover 'hidden'
+                    requestAnimationFrame(() => {
+                        producto.style.opacity = "1";
+                        producto.style.transform = "scale(1)";
+                    });
+                } else {
+                    producto.style.opacity = "0";
+                    producto.style.transform = "scale(0.95)";
+                    producto.classList.add("hidden");
+                }
+            });
+
+            if (productosVisibles === 0) {
+                msgSinResultados.classList.remove("hidden");
+            } else {
+                msgSinResultados.classList.add("hidden");
+            }
+        }
+
+        // Evento búsqueda por texto
+        inputBusqueda.addEventListener("input", (e) => {
+            textoBusqueda = e.target.value.toLowerCase().trim();
+            aplicarFiltrosYBusqueda();
+        });
+
+        // Evento botones de categoría
+        botonesFiltro.forEach(boton => {
+            boton.addEventListener("click", () => {
+                categoriaActiva = boton.getAttribute("data-target");
+
+                botonesFiltro.forEach(b => {
+                    b.classList.remove("bg-violet-700", "text-white", "shadow-sm");
+                    b.classList.add("bg-gray-100", "text-gray-600", "hover:bg-gray-200");
+                });
+                
+                boton.classList.remove("bg-gray-100", "text-gray-600", "hover:bg-gray-200");
+                boton.classList.add("bg-violet-700", "text-white", "shadow-sm");
+
+                aplicarFiltrosYBusqueda();
+            });
+        });
+
+        // Evento abrir modal
+        botonesAbrirModal.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const titulo = btn.getAttribute("data-titulo");
+                const descripcion = btn.getAttribute("data-descripcion");
+                const precio = btn.getAttribute("data-precio");
+                const categoria = btn.getAttribute("data-categoria");
+                const clasesBadge = btn.getAttribute("data-color-badge");
+
+                modalTitulo.textContent = titulo;
+                modalDescripcion.textContent = descripcion;
+                modalPrecio.textContent = precio;
+                modalBadge.textContent = categoria;
+                modalBadge.className = `font-bold text-[10px] px-2.5 py-1 rounded shadow-sm inline-block mb-3 ${clasesBadge}`;
+
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+                
+                setTimeout(() => {
+                    modal.classList.remove("opacity-0");
+                    modal.querySelector(".transform").classList.remove("scale-95");
+                    modal.querySelector(".transform").classList.add("scale-100");
+                }, 10);
+            });
+        });
+
+        // Evento cerrar modal
+        const cerrarModal = () => {
+            modal.classList.add("opacity-0");
+            modal.querySelector(".transform").classList.remove("scale-100");
+            modal.querySelector(".transform").classList.add("scale-95");
+            setTimeout(() => {
+                modal.classList.remove("flex");
+                modal.classList.add("hidden");
+            }, 300);
+        };
+
+        btnCerrar.addEventListener("click", cerrarModal);
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) cerrarModal();
+        });
+
+        // Eventos para detonar el aviso "Próximamente"
+        if (btnAgregarCarritoModal) {
+            btnAgregarCarritoModal.addEventListener("click", mostrarToast);
+        }
+        botonesAgregarDirecto.forEach(btn => {
+            btn.addEventListener("click", mostrarToast);
+        });
+    });
+</script>
 </body>
 </html>
