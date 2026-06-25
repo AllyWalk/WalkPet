@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalkPet - Mi Perfil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gradient-to-br from-[#FAFAFF] via-[#F5F3FF] to-[#EFF6FF] min-h-screen font-sans">
+<div id="header-container"></div>
+
+<main class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <aside class="md:col-span-1 space-y-2">
+            <button onclick="cambiarSeccion('datos')" id="tab-datos" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all bg-violet-700 text-white shadow-lg shadow-violet-100">
+                <i data-lucide="user" class="w-5 h-5"></i> Mis Datos
+            </button>
+            <button onclick="cambiarSeccion('compras')" id="tab-compras" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                <i data-lucide="shopping-bag" class="w-5 h-5"></i> Mis Compras
+            </button>
+            <button onclick="cambiarSeccion('config')" id="tab-config" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                <i data-lucide="settings" class="w-5 h-5"></i> Configuración
+            </button>
+            <hr class="border-gray-200 my-4">
+            <button id="btn-cerrar-sesion-lateral" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-red-600 hover:bg-red-50">
+                <i data-lucide="log-out" class="w-5 h-5"></i> Cerrar Sesión
+            </button>
+        </aside>
+
+        <section class="md:col-span-3 bg-white border border-gray-100 shadow-xl rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+            
+            <div id="seccion-datos" class="space-y-6 block">
+                <div>
+                    <h2 class="text-2xl font-black text-gray-800 tracking-tight">Mis Datos Personales</h2>
+                    <p class="text-xs text-gray-400 mt-1">Gestiona la información básica de tu cuenta</p>
+                </div>
+                
+                <form class="grid grid-cols-1 sm:grid-cols-2 gap-5" onsubmit="event.preventDefault();">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Nombre Completo</label>
+                        <input type="text" value="Juan Pérez" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Correo Electrónico</label>
+                        <input type="text" value="juan.perez@ejemplo.com" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Número Telefónico</label>
+                        <input type="text" value="4492988855" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
+                    </div>
+                    <div class="sm:col-span-2 pt-2">
+                        <button type="submit" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-3 px-6 rounded-xl text-xs uppercase tracking-wider transition-colors shadow-lg shadow-violet-100">
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="seccion-compras" class="space-y-6 hidden">
+                <div class="text-center py-12 space-y-4">
+                    <div class="w-16 h-16 bg-emerald-100 rounded-3xl flex items-center justify-center mx-auto shadow-sm shadow-emerald-200">
+                        <i data-lucide="rocket" class="w-8 h-8 text-emerald-600"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black text-gray-800 tracking-tight">Mis Compras</h2>
+                        <p class="text-sm text-emerald-600 font-bold mt-1">¡Próximamente disponible!</p>
+                    </div>
+                    <p class="text-xs text-gray-400 max-w-sm mx-auto leading-relaxed">
+                        Estamos diseñando un historial detallado para que puedas consultar tus pedidos, vacunas adquiridas y citas veterinarias en un solo clic.
+                    </p>
+                </div>
+            </div>
+
+            <div id="seccion-config" class="space-y-6 hidden">
+                <div>
+                    <h2 class="text-2xl font-black text-gray-800 tracking-tight">Configuración del Perfil</h2>
+                    <p class="text-xs text-gray-400 mt-1">Ajustes generales de seguridad y preferencias</p>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div>
+                            <p class="text-sm font-bold text-gray-700">Notificaciones por correo</p>
+                            <p class="text-xs text-gray-400">Recibir recordatorios sobre citas médicas y promociones</p>
+                        </div>
+                        <input type="checkbox" checked class="w-4 h-4 text-violet-600 border-gray-300 rounded focus:ring-violet-500 accent-violet-600">
+                    </div>
+
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div>
+                            <p class="text-sm font-bold text-gray-700">Autenticación en dos pasos</p>
+                            <p class="text-xs text-gray-400">Añade seguridad adicional a tu cuenta WalkPet</p>
+                        </div>
+                        <input type="checkbox" class="w-4 h-4 text-violet-600 border-gray-300 rounded focus:ring-violet-500 accent-violet-600">
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+</main>
+
+<script>
+    // Acción global para cerrar sesión
+    const cerrarSesion = () => {
+        window.location.href = "IniciarSesion.html"; 
+    };
+
+    // Carga asíncrona del header
+    fetch('/header.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-container').innerHTML = data;
+            
+            // Reinicializar iconos tras inyectar el HTML del header
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            // Delegación o asignación segura para el botón del menú que viene del header externo
+            const btnMenu = document.getElementById("btn-cerrar-sesion-menu");
+            if (btnMenu) {
+                btnMenu.addEventListener("click", cerrarSesion);
+            }
+        })
+        .catch(err => console.error("Error cargando el header:", err));
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // Inicializar los iconos de la estructura principal
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+        // Asignar evento al botón lateral (que sí existe en este DOM)
+        const btnLateral = document.getElementById("btn-cerrar-sesion-lateral");
+        if (btnLateral) {
+            btnLateral.addEventListener("click", cerrarSesion);
+        }
+    });
+
+    // Función global para alternar pestañas
+    function cambiarSeccion(seccion) {
+        const secciones = {
+            datos: document.getElementById("seccion-datos"),
+            compras: document.getElementById("seccion-compras"),
+            config: document.getElementById("seccion-config")
+        };
+
+        const tabs = {
+            datos: document.getElementById("tab-datos"),
+            compras: document.getElementById("tab-compras"),
+            config: document.getElementById("tab-config")
+        };
+
+        // Verificar que existan los elementos antes de iterar
+        Object.keys(secciones).forEach(key => {
+            if (secciones[key] && tabs[key]) {
+                secciones[key].classList.replace("block", "hidden");
+                tabs[key].className = "w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-gray-500 hover:bg-gray-100 hover:text-gray-700";
+            }
+        });
+
+        // Mostrar sección activa y aplicar estilos seleccionados
+        if (secciones[seccion] && tabs[seccion]) {
+            secciones[seccion].classList.replace("hidden", "block");
+            tabs[seccion].className = "w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all bg-violet-700 text-white shadow-lg shadow-violet-100";
+        }
+    }
+</script>
+</body>
+</html>
