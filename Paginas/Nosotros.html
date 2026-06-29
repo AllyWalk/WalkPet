@@ -3,58 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contacto - Veterinaria</title>
+  <title>Contacto - WalkPet</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-gray-100 relative">
+<body class="bg-gradient-to-br from-[#FAFAFF] via-[#F5F3FF] to-[#EFF6FF] min-h-screen font-sans antialiased text-gray-800 relative">
+  
+  <!-- CONTENEDOR DEL HEADER DINÁMICO -->
   <div id="header-container"></div>
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-    <div class="w-full max-w-xl bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+  
+  <div class="min-h-screen flex items-center justify-center p-6">
+    <div class="w-full max-w-xl bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
       
-      <div class="bg-teal-600 p-6 text-center text-white">
-        <h2 class="text-2xl font-bold tracking-wide">¡Contáctanos!</h2>
-        <p class="text-teal-100 text-sm mt-1">Estamos listos para cuidar de tu mejor amigo</p>
+      <!-- Encabezado de la Tarjeta (Adaptado a tonos violeta del sistema) -->
+      <div class="bg-gradient-to-r from-violet-600 to-violet-700 p-6 text-center text-white">
+        <h2 class="text-2xl font-black tracking-tight">¡Contáctanos!</h2>
+        <p class="text-violet-100 text-xs mt-1 font-medium">Estamos listos para cuidar de tu mejor amigo</p>
       </div>
 
-      <form id="formContacto" class="p-8 space-y-5">
+      <!-- Formulario sin validaciones -->
+      <form id="formContacto" class="p-8 space-y-5" onsubmit="event.preventDefault();">
         
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Nombre completo *</label>
-          <input type="text" required minlength="3" placeholder="Ej. Juan Pérez" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Nombre completo</label>
+          <input type="text" placeholder="Ej. Noé Quintero" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico *</label>
-            <input type="email" required placeholder="juan@ejemplo.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Correo electrónico</label>
+            <!-- Tipo texto para quitar validación de email nativa -->
+            <input type="text" placeholder="Noe@ejemplo.com" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono *</label>
-            <input type="tel" required pattern="[0-9]{10}" title="Por favor, ingresa un número de teléfono válido a 10 dígitos" placeholder="4491234567" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Teléfono</label>
+            <!-- Tipo texto para quitar validaciones de patrón numérico -->
+            <input type="text" placeholder="4491234567" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-teal-5/50 p-4 rounded-xl border border-teal-100/60">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-violet-50/40 p-4 rounded-2xl border border-violet-100/60">
           <div>
-            <label class="block text-sm font-medium text-teal-900 mb-1">Nombre de la mascota</label>
-            <input type="text" placeholder="Ej. Max, Luna..." class="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+            <label class="block text-xs font-bold uppercase tracking-wider text-violet-700 mb-2">Nombre de la mascota</label>
+            <input type="text" placeholder="Ej. Max, Luna..." class="w-full px-4 py-3 bg-white border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
           </div>
           <div>
-            <label class="block text-sm font-medium text-teal-900 mb-1">Tipo de mascota</label>
-            <select class="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+            <label class="block text-xs font-bold uppercase tracking-wider text-violet-700 mb-2">Tipo de mascota</label>
+            <select class="w-full px-4 py-3 bg-white border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all text-gray-500">
               <option value="">Selecciona una opción</option>
               <option value="perro">Perro</option>
               <option value="gato">Gato</option>
-              <option value="ave">Ave</option>
-              <option value="otro">Otro</option>
             </select>
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Motivo de la consulta *</label>
-          <select required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition">
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Motivo de la consulta</label>
+          <select class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all text-gray-500">
             <option value="">Selecciona un motivo</option>
             <option value="cita">Agendar una cita</option>
             <option value="urgencia">Urgencia médica</option>
@@ -64,14 +69,15 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Mensaje / Detalles *</label>
-          <textarea required minlength="10" rows="4" placeholder="Cuéntanos un poco más sobre el estado de tu mascota..." class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition resize-none"></textarea>
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Mensaje / Detalles</label>
+          <textarea rows="4" placeholder="Cuéntanos un poco más sobre el estado de tu mascota..." class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all resize-none"></textarea>
         </div>
 
         <div class="pt-2">
           <button 
-            type="submit" 
-            class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 text-center"
+            id="btnEnviar"
+            type="button" 
+            class="w-full bg-violet-700 hover:bg-violet-800 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg shadow-violet-100 hover:shadow-xl transition-all duration-200 text-center text-xs uppercase tracking-wider"
           >
             Enviar Mensaje
           </button>
@@ -81,67 +87,69 @@
     </div>
   </div>
 
+  <!-- MODAL DE ÉXITO -->
   <div id="modalExito" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 transition-opacity">
-    <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl transform scale-95 transition-transform">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl border border-gray-100">
       
-      <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 text-green-600 mb-4">
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-2xl bg-emerald-100 text-emerald-600 mb-4 shadow-sm shadow-emerald-100">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       </div>
 
-      <h3 class="text-lg font-bold text-gray-900 mb-1">¡Mensaje enviado!</h3>
-      <p class="text-sm text-gray-500 mb-6">Nos pondremos en contacto contigo y tu mascota muy pronto.</p>
+      <h3 class="text-lg font-black text-gray-900 mb-1 tracking-tight">¡Mensaje enviado!</h3>
+      <p class="text-xs text-gray-400 mb-6 leading-relaxed">Nos pondremos en contacto contigo y tu mascota muy pronto.</p>
       
       <button 
         id="btnCerrar"
         type="button" 
-        class="w-full inline-flex justify-center rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-teal-700 focus:outline-none transition"
+        class="w-full inline-flex justify-center rounded-xl bg-violet-700 px-4 py-3 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-violet-100 hover:bg-violet-800 focus:outline-none transition-all"
       >
         Entendido
       </button>
     </div>
   </div>
 
+  <!-- BOTÓN FLOTANTE HOME -->
   <a href="/index.html" 
      aria-label="Regresar al inicio" 
-     class="fixed bottom-6 right-6 z-50 bg-violet-700 hover:bg-violet-800 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center border border-violet-600/50 group no-underline">
-      <i data-lucide="home" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-0.5"></i>
+     class="fixed bottom-6 right-6 z-50 bg-violet-700 hover:bg-violet-800 text-white p-3 rounded-xl shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center border border-violet-600/50 group no-underline">
+      <i data-lucide="home" class="w-5 h-5"></i>
   </a>
 
+  <!-- LÓGICA DE COMPORTAMIENTO -->
   <script>
-    // Inicializar los iconos de Lucide
-    lucide.createIcons();
-
     const formContacto = document.getElementById('formContacto');
+    const btnEnviar = document.getElementById('btnEnviar');
     const btnCerrar = document.getElementById('btnCerrar');
     const modalExito = document.getElementById('modalExito');
 
-    // Escuchamos el evento 'submit' del formulario en lugar del 'click' del botón
-    formContacto.addEventListener('submit', (e) => {
-      e.preventDefault(); // Evita que la página se recargue al enviar
-      
-      modalExito.classList.remove('hidden'); // Muestra el modal de éxito
-      formContacto.reset(); // Limpia los campos del formulario tras un envío exitoso
+    // Como quitamos validaciones, abrimos el modal directamente al hacer click en el botón sin validar inputs
+    btnEnviar.addEventListener('click', () => {
+      modalExito.classList.remove('hidden');
+      formContacto.reset(); 
     });
 
-    // Oculta la ventana emergente al hacer clic en "Entendido"
+    // Ocultar modal
     btnCerrar.addEventListener('click', () => {
       modalExito.classList.add('hidden');
     });
+
+    // Carga asíncrona del Header compartido
+    fetch('/header.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('header-container').innerHTML = data;
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      })
+      .catch(err => {
+        console.warn("Header no cargado localmente:", err);
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      });
   </script>
-  <script>
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(data => {
-                // Inserta todo el código del header dentro del div
-                document.getElementById('header-container').innerHTML = data;
-                
-                // Activa los iconos de Lucide (Menú, Home, Log-in, etc.)
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
-                }
-            });
-    </script>
 </body>
 </html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalkPet - Clínica Veterinaria & Software</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gradient-to-br from-[#FAFAFF] via-[#F5F3FF] to-[#EFF6FF] min-h-screen font-sans antialiased text-gray-800">
+
+<!-- 1. HEADER EXCLUSIVO (Logo centrado e incrementado, sin menú) -->
+<header class="bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm sticky top-0 z-50 transition-all">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-center items-center">
+        <div class="flex flex-col items-center gap-1">
+            <!-- Tamaño del contenedor aumentado a 85px para un logo más imponente -->
+            <div class="w-[85px] h-auto flex items-center justify-center overflow-hidden">
+                <img src="/images/WalkPet 2.png" alt="WalkPet Logo" class="w-full h-auto object-contain block">
+            </div>
+            <span class="text-2xl font-black text-gray-800 tracking-tight">Walk<span class="text-emerald-500">Pet</span></span>
+        </div>
+    </div>
+</header>
+
+<!-- 2. SECCIÓN HERO (HÉROE / PRESENTACIÓN PRINCIPAL) -->
+<section class="max-w-7xl mx-auto px-6 py-16 sm:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div class="space-y-6 text-center lg:text-left">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600 border border-emerald-100">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Innovación Veterinaria
+        </span>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-none">
+            El cuidado de tu mascota, <br class="hidden sm:inline">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-emerald-500">en un solo clic.</span>
+        </h1>
+        <p class="text-base sm:text-lg text-gray-400 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            Una plataforma integral que combina la atención médica veterinaria de primer nivel con un software inteligente para gestionar la salud de tus mejores amigos.
+        </p>
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+            <a href="index.html" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-3.5 px-6 rounded-xl text-xs uppercase tracking-wider transition-all shadow-lg shadow-violet-100 flex items-center gap-2">
+                Ir al sitio <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+            <a href="/Paginas/Catalogo.html" class="bg-white hover:bg-gray-50 text-gray-600 font-bold py-3.5 px-6 rounded-xl text-xs uppercase tracking-wider transition-all border border-gray-200 flex items-center gap-2">
+                Ver Catálogo
+            </a>
+        </div>
+    </div>
+    
+    <!-- Espacio para Imagen / Ilustración principal -->
+    <div class="flex items-center justify-center relative">
+        <div class="absolute w-72 h-72 bg-violet-200/40 rounded-full blur-3xl -z-10 top-0 left-0"></div>
+        <div class="absolute w-72 h-72 bg-emerald-200/30 rounded-full blur-3xl -z-10 bottom-0 right-0"></div>
+        <div class="w-full max-w-md bg-white border border-gray-100 p-8 rounded-3xl shadow-xl flex items-center justify-center min-h-[350px] transition-all duration-300 hover:scale-[1.02]">
+            <div class="text-center p-4">
+                <img src="images/WalkPet 2.png" alt="WalkPet Mascot" class="w-48 h-auto mx-auto object-contain drop-shadow-md animate-pulse duration-[4000ms]">
+                <p class="text-xs font-bold tracking-wider uppercase text-gray-400 mt-4">Tu clínica & software</p>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="fixed right-6 bottom-6 flex flex-col gap-3 z-50">
+        <a href="#facebook" aria-label="Facebook" class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-blue-600 shadow-xl border border-gray-100 backdrop-blur-sm transition-all duration-200 hover:bg-blue-600 hover:text-white hover:-translate-y-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#instagram" aria-label="Instagram" class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-pink-600 shadow-xl border border-gray-100 backdrop-blur-sm transition-all duration-200 hover:bg-pink-600 hover:text-white hover:-translate-y-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        </a>
+        <a href="#twitter" aria-label="Twitter / X" class="flex items-center justify-center w-12 h-12 rounded-full bg-white text-gray-900 shadow-xl border border-gray-100 backdrop-blur-sm transition-all duration-200 hover:bg-gray-900 hover:text-white hover:-translate-y-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+        </a>
+    </div>
+
+<!-- SCRIPT DE INICIALIZACIÓN -->
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Inicializa directamente los iconos presentes en el archivo plano
+        lucide.createIcons();
+    });
+</script>
+</body>
+</html>
