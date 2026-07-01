@@ -34,6 +34,7 @@
 
                 <div class="flex flex-wrap gap-2" id="filtro-contenedor">
                     <span data-target="todos" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-violet-700 text-white rounded-lg cursor-pointer transition-colors shadow-sm">Todos</span>
+                    <span data-target="ofertas" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-red-600 rounded-lg hover:bg-red-50 cursor-pointer transition-colors border border-red-100">Ofertas 🔥</span>
                     <span data-target="farmacia" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Farmacia</span>
                     <span data-target="estetica" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Estética e Higiene</span>
                     <span data-target="accesorios" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Accesorios</span>
@@ -48,12 +49,85 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="productos-grid">
             
+            <!-- PRODUCTOS EN OFERTA (Nuevos) -->
+            <div data-categoria="ofertas" class="producto-card bg-rose-50/30 border border-red-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1 relative">
+                <div class="absolute -top-3 -right-3 bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-lg z-10 animate-bounce">
+                    -30% OFF
+                </div>
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-red-100 mb-4 relative">
+    <span class="absolute top-2 left-2 bg-red-100 text-red-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Oferta Especial</span>
+    <img src="/images/Cama ortopedica.jpg" alt="Cama Ortopédica" class="w-20 h-20 object-contain">
+</div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Cama Ortopédica Memory Foam</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Alivia el dolor articular. Funda lavable.</p>
+                    <button 
+                        data-titulo="Cama Ortopédica Memory Foam" 
+                        data-descripcion="Cama premium con espuma viscoelástica (Memory Foam) que se adapta al cuerpo de tu mascota para aliviar la presión en articulaciones. Incluye funda resistente al agua, removible y 100% lavable a máquina." 
+                        data-precio="$650.00" 
+                        data-categoria="Ofertas 🔥"
+                        data-color-badge="bg-red-100 text-red-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-gray-400 line-through">$930.00</span>
+                            <span class="text-base font-black text-red-600">$650.00</span>
+                        </div>
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Disponible</span>
+                    </div>
+                    <button class="btn-agregar-directo w-full mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <div data-categoria="ofertas" class="producto-card bg-rose-50/30 border border-red-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1 relative">
+                <div class="absolute -top-3 -right-3 bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-lg z-10 animate-bounce" style="animation-delay: 0.5s;">
+                    -20% OFF
+                </div>
+                <div>
+                    <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-red-100 mb-4 relative">
+    <span class="absolute top-2 left-2 bg-red-100 text-red-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Oferta Relámpago</span>
+    <img src="/images/Dispensador.jpg" alt="Juguete" class="w-20 h-20 object-contain">
+</div>
+                    <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Juguete Dispensador de Premios</h3>
+                    <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Goma extra resistente e interactiva.</p>
+                    <button 
+                        data-titulo="Juguete Dispensador de Premios" 
+                        data-descripcion="Estimula la mente de tu mascota y combate el aburrimiento. Fabricado con goma natural no tóxica y ultra resistente. Rellénalo con sus croquetas o premios favoritos para horas de entretenimiento." 
+                        data-precio="$120.00" 
+                        data-categoria="Ofertas 🔥"
+                        data-color-badge="bg-red-100 text-red-700"
+                        class="btn-abrir-modal text-[11px] font-bold text-violet-600 hover:text-violet-800 mb-3 block">
+                        Ver detalles
+                    </button>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mt-2">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] text-gray-400 line-through">$150.00</span>
+                            <span class="text-base font-black text-red-600">$120.00</span>
+                        </div>
+                        <span class="text-[10px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">Pocas Unidades</span>
+                    </div>
+                    <button class="btn-agregar-directo w-full mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg text-xs transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Agregar
+                    </button>
+                </div>
+            </div>
+            <!-- FIN PRODUCTOS EN OFERTA -->
+
+            <!-- RESTO DE PRODUCTOS EXISTENTES -->
             <div data-categoria="farmacia" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
-                        <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
-                        <i data-lucide="pill" class="w-12 h-12 text-violet-600"></i>
-                    </div>
+    <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
+    <img src="/images/Vitaminas.jpg" alt="Vitaminas" class="w-20 h-20 object-contain">
+</div>
                     <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Complejo Vitamínico Canino B12</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Suplemento multivitamínico de venta libre.</p>
                     <button 
@@ -80,9 +154,9 @@
             <div data-categoria="estetica" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
-                        <span class="absolute top-2 left-2 bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Estética</span>
-                        <i data-lucide="sparkles" class="w-12 h-12 text-pink-500"></i>
-                    </div>
+    <span class="absolute top-2 left-2 bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Estética</span>
+    <img src="/images/Perfume.jpg" alt="Perfume" class="w-20 h-20 object-contain">
+</div>
                     <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Perfume "GlowPet" Lavanda</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Colonia desodorante premium.</p>
                     <button 
@@ -109,9 +183,9 @@
             <div data-categoria="estetica" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
-                        <span class="absolute top-2 left-2 bg-amber-100 text-amber-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Higiene</span>
-                        <i data-lucide="scissors" class="w-12 h-12 text-amber-500"></i>
-                    </div>
+    <span class="absolute top-2 left-2 bg-amber-100 text-amber-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Higiene</span>
+    <img src="/images/Peine.jpg" alt="Peine" class="w-20 h-20 object-contain">
+</div>
                     <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Peine Deslanador Profesional</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Cepillo ergonómico de acero inoxidable.</p>
                     <button 
@@ -138,9 +212,9 @@
             <div data-categoria="farmacia" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
-                        <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
-                        <i data-lucide="shield" class="w-12 h-12 text-emerald-500"></i>
-                    </div>
+    <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
+    <img src="/images/Antiparasitos.jpg" alt="Pipeta" class="w-20 h-20 object-contain">
+</div>
                     <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Pipeta Antiparasitaria Externa</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Tratamiento cutáneo preventivo.</p>
                     <button 
@@ -167,9 +241,9 @@
             <div data-categoria="accesorios" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
-                        <span class="absolute top-2 left-2 bg-purple-100 text-purple-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Accesorios</span>
-                        <i data-lucide="heart-pulse" class="w-12 h-12 text-purple-600"></i>
-                    </div>
+    <span class="absolute top-2 left-2 bg-purple-100 text-purple-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Accesorios</span>
+    <img src="/images/Arnes reflectante.jpg" alt="Arnés" class="w-20 h-20 object-contain">
+</div>
                     <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Arnés Ergonómico Reflectante</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Arnés ajustable de alta resistencia.</p>
                     <button 
@@ -196,9 +270,9 @@
             <div data-categoria="estetica" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
-                        <span class="absolute top-2 left-2 bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Estética</span>
-                        <i data-lucide="droplet" class="w-12 h-12 text-sky-500"></i>
-                    </div>
+    <span class="absolute top-2 left-2 bg-pink-100 text-pink-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Estética</span>
+    <img src="/images/Shampoo.jpg" alt="Shampoo" class="w-20 h-20 object-contain">
+</div>
                     <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Shampoo de Avena y Aloe Vera</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Fórmula hipoalergénica natural.</p>
                     <button 
@@ -225,9 +299,9 @@
             <div data-categoria="farmacia" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
-                        <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
-                        <i data-lucide="activity" class="w-12 h-12 text-red-500"></i>
-                    </div>
+    <span class="absolute top-2 left-2 bg-blue-100 text-blue-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Farmacia</span>
+    <img src="/images/Almohadilla.jpg" alt="Protector" class="w-20 h-20 object-contain">
+</div>
                     <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Protector de Almohadillas</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Bálsamo hidratante de venta libre.</p>
                     <button 
@@ -254,9 +328,9 @@
             <div data-categoria="accesorios" class="producto-card bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-md hover:-translate-y-1">
                 <div>
                     <div class="w-full h-40 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-gray-200 mb-4 relative">
-                        <span class="absolute top-2 left-2 bg-purple-100 text-purple-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Accesorios</span>
-                        <i data-lucide="package" class="w-12 h-12 text-amber-600"></i>
-                    </div>
+    <span class="absolute top-2 left-2 bg-purple-100 text-purple-700 font-bold text-[10px] px-2 py-0.5 rounded shadow-sm">Accesorios</span>
+    <img src="/images/Comedero.jpg" alt="Comedero" class="w-20 h-20 object-contain">
+</div>
                     <h3 class="font-bold text-sm text-gray-800 mb-1 de-titulo">Comedero Antivoracidad</h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed mb-1">Plato con diseño de laberinto interno.</p>
                     <button 
@@ -406,12 +480,24 @@
                 categoriaActiva = boton.getAttribute("data-target");
 
                 botonesFiltro.forEach(b => {
-                    b.classList.remove("bg-violet-700", "text-white", "shadow-sm");
-                    b.classList.add("bg-gray-100", "text-gray-600", "hover:bg-gray-200");
+                    // Resetear colores default de filtros
+                    if(b.getAttribute("data-target") === "ofertas") {
+                        b.classList.remove("bg-red-600", "text-white", "shadow-sm");
+                        b.classList.add("bg-gray-100", "text-red-600", "hover:bg-red-50");
+                    } else {
+                        b.classList.remove("bg-violet-700", "text-white", "shadow-sm");
+                        b.classList.add("bg-gray-100", "text-gray-600", "hover:bg-gray-200");
+                    }
                 });
                 
-                boton.classList.remove("bg-gray-100", "text-gray-600", "hover:bg-gray-200");
-                boton.classList.add("bg-violet-700", "text-white", "shadow-sm");
+                // Aplicar estilo activo dependiendo si es 'ofertas' o normal
+                if(categoriaActiva === "ofertas") {
+                    boton.classList.remove("bg-gray-100", "text-red-600", "hover:bg-red-50");
+                    boton.classList.add("bg-red-600", "text-white", "shadow-sm");
+                } else {
+                    boton.classList.remove("bg-gray-100", "text-gray-600", "hover:bg-gray-200");
+                    boton.classList.add("bg-violet-700", "text-white", "shadow-sm");
+                }
 
                 aplicarFiltrosYBusqueda();
             });
@@ -431,6 +517,15 @@
                 modalPrecio.textContent = precio;
                 modalBadge.textContent = categoria;
                 modalBadge.className = `font-bold text-[10px] px-2.5 py-1 rounded shadow-sm inline-block mb-3 ${clasesBadge}`;
+
+                // Si es oferta el botón del modal se pinta rojo
+                if(categoria.includes("Ofertas")) {
+                    btnAgregarCarritoModal.classList.remove("bg-violet-700", "hover:bg-violet-800", "shadow-violet-200");
+                    btnAgregarCarritoModal.classList.add("bg-red-600", "hover:bg-red-700", "shadow-red-200");
+                } else {
+                    btnAgregarCarritoModal.classList.add("bg-violet-700", "hover:bg-violet-800", "shadow-violet-200");
+                    btnAgregarCarritoModal.classList.remove("bg-red-600", "hover:bg-red-700", "shadow-red-200");
+                }
 
                 modal.classList.remove("hidden");
                 modal.classList.add("flex");
