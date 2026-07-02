@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "titulo": "Cama Ortopédica Memory Foam",
+    "precio": 650.00,
+    "precioOriginal": 930.00,
+    "categoria": "ofertas",
+    "imagen": "/images/Cama ortopedica.jpg",
+    "descripcion": "Cama premium con espuma viscoelástica (Memory Foam) que se adapta al cuerpo de tu mascota para aliviar la presión en articulaciones. Incluye funda resistente al agua, removible y 100% lavable a máquina.",
+    "etiqueta": "Oferta Especial",
+    "badgeColor": "bg-red-100 text-red-700",
+    "disponible": true
+  },
+  {
+    "id": 2,
+    "titulo": "Juguete Dispensador de Premios",
+    "precio": 120.00,
+    "precioOriginal": 150.00,
+    "categoria": "ofertas",
+    "imagen": "/images/Dispensador.jpg",
+    "descripcion": "Estimula la mente de tu mascota y combate el aburrimiento. Fabricado con goma natural no tóxica y ultra resistente. Rellénalo con sus croquetas o premios favoritos para horas de entretenimiento.",
+    "etiqueta": "Oferta Relámpago",
+    "badgeColor": "bg-red-100 text-red-700",
+    "disponible": true
+  },
+  {
+    "id": 3,
+    "titulo": "Complejo Vitamínico Canino B12",
+    "precio": 240.00,
+    "categoria": "farmacia",
+    "imagen": "/images/Vitaminas.jpg",
+    "descripcion": "Suplemento multivitamínico de venta libre. Ideal para el refuerzo inmunológico, aumento de energía, apetito y vitalidad integral en perros adultos o seniors.",
+    "etiqueta": "Farmacia",
+    "badgeColor": "bg-blue-100 text-blue-700",
+    "disponible": true
+  },
+  {
+    "id": 4,
+    "titulo": "Perfume 'GlowPet' Lavanda",
+    "precio": 185.00,
+    "categoria": "estetica",
+    "imagen": "/images/Perfume.jpg",
+    "descripcion": "Colonia desodorante premium. Fragancia relajante de larga duración con fórmula hipoalergénica libre de alcohol, segura para pieles sensibles.",
+    "etiqueta": "Estética",
+    "badgeColor": "bg-pink-100 text-pink-700",
+    "disponible": true
+  },
+  {
+    "id": 5,
+    "titulo": "Peine Deslanador Profesional",
+    "precio": 320.00,
+    "categoria": "estetica",
+    "imagen": "/images/Peine.jpg",
+    "descripcion": "Cepillo ergonómico fabricado en acero inoxidable de alta calidad. Diseñado especialmente para remover y eliminar eficazmente hasta el 95% del pelo muerto.",
+    "etiqueta": "Higiene",
+    "badgeColor": "bg-amber-100 text-amber-700",
+    "disponible": true
+  },
+  {
+    "id": 6,
+    "titulo": "Pipeta Antiparasitaria Externa",
+    "precio": 150.00,
+    "categoria": "farmacia",
+    "imagen": "/images/Antiparasitos.jpg",
+    "descripcion": "Tratamiento cutáneo preventivo mensual. Solución tópica de venta libre altamente eficaz para repeler y eliminar pulgas, garrapatas y mosquitos.",
+    "etiqueta": "Farmacia",
+    "badgeColor": "bg-blue-100 text-blue-700",
+    "disponible": true
+  },
+  {
+    "id": 7,
+    "titulo": "Arnés Ergonómico Reflectante",
+    "precio": 480.00,
+    "categoria": "accesorios",
+    "imagen": "/images/Arnes reflectante.jpg",
+    "descripcion": "Arnés ajustable fabricado con nylon de alta resistencia y acolchado transpirable. Diseñado con bandas reflejantes de seguridad para paseos nocturnos.",
+    "etiqueta": "Accesorios",
+    "badgeColor": "bg-purple-100 text-purple-700",
+    "disponible": true
+  },
+  {
+    "id": 8,
+    "titulo": "Shampoo de Avena y Aloe Vera",
+    "precio": 195.00,
+    "categoria": "estetica",
+    "imagen": "/images/Shampoo.jpg",
+    "descripcion": "Fórmula hipoalergénica 100% natural. Ideal para el baño frecuente de caninos y felinos con piel sensible. Calma la comezón y humecta profundamente.",
+    "etiqueta": "Estética",
+    "badgeColor": "bg-pink-100 text-pink-700",
+    "disponible": true
+  },
+  {
+    "id": 9,
+    "titulo": "Protector y Regenerador de Almohadillas",
+    "precio": 210.00,
+    "categoria": "farmacia",
+    "imagen": "/images/Almohadilla.jpg",
+    "descripcion": "Bálsamo ultra-hidratante protector. Formulado para crear una barrera aislante que protege y repara grietas severas en los cojinetes de las patas.",
+    "etiqueta": "Farmacia",
+    "badgeColor": "bg-blue-100 text-blue-700",
+    "disponible": true
+  },
+  {
+    "id": 10,
+    "titulo": "Comedero Antivoracidad Antideslizante",
+    "precio": 275.00,
+    "categoria": "accesorios",
+    "imagen": "/images/Comedero.jpg",
+    "descripcion": "Plato interactivo con diseño laberíntico interno. Ralentiza hasta 5 veces la ingesta rápida de croquetas, previniendo asfixias y torsión gástrica.",
+    "etiqueta": "Accesorios",
+    "badgeColor": "bg-purple-100 text-purple-700",
+    "disponible": false
+  }
+]
