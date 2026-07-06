@@ -118,6 +118,8 @@
   </a>
 
   <!-- LÓGICA DE COMPORTAMIENTO -->
+   <script src="/header.js" defer></script>
+<script src="/app.js" defer></script>
   <script>
     const formContacto = document.getElementById('formContacto');
     const btnEnviar = document.getElementById('btnEnviar');
@@ -134,22 +136,6 @@
     btnCerrar.addEventListener('click', () => {
       modalExito.classList.add('hidden');
     });
-
-    // Carga asíncrona del Header compartido
-    fetch('/header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-container').innerHTML = data;
-        if (typeof lucide !== 'undefined') {
-          lucide.createIcons();
-        }
-      })
-      .catch(err => {
-        console.warn("Header no cargado localmente:", err);
-        if (typeof lucide !== 'undefined') {
-          lucide.createIcons();
-        }
-      });
-  </script>
+</script>
 </body>
 </html>

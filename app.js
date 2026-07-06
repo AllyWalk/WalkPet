@@ -1,5 +1,13 @@
 let productosData = [];
 
+async function iniciarApp() {
+    await cargarHeader(); // Primero cargamos el header
+    await init();         // Luego cargamos los productos (tu función original)
+    renderCarrito();      // Finalmente renderizamos el carrito
+}
+
+// Ejecutar todo al cargar la página
+document.addEventListener('DOMContentLoaded', iniciarApp);
 async function init() {
     try {
         const respuesta = await fetch('/productos.json');
@@ -124,4 +132,64 @@ document.querySelectorAll('.btn-filtro').forEach(btn => {
     });
 });
 
-init();
+        let carrito = [
+            { id: 1, nombre: "Cama Ortopédica", precio: 650, cantidad: 1, img: "/images/Cama Ortopedica.jpg" },
+            { id: 2, nombre: "Juguete Dispensador", precio: 120, cantidad: 1, img: "/images/Dispensador.jpg" }
+        ];
+
+        function renderCarrito() {
+            const container = document.getElementById('lista-carrito');
+            container.innerHTML = '';
+            let total = 0;
+
+            carrito.forEach(item => {
+                total += item.precio * item.cantidad;
+                container.innerHTML += `
+                    <div class="flex items-center gap-6">
+                        <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center">
+                            <img src="${item.img}" class="w-12 h-12 object-contain">
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-bold">${item.nombre}</h3>
+                            <p class="text-violet-600 font-semibold">$${item.precio.toFixed(2)}</p>
+                        </div>
+                        <div class="flex flex-col items-end gap-2">
+                            <div class="flex items-center bg-slate-50 rounded-full p-1 border">
+                                <button onclick="cambiarCantidad(${item.id}, -1)" class="w-8 h-8 flex items-center justify-center hover:bg-white rounded-full">-</button>
+                                <span class="w-8 text-center font-bold">${item.cantidad}</span>
+                                <button onclick="cambiarCantidad(${item.id}, 1)" class="w-8 h-8 flex items-center justify-center hover:bg-white rounded-full">+</button>
+                            </div>
+                            <button onclick="eliminarProducto(${item.id})" class="text-slate-400 hover:text-red-500 text-xs flex items-center gap-1">
+                                <i data-lucide="trash-2" class="w-3 h-3"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('total-final').innerText = `$${total.toFixed(2)}`;
+            lucide.createIcons();
+        }
+
+        function cambiarCantidad(id, delta) {
+            const item = carrito.find(p => p.id === id);
+            if (item) {
+                item.cantidad += delta;
+                if (item.cantidad <= 0) {
+                    eliminarProducto(id);
+                } else {
+                    renderCarrito();
+                }
+            }
+        }
+
+        function eliminarProducto(id) {
+            carrito = carrito.filter(p => p.id !== id);
+            mostrarToast();
+            renderCarrito();
+        }
+
+        function mostrarToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-[-100px]');
+            setTimeout(() => toast.classList.add('translate-y-[-100px]'), 2000);
+        }

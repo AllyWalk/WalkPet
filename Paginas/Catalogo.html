@@ -105,14 +105,7 @@
     </div>
 </div>
 </div>
-
-    <script src="/app.js"></script>
-    <script>
-        fetch('/header.html').then(r => r.text()).then(d => {
-            document.getElementById('header-container').innerHTML = d;
-            lucide.createIcons();
-        });
-    </script>
-    
+<script src="/header.js" defer></script>
+<script src="/app.js" defer></script>
 </body>
 </html>

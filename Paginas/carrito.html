@@ -3,75 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrito de Compras | WalkPet Software</title>
+    <title>Checkout | WalkPet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-slate-50 text-slate-800 font-sans">
 
-    <div id="header-container"></div>
+    <header id="main-header" class="w-full bg-white shadow-sm h-16"></header>
 
-    <main class="py-16 px-6 max-w-4xl mx-auto">
-        <h1 class="text-3xl font-black text-gray-800 mb-8 flex items-center gap-3">
-            <i data-lucide="shopping-bag" class="w-8 h-8 text-violet-700"></i> Mi Carrito
-        </h1>
-
-        <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 lg:p-8">
-            <div id="carrito-items" class="space-y-6">
-                
-                <div class="flex items-center gap-4 border-b border-gray-100 pb-6">
-                    <div class="w-20 h-20 bg-gray-50 rounded-xl flex items-center justify-center p-2">
-                        <img src="/images/Cama ortopedica.jpg" alt="Cama Ortopédica" class="w-16 h-16 object-contain">
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="font-bold text-gray-800">Cama Ortopédica Memory Foam</h3>
-                        <p class="text-sm text-gray-500">$650.00</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="font-black text-gray-800 block">x1</span>
-                        <button class="text-red-500 text-xs font-bold hover:underline">Eliminar</button>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-4 border-b border-gray-100 pb-6">
-                    <div class="w-20 h-20 bg-gray-50 rounded-xl flex items-center justify-center p-2">
-                        <img src="/images/Dispensador.jpg" alt="Juguete Dispensador" class="w-16 h-16 object-contain">
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="font-bold text-gray-800">Juguete Dispensador de Premios</h3>
-                        <p class="text-sm text-gray-500">$120.00</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="font-black text-gray-800 block">x1</span>
-                        <button class="text-red-500 text-xs font-bold hover:underline">Eliminar</button>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="mt-8 pt-6 border-t border-gray-200">
-                <div class="flex justify-between text-lg font-black text-gray-800 mb-6">
-                    <span>Total</span>
-                    <span id="total-carrito">$770.00</span>
-                </div>
-                <button class="w-full bg-violet-700 hover:bg-violet-800 text-white font-black py-4 rounded-2xl transition-all shadow-lg shadow-violet-200">
-                    Finalizar Compra
-                </button>
-            </div>
-        </div>
-    </main>
-
-    <div class="fixed bottom-6 right-6 z-50">
-        <a href="Catalogo.html" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-full shadow-xl border border-gray-200 flex items-center justify-center transition-all hover:scale-110">
-            <i data-lucide="arrow-left" class="w-6 h-6"></i>
-        </a>
+    <div id="toast" class="fixed top-5 right-5 bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-xl transform translate-y-[-150%] transition-transform duration-300 z-50">
+        Producto eliminado
     </div>
 
+    <main class="py-12 px-6 max-w-2xl mx-auto">
+        <header class="mb-10 text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">Checkout</h1>
+        </header>
+
+        <div class="bg-white rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 p-8">
+            <h2 class="text-xl font-black mb-6 text-slate-800">Resumen de tu pedido</h2>
+            
+            <div id="resumen-carrito" class="space-y-5 mb-8">
+                <p class="text-center text-slate-400 py-4">Cargando productos...</p>
+            </div>
+
+            <div class="pt-6 border-t border-slate-100 space-y-2">
+                <div class="flex justify-between text-sm text-slate-500">
+                    <span>Subtotal</span>
+                    <span id="subtotal-pago">$0.00</span>
+                </div>
+                <div class="flex justify-between text-sm text-slate-500">
+                    <span>IVA (16%)</span>
+                    <span id="iva-pago">$0.00</span>
+                </div>
+                <div class="flex justify-between items-center text-xl font-black pt-4">
+                    <span>Total</span>
+                    <span id="total-pago" class="text-violet-700">$0.00</span>
+                </div>
+            </div>
+
+            <button class="mt-8 w-full bg-slate-900 hover:bg-violet-700 text-white font-bold py-5 rounded-2xl transition-all duration-300">
+                Confirmar Pago
+            </button>
+        </div>
+        <div class="text-[10px] text-slate-400 text-center mt-6">
+                Al continuar, aceptas nuestros 
+                <a href="/terminos.html" class="text-violet-600 hover:underline font-bold">términos y condiciones</a>.
+            </div>
+    </main>
+
     <script>
-        fetch('/header.html').then(r => r.text()).then(d => {
-            document.getElementById('header-container').innerHTML = d;
+        let carrito = [];
+
+        // Inicialización y carga de datos desde JSON
+        async function inicializarCarrito() {
+            try {
+                const response = await fetch('/productos.json');
+                if (!response.ok) throw new Error('Error al cargar JSON');
+                const todosLosProductos = await response.json();
+                
+                // Filtramos solo los dos productos deseados
+                carrito = todosLosProductos
+                    .filter(p => p.id === 1 || p.id === 2)
+                    .map(p => ({ ...p, cantidad: 1 }));
+                
+                renderizarPagos();
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById('resumen-carrito').innerHTML = 
+                    '<p class="text-center text-red-500">No se pudieron cargar los productos.</p>';
+            }
+        }
+
+        function mostrarToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-[-150%]');
+            setTimeout(() => toast.classList.add('translate-y-[-150%]'), 2000);
+        }
+
+        function actualizarCantidad(id, cambio) {
+            const item = carrito.find(p => p.id === id);
+            if (item) {
+                item.cantidad = Math.max(0, item.cantidad + cambio);
+                if (item.cantidad === 0) {
+                    eliminarItem(id);
+                } else {
+                    renderizarPagos();
+                }
+            }
+        }
+
+        function eliminarItem(id) {
+            carrito = carrito.filter(p => p.id !== id);
+            mostrarToast();
+            renderizarPagos();
+        }
+
+        function renderizarPagos() {
+            const container = document.getElementById('resumen-carrito');
+            const subtotalEl = document.getElementById('subtotal-pago');
+            const ivaEl = document.getElementById('iva-pago');
+            const totalEl = document.getElementById('total-pago');
+            
+            if (carrito.length === 0) {
+                container.innerHTML = '<p class="text-center text-slate-500 py-4">Tu carrito está vacío.</p>';
+            } else {
+                container.innerHTML = carrito.map(item => `
+                    <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <img src="${item.imagen}" alt="${item.titulo}" class="w-20 h-20 object-cover rounded-xl border border-slate-200">
+                        <div class="flex-grow">
+                            <span class="font-bold text-slate-800 block">${item.titulo}</span>
+                            <div class="flex justify-between items-center mt-3">
+                                <div class="flex items-center border border-slate-200 bg-white rounded-lg overflow-hidden">
+                                    <button onclick="actualizarCantidad(${item.id}, -1)" class="px-3 py-1 hover:bg-slate-100">-</button>
+                                    <span class="px-3 text-sm font-bold">${item.cantidad}</span>
+                                    <button onclick="actualizarCantidad(${item.id}, 1)" class="px-3 py-1 hover:bg-slate-100">+</button>
+                                </div>
+                                <span class="font-bold text-slate-900">$${(item.precio * item.cantidad).toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <button onclick="eliminarItem(${item.id})" class="text-red-400 hover:text-red-600 p-2">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const total = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+            const base = total / 1.16;
+            
+            subtotalEl.innerText = `$${base.toFixed(2)}`;
+            ivaEl.innerText = `$${(total - base).toFixed(2)}`;
+            totalEl.innerText = `$${total.toFixed(2)}`;
+            
             lucide.createIcons();
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', inicializarCarrito);
     </script>
 </body>
 </html>
