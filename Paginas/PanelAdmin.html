@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>VetAdmin - Panel Administrativo</title>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-indigo-900 text-white p-6 hidden md:block">
+            <h1 class="text-2xl font-bold mb-10 flex items-center gap-2"><i data-lucide="paw-print"></i> VetAdmin</h1>
+            <nav class="space-y-2">
+                <button onclick="cambiarSeccion('dash')" id="btn-dash" class="w-full text-left p-3 bg-indigo-800 rounded-lg flex items-center gap-3 transition-all"><i data-lucide="layout-dashboard" class="w-5"></i> Dashboard</button>
+                <button onclick="cambiarSeccion('prod')" id="btn-prod" class="w-full text-left p-3 hover:bg-indigo-800 rounded-lg flex items-center gap-3 transition-all"><i data-lucide="package" class="w-5"></i> Productos</button>
+                <button onclick="cambiarSeccion('ped')" id="btn-ped" class="w-full text-left p-3 hover:bg-indigo-800 rounded-lg flex items-center gap-3 transition-all"><i data-lucide="shopping-cart" class="w-5"></i> Pedidos</button>
+                <button onclick="cambiarSeccion('promo')" id="btn-promo" class="w-full text-left p-3 hover:bg-indigo-800 rounded-lg flex items-center gap-3 transition-all"><i data-lucide="tag" class="w-5"></i> Promociones</button>
+                <button onclick="cambiarSeccion('cli')" id="btn-cli" class="w-full text-left p-3 hover:bg-indigo-800 rounded-lg flex items-center gap-3 transition-all"><i data-lucide="users" class="w-5"></i> Clientes</button>
+                <button onclick="cambiarSeccion('rep')" id="btn-rep" class="w-full text-left p-3 hover:bg-indigo-800 rounded-lg flex items-center gap-3 transition-all"><i data-lucide="file-text" class="w-5"></i> Reportes</button>
+            </nav>
+        </aside>
+
+        <main class="flex-1 p-8">
+            <!-- DASHBOARD -->
+            <section id="dash" class="seccion">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Dashboard</h2>
+                <!-- Resumen Visual (Tarjetas) - Estilo Coherente -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-t-4 border-indigo-500 transition-all hover:shadow-lg hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-sm font-medium text-gray-600">Productos</p>
+                            <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600"><i data-lucide="package" class="w-5 h-5"></i></div>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-900">12</p>
+                        <p class="text-xs text-emerald-600 mt-1">▲ 2 nuevos esta semana</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-t-4 border-sky-500 transition-all hover:shadow-lg hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-sm font-medium text-gray-600">Pedidos día</p>
+                            <div class="p-2 bg-sky-50 rounded-lg text-sky-600"><i data-lucide="shopping-cart" class="w-5 h-5"></i></div>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-900">5</p>
+                        <p class="text-xs text-gray-500 mt-1">Promedio diario: 8</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-t-4 border-emerald-500 transition-all hover:shadow-lg hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-sm font-medium text-gray-600">Ventas mes</p>
+                            <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600"><i data-lucide="dollar-sign" class="w-5 h-5"></i></div>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-900">$12,500</p>
+                        <p class="text-xs text-emerald-600 mt-1">▲ 15% vs mes anterior</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-t-4 border-amber-500 transition-all hover:shadow-lg hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-sm font-medium text-gray-600">Clientes</p>
+                            <div class="p-2 bg-amber-50 rounded-lg text-amber-600"><i data-lucide="users" class="w-5 h-5"></i></div>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-900">38</p>
+                        <p class="text-xs text-emerald-600 mt-1">▲ 5 nuevos hoy</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 border-t-4 border-red-500 transition-all hover:shadow-lg hover:-translate-y-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <p class="text-sm font-medium text-gray-600">Agotados</p>
+                            <div class="p-2 bg-red-50 rounded-lg text-red-600"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
+                        </div>
+                        <p class="text-3xl font-bold text-red-600">2</p>
+                        <p class="text-xs text-gray-500 mt-1">Requieren atención</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold mb-4">Acciones Rápidas</h3>
+                            <div class="space-y-3">
+                                <button onclick="cambiarSeccion('prod')" class="w-full p-2 bg-emerald-600 text-white rounded-lg text-sm hover:bg-emerald-700">Agregar producto</button>
+                                <button onclick="cambiarSeccion('ped')" class="w-full p-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">Ver pedidos</button>
+                                <button onclick="cambiarSeccion('promo')" class="w-full p-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">Crear promoción</button>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <h3 class="font-bold mb-4">Actividad Reciente</h3>
+                            <ul class="text-sm space-y-3 text-gray-600">
+                                <li>• Pedido #125 recibido</li>
+                                <li>• Nuevo cliente registrado</li>
+                                <li>• Producto actualizado</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <canvas id="graficoPedidos"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PRODUCTOS -->
+<section id="prod" class="seccion hidden">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Gestión de Productos</h2>
+        <button onclick="abrirModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 flex items-center gap-2">
+            <i data-lucide="plus" class="w-4"></i> Nuevo Producto
+        </button>
+    </div>
+
+    <!-- Búsqueda y Filtros -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Producto</label>
+                <input type="text" id="inputBusqueda" placeholder="Nombre del producto..." class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" oninput="filtrarProductos()">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
+                <select id="filtroCategoria" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" onchange="filtrarProductos()">
+                    <option value="">Todas las categorías</option>
+                    <option value="ofertas">Ofertas</option>
+                    <option value="farmacia">Farmacia</option>
+                    <option value="estetica">Estética</option>
+                    <option value="accesorios">Accesorios</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+                <select id="filtroEstado" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" onchange="filtrarProductos()">
+                    <option value="">Todos los estados</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="agotado">Agotado</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-gray-50 border-b border-gray-200">
+                <tr>
+                    <th class="p-4 text-sm font-bold text-gray-600">Producto</th>
+                    <th class="p-4 text-sm font-bold text-gray-600">Categoría</th>
+                    <th class="p-4 text-sm font-bold text-gray-600">Precio</th>
+                    <th class="p-4 text-sm font-bold text-gray-600">Estado</th>
+                    <th class="p-4 text-sm font-bold text-gray-600 text-right">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-productos">
+                <!-- Aquí se inyectarán los productos mediante JS -->
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<script>
+    const productos = [{
+    "id": 1,
+    "titulo": "Cama Ortopédica Memory Foam",
+    "precio": 650.00,
+    "precioOriginal": 930.00,
+    "categoria": "ofertas",
+    "imagen": "/images/Cama ortopedica.jpg",
+    "descripcion": "Cama premium con espuma viscoelástica (Memory Foam) que se adapta al cuerpo de tu mascota para aliviar la presión en articulaciones. Incluye funda resistente al agua, removible y 100% lavable a máquina.",
+    "etiqueta": "Oferta Especial",
+    "badgeColor": "bg-red-100 text-red-700",
+    "disponible": true
+  },
+  {
+    "id": 2,
+    "titulo": "Juguete Dispensador de Premios",
+    "precio": 120.00,
+    "precioOriginal": 150.00,
+    "categoria": "ofertas",
+    "imagen": "/images/Dispensador.jpg",
+    "descripcion": "Estimula la mente de tu mascota y combate el aburrimiento. Fabricado con goma natural no tóxica y ultra resistente. Rellénalo con sus croquetas o premios favoritos para horas de entretenimiento.",
+    "etiqueta": "Oferta Relámpago",
+    "badgeColor": "bg-red-100 text-red-700",
+    "disponible": true
+  },
+  {
+    "id": 3,
+    "titulo": "Complejo Vitamínico Canino B12",
+    "precio": 240.00,
+    "categoria": "farmacia",
+    "imagen": "/images/Vitaminas.jpg",
+    "descripcion": "Suplemento multivitamínico de venta libre. Ideal para el refuerzo inmunológico, aumento de energía, apetito y vitalidad integral en perros adultos o seniors.",
+    "etiqueta": "Farmacia",
+    "badgeColor": "bg-blue-100 text-blue-700",
+    "disponible": true
+  },
+  {
+    "id": 4,
+    "titulo": "Perfume 'GlowPet' Lavanda",
+    "precio": 185.00,
+    "categoria": "estetica",
+    "imagen": "/images/Perfume.jpg",
+    "descripcion": "Colonia desodorante premium. Fragancia relajante de larga duración con fórmula hipoalergénica libre de alcohol, segura para pieles sensibles.",
+    "etiqueta": "Estética",
+    "badgeColor": "bg-pink-100 text-pink-700",
+    "disponible": true
+  },
+  {
+    "id": 5,
+    "titulo": "Peine Deslanador Profesional",
+    "precio": 320.00,
+    "categoria": "estetica",
+    "imagen": "/images/Peine.jpg",
+    "descripcion": "Cepillo ergonómico fabricado en acero inoxidable de alta calidad. Diseñado especialmente para remover y eliminar eficazmente hasta el 95% del pelo muerto.",
+    "etiqueta": "Higiene",
+    "badgeColor": "bg-amber-100 text-amber-700",
+    "disponible": true
+  },
+  {
+    "id": 6,
+    "titulo": "Pipeta Antiparasitaria Externa",
+    "precio": 150.00,
+    "categoria": "farmacia",
+    "imagen": "/images/Antiparasitos.jpg",
+    "descripcion": "Tratamiento cutáneo preventivo mensual. Solución tópica de venta libre altamente eficaz para repeler y eliminar pulgas, garrapatas y mosquitos.",
+    "etiqueta": "Farmacia",
+    "badgeColor": "bg-blue-100 text-blue-700",
+    "disponible": true
+  },
+  {
+    "id": 7,
+    "titulo": "Arnés Ergonómico Reflectante",
+    "precio": 480.00,
+    "categoria": "accesorios",
+    "imagen": "/images/Arnes reflectante.jpg",
+    "descripcion": "Arnés ajustable fabricado con nylon de alta resistencia y acolchado transpirable. Diseñado con bandas reflejantes de seguridad para paseos nocturnos.",
+    "etiqueta": "Accesorios",
+    "badgeColor": "bg-purple-100 text-purple-700",
+    "disponible": true
+  },
+  {
+    "id": 8,
+    "titulo": "Shampoo de Avena y Aloe Vera",
+    "precio": 195.00,
+    "categoria": "estetica",
+    "imagen": "/images/Shampoo.jpg",
+    "descripcion": "Fórmula hipoalergénica 100% natural. Ideal para el baño frecuente de caninos y felinos con piel sensible. Calma la comezón y humecta profundamente.",
+    "etiqueta": "Estética",
+    "badgeColor": "bg-pink-100 text-pink-700",
+    "disponible": true
+  },
+  {
+    "id": 9,
+    "titulo": "Protector y Regenerador de Almohadillas",
+    "precio": 210.00,
+    "categoria": "farmacia",
+    "imagen": "/images/Almohadilla.jpg",
+    "descripcion": "Bálsamo ultra-hidratante protector. Formulado para crear una barrera aislante que protege y repara grietas severas en los cojinetes de las patas.",
+    "etiqueta": "Farmacia",
+    "badgeColor": "bg-blue-100 text-blue-700",
+    "disponible": true
+  },
+  {
+    "id": 10,
+    "titulo": "Comedero Antivoracidad Antideslizante",
+    "precio": 275.00,
+    "categoria": "accesorios",
+    "imagen": "/images/Comedero.jpg",
+    "descripcion": "Plato interactivo con diseño laberíntico interno. Ralentiza hasta 5 veces la ingesta rápida de croquetas, previniendo asfixias y torsión gástrica.",
+    "etiqueta": "Accesorios",
+    "badgeColor": "bg-purple-100 text-purple-700",
+    "disponible": false
+  }];
+
+    function renderizarProductos() {
+        const tbody = document.getElementById('tabla-productos');
+        tbody.innerHTML = productos.map(p => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gray-200 rounded-lg overflow-hidden">
+                        <img src="${p.imagen}" alt="${p.titulo}" class="w-full h-full object-cover">
+                    </div>
+                    <span class="font-medium text-gray-900">${p.titulo}</span>
+                </td>
+                <td class="p-4 text-sm text-gray-600 capitalize">${p.categoria}</td>
+                <td class="p-4 font-bold text-gray-900">$${p.precio.toFixed(2)}</td>
+                <td class="p-4">
+                    <span class="px-2 py-1 rounded-full text-xs font-medium ${p.disponible ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}">
+                        ${p.disponible ? 'Disponible' : 'Agotado'}
+                    </span>
+                </td>
+                <td class="p-4 text-right">
+                    <button onclick="editarProducto(${p.id})" class="text-indigo-600 hover:text-indigo-900 mx-2"><i data-lucide="edit" class="w-4"></i></button>
+                    <button onclick="confirmarEliminacion(${p.id})" class="text-red-600 hover:text-red-900"><i data-lucide="trash-2" class="w-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    function filtrarProductos() {
+        const busqueda = document.getElementById('inputBusqueda').value.toLowerCase();
+        const categoria = document.getElementById('filtroCategoria').value;
+        const estado = document.getElementById('filtroEstado').value;
+
+        const tbody = document.getElementById('tabla-productos');
+        tbody.innerHTML = productos.filter(p => {
+            const coincideBusqueda = p.titulo.toLowerCase().includes(busqueda);
+            const coincideCategoria = !categoria || p.categoria === categoria;
+            const coincideEstado = !estado || (estado === 'disponible' ? p.disponible : !p.disponible);
+            
+            return coincideBusqueda && coincideCategoria && coincideEstado;
+        }).map(p => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gray-200 rounded-lg overflow-hidden">
+                        <img src="${p.imagen}" alt="${p.titulo}" class="w-full h-full object-cover">
+                    </div>
+                    <span class="font-medium text-gray-900">${p.titulo}</span>
+                </td>
+                <td class="p-4 text-sm text-gray-600 capitalize">${p.categoria}</td>
+                <td class="p-4 font-bold text-gray-900">$${p.precio.toFixed(2)}</td>
+                <td class="p-4">
+                    <span class="px-2 py-1 rounded-full text-xs font-medium ${p.disponible ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}">
+                        ${p.disponible ? 'Disponible' : 'Agotado'}
+                    </span>
+                </td>
+                <td class="p-4 text-right">
+                    <button onclick="editarProducto(${p.id})" class="text-indigo-600 hover:text-indigo-900 mx-2"><i data-lucide="edit" class="w-4"></i></button>
+                    <button onclick="confirmarEliminacion(${p.id})" class="text-red-600 hover:text-red-900"><i data-lucide="trash-2" class="w-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+    
+    let productoEnEdicion = null;
+    let productoAEliminar = null;
+
+    function abrirModal(esEdicion = false) {
+        document.getElementById('modalProducto').classList.remove('hidden');
+        document.getElementById('modalTitulo').innerText = esEdicion ? 'Editar Producto' : 'Agregar Producto';
+    }
+
+    function cerrarModal() {
+        document.getElementById('modalProducto').classList.add('hidden');
+        document.getElementById('formProducto').reset();
+        productoEnEdicion = null;
+    }
+
+    function editarProducto(id) {
+        const producto = productos.find(p => p.id === id);
+        if (producto) {
+            productoEnEdicion = producto;
+            document.getElementById('inputTitulo').value = producto.titulo;
+            document.getElementById('inputCategoria').value = producto.categoria;
+            document.getElementById('inputEstado').value = producto.disponible ? 'true' : 'false';
+            document.getElementById('inputPrecio').value = producto.precio;
+            abrirModal(true);
+        }
+    }
+
+    function confirmarEliminacion(id) {
+        productoAEliminar = id;
+        document.getElementById('modalConfirmacion').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function cerrarConfirmacion() {
+        document.getElementById('modalConfirmacion').classList.add('hidden');
+        productoAEliminar = null;
+    }
+
+    function eliminarProducto() {
+        if (productoAEliminar !== null) {
+            const indice = productos.findIndex(p => p.id === productoAEliminar);
+            if (indice > -1) {
+                productos.splice(indice, 1);
+                filtrarProductos();
+                cerrarConfirmacion();
+                mostrarExitoBorrado();
+            }
+        }
+    }
+
+    function mostrarExito(mensaje) {
+        document.getElementById('textoExito').innerText = mensaje;
+        document.getElementById('modalExito').classList.remove('hidden');
+        lucide.createIcons();
+        setTimeout(() => {
+            document.getElementById('modalExito').classList.add('hidden');
+            cerrarModal();
+            productoEnEdicion = null;
+        }, 2000);
+    }
+
+    function mostrarExitoBorrado() {
+        document.getElementById('modalExitoBorrado').classList.remove('hidden');
+        lucide.createIcons();
+        setTimeout(() => {
+            document.getElementById('modalExitoBorrado').classList.add('hidden');
+            productoAEliminar = null;
+        }, 2000);
+    }
+
+    function guardarProducto(e) {
+        e.preventDefault();
+        
+        const titulo = document.getElementById('inputTitulo').value;
+        const categoria = document.getElementById('inputCategoria').value;
+        const estado = document.getElementById('inputEstado').value === 'true';
+        const precio = parseFloat(document.getElementById('inputPrecio').value);
+        
+        if (productoEnEdicion) {
+            productoEnEdicion.titulo = titulo;
+            productoEnEdicion.categoria = categoria;
+            productoEnEdicion.disponible = estado;
+            productoEnEdicion.precio = precio;
+        } else {
+            const nuevoId = Math.max(...productos.map(p => p.id), 0) + 1;
+            productos.push({
+                id: nuevoId,
+                titulo: titulo,
+                categoria: categoria,
+                precio: precio,
+                disponible: estado,
+                imagen: '/images/placeholder.jpg',
+                precioOriginal: precio,
+                descripcion: 'Descripción pendiente',
+                etiqueta: categoria,
+                badgeColor: 'bg-gray-100 text-gray-700'
+            });
+        }
+        
+        filtrarProductos();
+        const mensaje = productoEnEdicion ? '¡Modificado Exitosamente!' : '¡Guardado Exitosamente!';
+        mostrarExito(mensaje);
+    }
+    
+    filtrarProductos();
+</script>
+
+            <!-- PEDIDOS -->
+            <section id="ped" class="seccion hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Control de Pedidos</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <p class="text-gray-600">Aquí se mostrarán los pedidos entrantes y su estatus.</p>
+                </div>
+            </section>
+
+            <!-- PROMOCIONES -->
+            <section id="promo" class="seccion hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Promociones y Descuentos</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <p class="text-gray-600">Aquí podrás configurar cupones y ofertas especiales.</p>
+                </div>
+            </section>
+
+            <!-- CLIENTES -->
+            <section id="cli" class="seccion hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Directorio de Clientes</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <p class="text-gray-600">Aquí se enlistarán los clientes registrados en la plataforma.</p>
+                </div>
+            </section>
+
+            <!-- REPORTES -->
+            <section id="rep" class="seccion hidden">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Reportes y Estadísticas</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                    <p class="text-gray-600">Aquí podrás visualizar métricas avanzadas y exportar datos.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function cambiarSeccion(id) {
+            const secciones = document.querySelectorAll('.seccion');
+            secciones.forEach(sec => sec.classList.add('hidden'));
+
+            const seccion = document.getElementById(id);
+            if (seccion) {
+                seccion.classList.remove('hidden');
+                if (id === 'prod' && typeof filtrarProductos === 'function') {
+                    filtrarProductos();
+                }
+            }
+
+            const botones = document.querySelectorAll('aside nav button');
+            botones.forEach(btn => {
+                btn.classList.remove('bg-indigo-800');
+                btn.classList.add('hover:bg-indigo-800');
+            });
+
+            const btnActivo = document.getElementById(`btn-${id}`);
+            if (btnActivo) {
+                btnActivo.classList.add('bg-indigo-800');
+                btnActivo.classList.remove('hover:bg-indigo-800');
+            }
+        }
+
+        // Inicializar gráfico con manejo de errores
+        try {
+            const chartCanvas = document.getElementById('graficoPedidos');
+            if (chartCanvas) {
+                new Chart(chartCanvas, {
+                    type: 'bar',
+                    data: { labels: ['Lun', 'Mar', 'Mié', 'Jue'], datasets: [{ label: 'Ventas', data: [49, 90, 59, 80], backgroundColor: '#4f46e5' }] }
+                });
+            }
+        } catch (error) {
+            console.error('Error al inicializar gráfico:', error);
+        }
+    </script>
+    <!-- Modal (Oculto por defecto) -->
+<div id="modalProducto" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-96">
+        <h3 id="modalTitulo" class="text-xl font-bold mb-6">Agregar Producto</h3>
+        <form id="formProducto" onsubmit="guardarProducto(event)" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Título</label>
+                <input type="text" id="inputTitulo" name="titulo" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Nombre del producto">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Categoría</label>
+                <select id="inputCategoria" name="categoria" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    <option value="ofertas">Ofertas</option>
+                    <option value="farmacia">Farmacia</option>
+                    <option value="estetica">Estética</option>
+                    <option value="accesorios">Accesorios</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Estado</label>
+                <select id="inputEstado" name="estado" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    <option value="true">Disponible</option>
+                    <option value="false">Agotado</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Precio</label>
+                <input type="number" id="inputPrecio" name="precio" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="$0.00">
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button" onclick="cerrarModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal de Confirmación de Eliminación -->
+<div id="modalConfirmacion" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-80 text-center">
+        <div class="flex justify-center mb-4">
+            <i data-lucide="alert-circle" class="w-12 h-12 text-red-600"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">¿Eliminar Producto?</h3>
+        <p class="text-gray-600 text-sm mb-6">Esta acción no se puede deshacer.</p>
+        <div class="flex gap-3 justify-center">
+            <button onclick="cerrarConfirmacion()" class="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg">No</button>
+            <button onclick="eliminarProducto()" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg">Sí, Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Éxito Borrado -->
+<div id="modalExitoBorrado" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-80 text-center">
+        <div class="flex justify-center mb-4">
+            <i data-lucide="check-circle" class="w-12 h-12 text-emerald-600"></i>
+        </div>
+        <h3 class="text-xl font-bold text-emerald-600 mb-2">¡Borrado Exitosamente!</h3>
+        <p class="text-gray-600 text-sm">El producto ha sido eliminado correctamente.</p>
+    </div>
+</div>
+
+<!-- Modal de Éxito (Guardado/Modificado) -->
+<div id="modalExito" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-80 text-center">
+        <div class="flex justify-center mb-4">
+            <i data-lucide="check-circle" class="w-12 h-12 text-emerald-600"></i>
+        </div>
+        <h3 id="textoExito" class="text-xl font-bold text-emerald-600 mb-2">¡Guardado Exitosamente!</h3>
+        <p class="text-gray-600 text-sm">El producto ha sido procesado correctamente.</p>
+    </div>
+</div>
+</body>
+</html>
