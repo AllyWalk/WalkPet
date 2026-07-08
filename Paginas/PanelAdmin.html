@@ -269,6 +269,34 @@
     "disponible": false
   }];
 
+    const pedidos = [
+        { id: 1, cliente: "María Pérez", total: 320.00, estado: "Pendiente", cerrado: false, fecha: "2026-06-25" },
+        { id: 2, cliente: "Juan Ramírez", total: 450.00, estado: "Enviado", cerrado: false, fecha: "2026-06-28" },
+        { id: 3, cliente: "Ana Torres", total: 125.00, estado: "Entregado", cerrado: true, fecha: "2026-06-20" },
+        { id: 4, cliente: "Carlos Méndez", total: 210.00, estado: "Cancelado", cerrado: true, fecha: "2026-06-18" }
+    ];
+
+    const promociones = [
+        { id: 1, titulo: "Descuento Primavera", descuento: "20%", expiracion: "2026-08-15", activo: true },
+        { id: 2, titulo: "2x1 en Shampoo", descuento: "50%", expiracion: "2026-07-20", activo: true },
+        { id: 3, titulo: "Envío Gratis", descuento: "100%", expiracion: "2026-09-01", activo: false },
+        { id: 4, titulo: "Pakete de Bienvenida", descuento: "15%", expiracion: "2026-07-30", activo: true }
+    ];
+
+    const clientes = [
+        { id: 1, nombre: "Luis Gómez", email: "luis.gomez@mail.com", estado: "Activo" },
+        { id: 2, nombre: "Sofía López", email: "sofia.lopez@mail.com", estado: "Suspendido" },
+        { id: 3, nombre: "Diego Herrera", email: "diego.herrera@mail.com", estado: "Activo" },
+        { id: 4, nombre: "Valentina Cruz", email: "valentina.cruz@mail.com", estado: "Inactivo" }
+    ];
+
+    let pedidoEnEdicion = null;
+    let pedidoAEliminar = null;
+    let promocionEnEdicion = null;
+    let promocionAEliminar = null;
+    let clienteEnEdicion = null;
+    let clienteAEliminar = null;
+
     function renderizarProductos() {
         const tbody = document.getElementById('tabla-productos');
         tbody.innerHTML = productos.map(p => `
@@ -380,14 +408,20 @@
         }
     }
 
-    function mostrarExito(mensaje) {
+    function mostrarExito(mensaje, modalId = 'modalProducto') {
         document.getElementById('textoExito').innerText = mensaje;
         document.getElementById('modalExito').classList.remove('hidden');
         lucide.createIcons();
         setTimeout(() => {
             document.getElementById('modalExito').classList.add('hidden');
-            cerrarModal();
+            if (modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) modal.classList.add('hidden');
+            }
             productoEnEdicion = null;
+            pedidoEnEdicion = null;
+            promocionEnEdicion = null;
+            clienteEnEdicion = null;
         }, 2000);
     }
 
@@ -397,6 +431,9 @@
         setTimeout(() => {
             document.getElementById('modalExitoBorrado').classList.add('hidden');
             productoAEliminar = null;
+            pedidoAEliminar = null;
+            promocionAEliminar = null;
+            clienteAEliminar = null;
         }, 2000);
     }
 
@@ -431,41 +468,540 @@
         
         filtrarProductos();
         const mensaje = productoEnEdicion ? '¡Modificado Exitosamente!' : '¡Guardado Exitosamente!';
-        mostrarExito(mensaje);
+        mostrarExito(mensaje, 'modalProducto');
     }
-    
-    filtrarProductos();
+
+    function renderizarPedidos() {
+        const tbody = document.getElementById('tabla-pedidos');
+        tbody.innerHTML = pedidos.map(p => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="p-4 text-sm text-gray-700 font-medium">${p.id}</td>
+                <td class="p-4 text-sm text-gray-700">${p.cliente}</td>
+                <td class="p-4 text-sm text-gray-700">$${p.total.toFixed(2)}</td>
+                <td class="p-4 text-sm text-gray-700">${p.estado}</td>
+                <td class="p-4 text-sm text-gray-700">${p.cerrado ? 'Sí' : 'No'}</td>
+                <td class="p-4 text-right">
+                    <button onclick="editarPedido(${p.id})" class="text-indigo-600 hover:text-indigo-900 mx-2"><i data-lucide="edit" class="w-4"></i></button>
+                    <button onclick="confirmarEliminacionPedido(${p.id})" class="text-red-600 hover:text-red-900"><i data-lucide="trash-2" class="w-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    function filtrarPedidos() {
+        const busqueda = document.getElementById('buscarPedido').value.toLowerCase();
+        const estado = document.getElementById('filtroEstadoPedido').value;
+        const cerrado = document.getElementById('filtroCerradoPedido').value;
+
+        const tbody = document.getElementById('tabla-pedidos');
+        tbody.innerHTML = pedidos.filter(p => {
+            const coincideBusqueda = !busqueda || `${p.id}`.includes(busqueda) || p.cliente.toLowerCase().includes(busqueda);
+            const coincideEstado = !estado || p.estado === estado;
+            const coincideCerrado = !cerrado || `${p.cerrado}` === cerrado;
+            return coincideBusqueda && coincideEstado && coincideCerrado;
+        }).map(p => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="p-4 text-sm text-gray-700 font-medium">${p.id}</td>
+                <td class="p-4 text-sm text-gray-700">${p.cliente}</td>
+                <td class="p-4 text-sm text-gray-700">$${p.total.toFixed(2)}</td>
+                <td class="p-4 text-sm text-gray-700">${p.estado}</td>
+                <td class="p-4 text-sm text-gray-700">${p.cerrado ? 'Sí' : 'No'}</td>
+                <td class="p-4 text-right">
+                    <button onclick="editarPedido(${p.id})" class="text-indigo-600 hover:text-indigo-900 mx-2"><i data-lucide="edit" class="w-4"></i></button>
+                    <button onclick="confirmarEliminacionPedido(${p.id})" class="text-red-600 hover:text-red-900"><i data-lucide="trash-2" class="w-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    function abrirModalPedido(esEdicion = false) {
+        document.getElementById('modalPedido').classList.remove('hidden');
+        document.getElementById('modalPedidoTitulo').innerText = esEdicion ? 'Editar Pedido' : 'Agregar Pedido';
+        if (!esEdicion) {
+            document.getElementById('formPedido').reset();
+            pedidoEnEdicion = null;
+        }
+    }
+
+    function cerrarModalPedido() {
+        document.getElementById('modalPedido').classList.add('hidden');
+        document.getElementById('formPedido').reset();
+        pedidoEnEdicion = null;
+    }
+
+    function editarPedido(id) {
+        const pedido = pedidos.find(p => p.id === id);
+        if (pedido) {
+            pedidoEnEdicion = pedido;
+            document.getElementById('inputClientePedido').value = pedido.cliente;
+            document.getElementById('inputTotalPedido').value = pedido.total;
+            document.getElementById('inputEstadoPedido').value = pedido.estado;
+            document.getElementById('inputCerradoPedido').value = `${pedido.cerrado}`;
+            document.getElementById('inputFechaPedido').value = pedido.fecha;
+            abrirModalPedido(true);
+        }
+    }
+
+    function confirmarEliminacionPedido(id) {
+        pedidoAEliminar = id;
+        document.getElementById('modalConfirmacionPedido').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function cerrarConfirmacionPedido() {
+        document.getElementById('modalConfirmacionPedido').classList.add('hidden');
+        pedidoAEliminar = null;
+    }
+
+    function eliminarPedido() {
+        if (pedidoAEliminar !== null) {
+            const indice = pedidos.findIndex(p => p.id === pedidoAEliminar);
+            if (indice > -1) {
+                pedidos.splice(indice, 1);
+                filtrarPedidos();
+                cerrarConfirmacionPedido();
+                mostrarExitoBorrado();
+            }
+        }
+    }
+
+    function guardarPedido(e) {
+        e.preventDefault();
+        const cliente = document.getElementById('inputClientePedido').value;
+        const total = parseFloat(document.getElementById('inputTotalPedido').value);
+        const estado = document.getElementById('inputEstadoPedido').value;
+        const cerrado = document.getElementById('inputCerradoPedido').value === 'true';
+        const fecha = document.getElementById('inputFechaPedido').value;
+
+        if (pedidoEnEdicion) {
+            pedidoEnEdicion.cliente = cliente;
+            pedidoEnEdicion.total = total;
+            pedidoEnEdicion.estado = estado;
+            pedidoEnEdicion.cerrado = cerrado;
+            pedidoEnEdicion.fecha = fecha;
+        } else {
+            const nuevoId = Math.max(...pedidos.map(p => p.id), 0) + 1;
+            pedidos.push({ id: nuevoId, cliente, total, estado, cerrado, fecha });
+        }
+
+        filtrarPedidos();
+        mostrarExito(pedidoEnEdicion ? 'Pedido modificado' : 'Pedido creado', 'modalPedido');
+    }
+
+    function renderizarPromociones() {
+        const tbody = document.getElementById('tabla-promociones');
+        tbody.innerHTML = promociones.map(p => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="p-4 text-sm text-gray-700 font-medium">${p.id}</td>
+                <td class="p-4 text-sm text-gray-700">${p.titulo}</td>
+                <td class="p-4 text-sm text-gray-700">${p.descuento}</td>
+                <td class="p-4 text-sm text-gray-700">${p.expiracion}</td>
+                <td class="p-4 text-sm text-gray-700">${p.activo ? 'Sí' : 'No'}</td>
+                <td class="p-4 text-right">
+                    <button onclick="editarPromocion(${p.id})" class="text-indigo-600 hover:text-indigo-900 mx-2"><i data-lucide="edit" class="w-4"></i></button>
+                    <button onclick="confirmarEliminacionPromocion(${p.id})" class="text-red-600 hover:text-red-900"><i data-lucide="trash-2" class="w-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    function filtrarPromociones() {
+        const busqueda = document.getElementById('buscarPromo').value.toLowerCase();
+        const activo = document.getElementById('filtroPromocionActiva').value;
+        const fechaMax = document.getElementById('filtroPromoFecha').value;
+
+        const tbody = document.getElementById('tabla-promociones');
+        tbody.innerHTML = promociones.filter(p => {
+            const coincideBusqueda = !busqueda || `${p.id}`.includes(busqueda) || p.titulo.toLowerCase().includes(busqueda);
+            const coincideActivo = !activo || `${p.activo}` === activo;
+            const coincideFecha = !fechaMax || p.expiracion <= fechaMax;
+            return coincideBusqueda && coincideActivo && coincideFecha;
+        }).map(p => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="p-4 text-sm text-gray-700 font-medium">${p.id}</td>
+                <td class="p-4 text-sm text-gray-700">${p.titulo}</td>
+                <td class="p-4 text-sm text-gray-700">${p.descuento}</td>
+                <td class="p-4 text-sm text-gray-700">${p.expiracion}</td>
+                <td class="p-4 text-sm text-gray-700">${p.activo ? 'Sí' : 'No'}</td>
+                <td class="p-4 text-right">
+                    <button onclick="editarPromocion(${p.id})" class="text-indigo-600 hover:text-indigo-900 mx-2"><i data-lucide="edit" class="w-4"></i></button>
+                    <button onclick="confirmarEliminacionPromocion(${p.id})" class="text-red-600 hover:text-red-900"><i data-lucide="trash-2" class="w-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    function abrirModalPromocion(esEdicion = false) {
+        document.getElementById('modalPromocion').classList.remove('hidden');
+        document.getElementById('modalPromocionTitulo').innerText = esEdicion ? 'Editar Promoción' : 'Nueva Promoción';
+        if (!esEdicion) {
+            document.getElementById('formPromocion').reset();
+            promocionEnEdicion = null;
+        }
+    }
+
+    function cerrarModalPromocion() {
+        document.getElementById('modalPromocion').classList.add('hidden');
+        document.getElementById('formPromocion').reset();
+        promocionEnEdicion = null;
+    }
+
+    function editarPromocion(id) {
+        const promo = promociones.find(p => p.id === id);
+        if (promo) {
+            promocionEnEdicion = promo;
+            document.getElementById('inputTituloPromocion').value = promo.titulo;
+            document.getElementById('inputDescuentoPromocion').value = promo.descuento;
+            document.getElementById('inputExpiracionPromocion').value = promo.expiracion;
+            document.getElementById('inputActivoPromocion').value = `${promo.activo}`;
+            abrirModalPromocion(true);
+        }
+    }
+
+    function confirmarEliminacionPromocion(id) {
+        promocionAEliminar = id;
+        document.getElementById('modalConfirmacionPromocion').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function cerrarConfirmacionPromocion() {
+        document.getElementById('modalConfirmacionPromocion').classList.add('hidden');
+        promocionAEliminar = null;
+    }
+
+    function eliminarPromocion() {
+        if (promocionAEliminar !== null) {
+            const indice = promociones.findIndex(p => p.id === promocionAEliminar);
+            if (indice > -1) {
+                promociones.splice(indice, 1);
+                filtrarPromociones();
+                cerrarConfirmacionPromocion();
+                mostrarExitoBorrado();
+            }
+        }
+    }
+
+    function guardarPromocion(e) {
+        e.preventDefault();
+        const titulo = document.getElementById('inputTituloPromocion').value;
+        const descuento = document.getElementById('inputDescuentoPromocion').value;
+        const expiracion = document.getElementById('inputExpiracionPromocion').value;
+        const activo = document.getElementById('inputActivoPromocion').value === 'true';
+
+        if (promocionEnEdicion) {
+            promocionEnEdicion.titulo = titulo;
+            promocionEnEdicion.descuento = descuento;
+            promocionEnEdicion.expiracion = expiracion;
+            promocionEnEdicion.activo = activo;
+        } else {
+            const nuevoId = Math.max(...promociones.map(p => p.id), 0) + 1;
+            promociones.push({ id: nuevoId, titulo, descuento, expiracion, activo });
+        }
+
+        filtrarPromociones();
+        mostrarExito(promocionEnEdicion ? 'Promoción modificada' : 'Promoción creada', 'modalPromocion');
+    }
+
+    function renderizarClientes() {
+        const tbody = document.getElementById('tabla-clientes');
+        tbody.innerHTML = clientes.map(c => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="p-4 text-sm text-gray-700 font-medium">${c.id}</td>
+                <td class="p-4 text-sm text-gray-700">${c.nombre}</td>
+                <td class="p-4 text-sm text-gray-700">${c.email}</td>
+                <td class="p-4 text-sm text-gray-700">${c.estado}</td>
+                <td class="p-4 text-right">
+                    <button onclick="editarCliente(${c.id})" class="text-indigo-600 hover:text-indigo-900 mx-2"><i data-lucide="edit" class="w-4"></i></button>
+                    <button onclick="confirmarEliminacionCliente(${c.id})" class="text-red-600 hover:text-red-900"><i data-lucide="trash-2" class="w-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    function filtrarClientes() {
+        const busqueda = document.getElementById('buscarCliente').value.toLowerCase();
+        const estado = document.getElementById('filtroClienteEstado').value;
+
+        const tbody = document.getElementById('tabla-clientes');
+        tbody.innerHTML = clientes.filter(c => {
+            const coincideBusqueda = !busqueda || c.nombre.toLowerCase().includes(busqueda) || c.email.toLowerCase().includes(busqueda);
+            const coincideEstado = !estado || c.estado === estado;
+            return coincideBusqueda && coincideEstado;
+        }).map(c => `
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="p-4 text-sm text-gray-700 font-medium">${c.id}</td>
+                <td class="p-4 text-sm text-gray-700">${c.nombre}</td>
+                <td class="p-4 text-sm text-gray-700">${c.email}</td>
+                <td class="p-4 text-sm text-gray-700">${c.estado}</td>
+                <td class="p-4 text-right">
+                    <button onclick="editarCliente(${c.id})" class="text-indigo-600 hover:text-indigo-900 mx-2"><i data-lucide="edit" class="w-4"></i></button>
+                    <button onclick="confirmarEliminacionCliente(${c.id})" class="text-red-600 hover:text-red-900"><i data-lucide="trash-2" class="w-4"></i></button>
+                </td>
+            </tr>
+        `).join('');
+        lucide.createIcons();
+    }
+
+    function abrirModalCliente(esEdicion = false) {
+        document.getElementById('modalCliente').classList.remove('hidden');
+        document.getElementById('modalClienteTitulo').innerText = esEdicion ? 'Editar Cliente' : 'Nuevo Cliente';
+        if (!esEdicion) {
+            document.getElementById('formCliente').reset();
+            clienteEnEdicion = null;
+        }
+    }
+
+    function cerrarModalCliente() {
+        document.getElementById('modalCliente').classList.add('hidden');
+        document.getElementById('formCliente').reset();
+        clienteEnEdicion = null;
+    }
+
+    function editarCliente(id) {
+        const cliente = clientes.find(c => c.id === id);
+        if (cliente) {
+            clienteEnEdicion = cliente;
+            document.getElementById('inputNombreCliente').value = cliente.nombre;
+            document.getElementById('inputEmailCliente').value = cliente.email;
+            document.getElementById('inputEstadoCliente').value = cliente.estado;
+            abrirModalCliente(true);
+        }
+    }
+
+    function confirmarEliminacionCliente(id) {
+        clienteAEliminar = id;
+        document.getElementById('modalConfirmacionCliente').classList.remove('hidden');
+        lucide.createIcons();
+    }
+
+    function cerrarConfirmacionCliente() {
+        document.getElementById('modalConfirmacionCliente').classList.add('hidden');
+        clienteAEliminar = null;
+    }
+
+    function eliminarCliente() {
+        if (clienteAEliminar !== null) {
+            const indice = clientes.findIndex(c => c.id === clienteAEliminar);
+            if (indice > -1) {
+                clientes.splice(indice, 1);
+                filtrarClientes();
+                cerrarConfirmacionCliente();
+                mostrarExitoBorrado();
+            }
+        }
+    }
+
+    function guardarCliente(e) {
+        e.preventDefault();
+        const nombre = document.getElementById('inputNombreCliente').value;
+        const email = document.getElementById('inputEmailCliente').value;
+        const estado = document.getElementById('inputEstadoCliente').value;
+
+        if (clienteEnEdicion) {
+            clienteEnEdicion.nombre = nombre;
+            clienteEnEdicion.email = email;
+            clienteEnEdicion.estado = estado;
+        } else {
+            const nuevoId = Math.max(...clientes.map(c => c.id), 0) + 1;
+            clientes.push({ id: nuevoId, nombre, email, estado });
+        }
+
+        filtrarClientes();
+        mostrarExito(clienteEnEdicion ? 'Cliente modificado' : 'Cliente creado', 'modalCliente');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        renderizarPedidos();
+        renderizarPromociones();
+        renderizarClientes();
+        filtrarProductos();
+    });
 </script>
 
             <!-- PEDIDOS -->
             <section id="ped" class="seccion hidden">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Control de Pedidos</h2>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <p class="text-gray-600">Aquí se mostrarán los pedidos entrantes y su estatus.</p>
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Control de Pedidos</h2>
+                        <p class="text-gray-600">Gestiona pedidos, estados y cierre.</p>
+                    </div>
+                    <button onclick="abrirModalPedido()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 flex items-center gap-2">
+                        <i data-lucide="plus" class="w-4"></i> Nuevo Pedido
+                    </button>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Buscar pedido</label>
+                            <input type="text" id="buscarPedido" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Cliente o ID" oninput="filtrarPedidos()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+                            <select id="filtroEstadoPedido" class="w-full p-2 border border-gray-300 rounded-lg" onchange="filtrarPedidos()">
+                                <option value="">Todos</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Enviado">Enviado</option>
+                                <option value="Entregado">Entregado</option>
+                                <option value="Cancelado">Cancelado</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Cerrado</label>
+                            <select id="filtroCerradoPedido" class="w-full p-2 border border-gray-300 rounded-lg" onchange="filtrarPedidos()">
+                                <option value="">Todos</option>
+                                <option value="true">Cerrado</option>
+                                <option value="false">Abierto</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="p-4 text-sm font-bold text-gray-600">ID</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Cliente</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Total</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Estado</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Cerrado</th>
+                                <th class="p-4 text-sm font-bold text-gray-600 text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-pedidos"></tbody>
+                    </table>
                 </div>
             </section>
 
             <!-- PROMOCIONES -->
             <section id="promo" class="seccion hidden">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Promociones y Descuentos</h2>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <p class="text-gray-600">Aquí podrás configurar cupones y ofertas especiales.</p>
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Promociones y Descuentos</h2>
+                        <p class="text-gray-600">Crea, modifica, elimina y controla expiraciones.</p>
+                    </div>
+                    <button onclick="abrirModalPromocion()" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 flex items-center gap-2">
+                        <i data-lucide="plus" class="w-4"></i> Nueva Promoción
+                    </button>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Buscar promo</label>
+                            <input type="text" id="buscarPromo" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Título o ID" oninput="filtrarPromociones()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Activo</label>
+                            <select id="filtroPromocionActiva" class="w-full p-2 border border-gray-300 rounded-lg" onchange="filtrarPromociones()">
+                                <option value="">Todos</option>
+                                <option value="true">Activo</option>
+                                <option value="false">Inactivo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Vence antes de</label>
+                            <input type="date" id="filtroPromoFecha" class="w-full p-2 border border-gray-300 rounded-lg" onchange="filtrarPromociones()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="p-4 text-sm font-bold text-gray-600">ID</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Promoción</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Descuento</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Expira</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Activo</th>
+                                <th class="p-4 text-sm font-bold text-gray-600 text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-promociones"></tbody>
+                    </table>
                 </div>
             </section>
 
             <!-- CLIENTES -->
             <section id="cli" class="seccion hidden">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Directorio de Clientes</h2>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <p class="text-gray-600">Aquí se enlistarán los clientes registrados en la plataforma.</p>
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Directorio de Clientes</h2>
+                        <p class="text-gray-600">Administra clientes, estados y datos de contacto.</p>
+                    </div>
+                    <button onclick="abrirModalCliente()" class="bg-amber-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-amber-700 flex items-center gap-2">
+                        <i data-lucide="plus" class="w-4"></i> Nuevo Cliente
+                    </button>
+                </div>
+
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Buscar cliente</label>
+                            <input type="text" id="buscarCliente" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Nombre o email" oninput="filtrarClientes()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Estado</label>
+                            <select id="filtroClienteEstado" class="w-full p-2 border border-gray-300 rounded-lg" onchange="filtrarClientes()">
+                                <option value="">Todos</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                                <option value="Suspendido">Suspendido</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gray-50 border-b border-gray-200">
+                            <tr>
+                                <th class="p-4 text-sm font-bold text-gray-600">ID</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Nombre</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Email</th>
+                                <th class="p-4 text-sm font-bold text-gray-600">Estado</th>
+                                <th class="p-4 text-sm font-bold text-gray-600 text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-clientes"></tbody>
+                    </table>
                 </div>
             </section>
 
             <!-- REPORTES -->
             <section id="rep" class="seccion hidden">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Reportes y Estadísticas</h2>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                    <p class="text-gray-600">Aquí podrás visualizar métricas avanzadas y exportar datos.</p>
+                <div class="flex flex-col lg:flex-row justify-between items-start gap-6 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Reportes y Estadísticas</h2>
+                        <p class="text-gray-600 mt-1">Selecciona el rango de fechas para generar un reporte simulado.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full lg:w-auto">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha inicio</label>
+                            <input type="date" id="inputFechaInicioReporte" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Fecha fin</label>
+                            <input type="date" id="inputFechaFinReporte" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end mb-6">
+                    <button onclick="generarReporte()" class="bg-indigo-600 text-white px-5 py-3 rounded-lg hover:bg-indigo-700 transition">Generar Reporte</button>
+                </div>
+
+                <div id="reporteSimulado" class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <p class="text-gray-600">Genera un reporte para ver métricas simuladas de ventas, pedidos y clientes.</p>
+                    </div>
                 </div>
             </section>
         </main>
@@ -483,6 +1019,15 @@
                 seccion.classList.remove('hidden');
                 if (id === 'prod' && typeof filtrarProductos === 'function') {
                     filtrarProductos();
+                }
+                if (id === 'ped' && typeof filtrarPedidos === 'function') {
+                    filtrarPedidos();
+                }
+                if (id === 'promo' && typeof filtrarPromociones === 'function') {
+                    filtrarPromociones();
+                }
+                if (id === 'cli' && typeof filtrarClientes === 'function') {
+                    filtrarClientes();
                 }
             }
 
@@ -510,6 +1055,87 @@
             }
         } catch (error) {
             console.error('Error al inicializar gráfico:', error);
+        }
+
+        function generarReporte() {
+            const inicio = document.getElementById('inputFechaInicioReporte').value;
+            const fin = document.getElementById('inputFechaFinReporte').value;
+            const contenedor = document.getElementById('reporteSimulado');
+
+            if (!inicio || !fin) {
+                contenedor.innerHTML = `
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-red-200">
+                        <p class="text-red-600">Selecciona ambas fechas para generar el reporte.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const fechaInicio = new Date(inicio);
+            const fechaFin = new Date(fin);
+            const dias = Math.max(1, Math.round((fechaFin - fechaInicio) / (1000 * 60 * 60 * 24)) + 1);
+            const ventas = 1200 + dias * 75;
+            const pedidos = 15 + dias * 2;
+            const clientes = 4 + Math.floor(dias * 0.7);
+            const devoluciones = Math.max(0, Math.floor(pedidos * 0.08));
+
+            const filas = [
+                { nombre: 'Cama Ortopédica', cantidad: 12, subtotal: 780 },
+                { nombre: 'Juguete Dispensador', cantidad: 9, subtotal: 540 },
+                { nombre: 'Pipeta Antiparasitaria', cantidad: 7, subtotal: 420 },
+                { nombre: 'Shampoo de Avena', cantidad: 5, subtotal: 325 }
+            ];
+
+            contenedor.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <p class="text-sm text-gray-500">Ventas Totales</p>
+                        <p class="text-3xl font-bold text-gray-900">$${ventas.toLocaleString()}</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <p class="text-sm text-gray-500">Pedidos Procesados</p>
+                        <p class="text-3xl font-bold text-gray-900">${pedidos}</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <p class="text-sm text-gray-500">Clientes Nuevos</p>
+                        <p class="text-3xl font-bold text-gray-900">${clientes}</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                        <p class="text-sm text-gray-500">Devoluciones</p>
+                        <p class="text-3xl font-bold text-gray-900">${devoluciones}</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mt-6">
+                    <div class="flex items-center justify-between mb-5">
+                        <div>
+                            <p class="text-sm text-gray-500">Reporte simulado</p>
+                            <h3 class="text-xl font-bold text-gray-900">Resumen del período</h3>
+                        </div>
+                        <p class="text-sm text-gray-500">${inicio} → ${fin}</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th class="p-3 text-sm font-bold text-gray-600">Producto</th>
+                                    <th class="p-3 text-sm font-bold text-gray-600">Cantidad</th>
+                                    <th class="p-3 text-sm font-bold text-gray-600">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${filas.map(f => `
+                                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                                        <td class="p-3 text-sm text-gray-700">${f.nombre}</td>
+                                        <td class="p-3 text-sm text-gray-700">${f.cantidad}</td>
+                                        <td class="p-3 text-sm font-bold text-gray-900">$${f.subtotal}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
         }
     </script>
     <!-- Modal (Oculto por defecto) -->
@@ -565,7 +1191,7 @@
 </div>
 
 <!-- Modal de Éxito Borrado -->
-<div id="modalExitoBorrado" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+<div id="modalExitoBorrado" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white p-8 rounded-2xl shadow-xl w-80 text-center">
         <div class="flex justify-center mb-4">
             <i data-lucide="check-circle" class="w-12 h-12 text-emerald-600"></i>
@@ -576,13 +1202,157 @@
 </div>
 
 <!-- Modal de Éxito (Guardado/Modificado) -->
-<div id="modalExito" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+<div id="modalExito" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
     <div class="bg-white p-8 rounded-2xl shadow-xl w-80 text-center">
         <div class="flex justify-center mb-4">
             <i data-lucide="check-circle" class="w-12 h-12 text-emerald-600"></i>
         </div>
         <h3 id="textoExito" class="text-xl font-bold text-emerald-600 mb-2">¡Guardado Exitosamente!</h3>
         <p class="text-gray-600 text-sm">El producto ha sido procesado correctamente.</p>
+    </div>
+</div>
+
+<!-- Modal Pedido -->
+<div id="modalPedido" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-96">
+        <h3 id="modalPedidoTitulo" class="text-xl font-bold mb-6">Nuevo Pedido</h3>
+        <form id="formPedido" onsubmit="guardarPedido(event)" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Cliente</label>
+                <input id="inputClientePedido" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Nombre del cliente">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Total</label>
+                <input id="inputTotalPedido" type="number" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="0.00">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Estado</label>
+                <select id="inputEstadoPedido" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Enviado">Enviado</option>
+                    <option value="Entregado">Entregado</option>
+                    <option value="Cancelado">Cancelado</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Cerrado</label>
+                <select id="inputCerradoPedido" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    <option value="false">No</option>
+                    <option value="true">Sí</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Fecha</label>
+                <input id="inputFechaPedido" type="date" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button" onclick="cerrarModalPedido()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalConfirmacionPedido" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-80 text-center">
+        <div class="flex justify-center mb-4">
+            <i data-lucide="alert-circle" class="w-12 h-12 text-red-600"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">¿Eliminar Pedido?</h3>
+        <p class="text-gray-600 text-sm mb-6">Esta acción eliminará el pedido.</p>
+        <div class="flex gap-3 justify-center">
+            <button onclick="cerrarConfirmacionPedido()" class="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg">No</button>
+            <button onclick="eliminarPedido()" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg">Sí, Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Promoción -->
+<div id="modalPromocion" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-96">
+        <h3 id="modalPromocionTitulo" class="text-xl font-bold mb-6">Nueva Promoción</h3>
+        <form id="formPromocion" onsubmit="guardarPromocion(event)" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Título</label>
+                <input id="inputTituloPromocion" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Nombre de promoción">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Descuento</label>
+                <input id="inputDescuentoPromocion" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="20% / 100%">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Expiración</label>
+                <input id="inputExpiracionPromocion" type="date" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Activo</label>
+                <select id="inputActivoPromocion" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    <option value="true">Sí</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button" onclick="cerrarModalPromocion()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalConfirmacionPromocion" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-80 text-center">
+        <div class="flex justify-center mb-4">
+            <i data-lucide="alert-circle" class="w-12 h-12 text-red-600"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">¿Eliminar Promoción?</h3>
+        <p class="text-gray-600 text-sm mb-6">Esta acción eliminará la promoción.</p>
+        <div class="flex gap-3 justify-center">
+            <button onclick="cerrarConfirmacionPromocion()" class="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg">No</button>
+            <button onclick="eliminarPromocion()" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg">Sí, Eliminar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Cliente -->
+<div id="modalCliente" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-96">
+        <h3 id="modalClienteTitulo" class="text-xl font-bold mb-6">Nuevo Cliente</h3>
+        <form id="formCliente" onsubmit="guardarCliente(event)" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Nombre</label>
+                <input id="inputNombreCliente" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Nombre completo">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Email</label>
+                <input id="inputEmailCliente" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="correo@mail.com">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Estado</label>
+                <select id="inputEstadoCliente" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                    <option value="Suspendido">Suspendido</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button" onclick="cerrarModalCliente()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
+                <button type="submit" class="px-4 py-2 bg-amber-600 text-white rounded-lg">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modalConfirmacionCliente" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-80 text-center">
+        <div class="flex justify-center mb-4">
+            <i data-lucide="alert-circle" class="w-12 h-12 text-red-600"></i>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">¿Eliminar Cliente?</h3>
+        <p class="text-gray-600 text-sm mb-6">Esta acción eliminará al cliente del directorio.</p>
+        <div class="flex gap-3 justify-center">
+            <button onclick="cerrarConfirmacionCliente()" class="px-4 py-2 text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg">No</button>
+            <button onclick="eliminarCliente()" class="px-4 py-2 bg-red-600 text-white hover:bg-red-700 rounded-lg">Sí, Eliminar</button>
+        </div>
     </div>
 </div>
 </body>

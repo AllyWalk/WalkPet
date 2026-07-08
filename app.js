@@ -4,6 +4,7 @@ async function iniciarApp() {
     await cargarHeader(); // Primero cargamos el header
     await init();         // Luego cargamos los productos (tu función original)
     renderCarrito();      // Finalmente renderizamos el carrito
+    renderPromocionesHero();
 }
 
 // Ejecutar todo al cargar la página
@@ -106,10 +107,74 @@ function cerrarModalRecomendados() {
     setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
 }
 
+function renderPromocionesHero() {
+    const contenedor = document.getElementById('contenedor-promociones');
+    const promocionesSimuladas = [
+        { titulo: 'Primavera Saludable', descripcion: '20% en productos de cuidado e higiene', codigo: 'PRIMAVERA20' },
+        { titulo: 'Envío Gratis', descripcion: 'Envío sin costo en compras mayores a $500', codigo: 'ENVIOFREE' },
+        { titulo: 'Pack Mascota', descripcion: '15% en kits de aseo y accesorios', codigo: 'PACK15' }
+    ];
+
+    contenedor.innerHTML = promocionesSimuladas.map(p => `
+        <div class="bg-white/10 border border-white/15 rounded-3xl p-5 shadow-sm backdrop-blur-sm">
+            <p class="text-[11px] uppercase tracking-[0.3em] text-white/80 font-bold mb-3">Promoción vigente</p>
+            <h4 class="font-black text-white text-lg mb-2">${p.titulo}</h4>
+            <p class="text-sm text-white/80 mb-4">${p.descripcion}</p>
+            <div class="flex items-center justify-between gap-3">
+                <span class="text-[10px] uppercase tracking-[0.3em] text-white/70 font-bold">Código</span>
+                <span class="text-xs font-black text-white">${p.codigo}</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function togglePromocionesHero() {
+    const contenedor = document.getElementById('contenedor-promociones');
+    const boton = document.getElementById('btn-toggle-promociones');
+    if (!contenedor || !boton) return;
+
+    if (!contenedor.innerHTML.trim()) {
+        renderPromocionesHero();
+    }
+
+    const abierto = !contenedor.classList.contains('hidden');
+    if (abierto) {
+        contenedor.classList.add('hidden');
+        boton.textContent = 'Ver promociones vigentes';
+    } else {
+        contenedor.classList.remove('hidden');
+        boton.textContent = 'Ocultar promociones';
+        contenedor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function validarCodigoPromocion() {
+    const codigo = document.getElementById('input-codigo-promocion').value.trim().toUpperCase();
+    const mensaje = document.getElementById('mensaje-promocion');
+    const codigosValidos = ['PRIMAVERA20', 'ENVIOFREE', 'PACK15', 'VIP25'];
+
+    mensaje.classList.remove('text-emerald-600');
+    mensaje.classList.remove('text-red-600');
+    mensaje.classList.add('text-red-200');
+
+    if (!codigo || !codigosValidos.includes(codigo)) {
+        mensaje.textContent = 'Promoción no válida';
+        mensaje.classList.remove('hidden');
+        return;
+    }
+
+    mensaje.textContent = '¡Código válido! Oferta aplicada.';
+    mensaje.classList.remove('hidden');
+    mensaje.classList.remove('text-red-200');
+    mensaje.classList.add('text-emerald-200');
+}
+
 // 4. Listeners generales
 document.getElementById('btn-cerrar-modal')?.addEventListener('click', cerrarModalDetalles);
 document.getElementById('btn-cerrar-recomendados')?.addEventListener('click', cerrarModalRecomendados);
 document.getElementById('btn-seguir-comprando')?.addEventListener('click', cerrarModalRecomendados);
+document.getElementById('btn-aplicar-promocion')?.addEventListener('click', validarCodigoPromocion);
+document.getElementById('btn-toggle-promociones')?.addEventListener('click', togglePromocionesHero);
 
 // Cierre al dar clic fuera de los modales
 window.addEventListener('click', (e) => {
@@ -128,6 +193,20 @@ document.getElementById('input-busqueda')?.addEventListener('input', (e) => {
 document.querySelectorAll('.btn-filtro').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const cat = e.target.dataset.target;
+        document.querySelectorAll('.btn-filtro').forEach(b => {
+            b.classList.remove('bg-violet-700', 'text-white', 'shadow-sm');
+            b.classList.add('bg-gray-100', 'text-gray-600');
+            if (b.dataset.target === 'ofertas') {
+                b.classList.remove('text-white');
+                b.classList.add('text-red-600', 'border', 'border-red-100');
+            } else {
+                b.classList.remove('text-red-600', 'border', 'border-red-100');
+            }
+        });
+
+        btn.classList.add('bg-violet-700', 'text-white', 'shadow-sm');
+        btn.classList.remove('bg-gray-100', 'text-gray-600', 'border', 'border-red-100');
+
         renderizar(cat === 'todos' ? productosData : productosData.filter(p => p.categoria === cat));
     });
 });

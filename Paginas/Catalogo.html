@@ -28,8 +28,7 @@
                         </span>
                         <input type="text" id="input-busqueda" placeholder="Buscar producto..." class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent placeholder-gray-400 transition-all">
                     </div>
-
-                    <div class="flex flex-wrap gap-2" id="filtro-contenedor">
+                        <div class="flex flex-wrap gap-2" id="filtro-contenedor">
                         <span data-target="todos" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-violet-700 text-white rounded-lg cursor-pointer transition-colors shadow-sm">Todos</span>
                         <span data-target="ofertas" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-red-600 rounded-lg hover:bg-red-50 cursor-pointer transition-colors border border-red-100">Ofertas 🔥</span>
                         <span data-target="farmacia" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Farmacia</span>
@@ -37,6 +36,33 @@
                         <span data-target="accesorios" class="btn-filtro text-xs font-semibold px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">Accesorios</span>
                     </div>
                 </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-emerald-600 to-sky-600 text-white rounded-[32px] p-8 shadow-2xl border border-white/10 mb-10">
+                <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                    <div class="max-w-2xl">
+                        <span class="text-xs uppercase tracking-[0.32em] font-black text-white/80">Promoción especial</span>
+                        <h2 class="mt-4 text-3xl lg:text-4xl font-black leading-tight">Aprovecha las ofertas exclusivas de la temporada</h2>
+                        <p class="mt-4 text-sm text-white/85">Ingresa el código y descubre si tu promoción aplica a tu compra. Solo por tiempo limitado.</p>
+                    </div>
+                    <div class="bg-white/10 border border-white/15 rounded-3xl p-4 w-full lg:w-[420px]">
+                        <div class="flex gap-3 items-center">
+                            <input id="input-codigo-promocion" type="text" placeholder="Código de promoción" class="w-full rounded-3xl border border-white/20 bg-white/15 px-4 py-3 text-sm text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-white/50">
+                            <button id="btn-aplicar-promocion" class="rounded-full bg-white text-emerald-700 px-5 py-3 font-black uppercase text-xs tracking-[0.18em] hover:bg-white/90 transition">Aplicar</button>
+                        </div>
+                        <p id="mensaje-promocion" class="mt-3 text-sm text-red-200 hidden"></p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between gap-4 mt-8">
+                    <div>
+                        <p class="text-sm text-white/75">Promociones disponibles hoy</p>
+                        <p class="text-xs text-white/60">Mira las ofertas activas y copia el código para usarlo.</p>
+                    </div>
+                    <button id="btn-toggle-promociones" class="rounded-full bg-white/10 border border-white/20 px-4 py-3 text-sm font-bold uppercase tracking-[0.18em] text-white hover:bg-white/20 transition">Ver promociones vigentes</button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 hidden" id="contenedor-promociones">
+                </div>
+            </div>
             </div>
 
             <div id="sin-resultados" class="hidden text-center py-12">
@@ -105,6 +131,7 @@
     </div>
 </div>
 </div>
+
 <script src="/header.js" defer></script>
 <script src="/app.js" defer></script>
 </body>
