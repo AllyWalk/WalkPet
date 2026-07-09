@@ -42,15 +42,45 @@
                 </div>
             </div>
 
-            <button class="mt-8 w-full bg-slate-900 hover:bg-violet-700 text-white font-bold py-5 rounded-2xl transition-all duration-300">
-                Confirmar Pago
-            </button>
+            <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                <button id="btn-vaciar-carrito" class="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-5 rounded-2xl transition-all duration-300">
+                    Vaciar Carrito
+                </button>
+                <button id="btn-confirmar-pago" class="w-full bg-slate-900 hover:bg-violet-700 text-white font-bold py-5 rounded-2xl transition-all duration-300">
+                    Confirmar Pago
+                </button>
+            </div>
         </div>
         <div class="text-[10px] text-slate-400 text-center mt-6">
                 Al continuar, aceptas nuestros 
-                <a href="/terminos.html" class="text-violet-600 hover:underline font-bold">términos y condiciones</a>.
+                <button type="button" id="btn-terminos-carrito" class="text-violet-600 hover:underline font-bold">términos y condiciones</button>.
             </div>
     </main>
+
+    <div id="modal-terminos-carrito" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 p-4">
+        <div class="w-full max-w-lg rounded-3xl bg-white shadow-2xl overflow-hidden">
+            <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+                <div>
+                    <h3 class="text-lg font-black text-slate-800">Términos y Condiciones</h3>
+                    <p class="text-xs text-slate-500">Última actualización: 09/07/2026</p>
+                </div>
+                <button id="btn-cerrar-terminos-carrito" type="button" class="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors" aria-label="Cerrar">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="max-h-[70vh] overflow-y-auto px-6 py-5 text-sm text-slate-600 space-y-4">
+                <p>Al realizar una compra en WalkPet, aceptas estas condiciones generales:</p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>La compra se encuentra sujeta a disponibilidad de stock y verificación de datos.</li>
+                    <li>Los productos pueden presentar cambios de precio sin previo aviso hasta confirmar la compra.</li>
+                    <li>La información proporcionada debe ser veraz para garantizar el correcto procesamiento del pedido.</li>
+                    <li>Nos reservamos el derecho de cancelar pedidos sospechosos o con información incompleta.</li>
+                    <li>Al usar nuestros servicios aceptas el tratamiento seguro de tus datos según nuestra política de privacidad.</li>
+                </ul>
+                <p>Gracias por confiar en WalkPet para el cuidado y bienestar de tus mascotas.</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         let carrito = [];
@@ -75,10 +105,36 @@
             }
         }
 
-        function mostrarToast() {
+        function mostrarToast(mensaje = 'Producto eliminado') {
             const toast = document.getElementById('toast');
+            toast.textContent = mensaje;
             toast.classList.remove('translate-y-[-150%]');
             setTimeout(() => toast.classList.add('translate-y-[-150%]'), 2000);
+        }
+
+        function confirmarPago() {
+            mostrarToast('Necesitas logearte');
+            setTimeout(() => {
+                window.location.href = 'IniciarSesion.html';
+            }, 1500);
+        }
+
+        function vaciarCarrito() {
+            carrito = [];
+            mostrarToast('Carrito vaciado');
+            renderizarPagos();
+        }
+
+        function abrirModalTerminos() {
+            const modal = document.getElementById('modal-terminos-carrito');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function cerrarModalTerminos() {
+            const modal = document.getElementById('modal-terminos-carrito');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         function actualizarCantidad(id, cambio) {
@@ -139,7 +195,16 @@
             lucide.createIcons();
         }
 
-        document.addEventListener('DOMContentLoaded', inicializarCarrito);
+        document.addEventListener('DOMContentLoaded', () => {
+            inicializarCarrito();
+            document.getElementById('btn-confirmar-pago').addEventListener('click', confirmarPago);
+            document.getElementById('btn-vaciar-carrito').addEventListener('click', vaciarCarrito);
+            document.getElementById('btn-terminos-carrito').addEventListener('click', abrirModalTerminos);
+            document.getElementById('btn-cerrar-terminos-carrito').addEventListener('click', cerrarModalTerminos);
+            document.getElementById('modal-terminos-carrito').addEventListener('click', (e) => {
+                if (e.target.id === 'modal-terminos-carrito') cerrarModalTerminos();
+            });
+        });
     </script>
 </body>
 </html>

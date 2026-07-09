@@ -20,6 +20,22 @@
 
         // Contenedor para los mensajes informativos flotantes
         const contenedorAlertas = document.getElementById("contenedor-alertas");
+        const labelTerminos = document.getElementById("label-terminos");
+        const linkTerminos = document.getElementById("link-terminos");
+        const linkPrivacidad = document.getElementById("link-privacidad");
+        const modalTerminos = document.getElementById("modal-terminos");
+        const btnCerrarTerminos = document.getElementById("btn-cerrar-terminos");
+
+        function abrirModalTerminos(e) {
+            if (e) e.preventDefault();
+            modalTerminos.classList.remove("hidden");
+            modalTerminos.classList.add("flex");
+        }
+
+        function cerrarModalTerminos() {
+            modalTerminos.classList.add("hidden");
+            modalTerminos.classList.remove("flex");
+        }
 
         // Función para mostrar mensajes dinámicos flotantes (Toast)
         function mostrarMensaje(texto, colorClase) {
@@ -60,6 +76,13 @@
 
         // Eventos para interactuar entre pantallas convencionales
         btnIrRegistro.addEventListener("click", () => cambiarVista(vistaLogin, vistaRegistro));
+        labelTerminos.addEventListener("click", abrirModalTerminos);
+        linkTerminos.addEventListener("click", abrirModalTerminos);
+        linkPrivacidad.addEventListener("click", abrirModalTerminos);
+        btnCerrarTerminos.addEventListener("click", cerrarModalTerminos);
+        modalTerminos.addEventListener("click", (e) => {
+            if (e.target === modalTerminos) cerrarModalTerminos();
+        });
         btnIrOlvido.addEventListener("click", () => cambiarVista(vistaLogin, vistaOlvido));
         btnVolverLogin1.addEventListener("click", () => cambiarVista(vistaRegistro, vistaLogin));
         btnVolverLogin2.addEventListener("click", () => cambiarVista(vistaOlvido, vistaLogin));
