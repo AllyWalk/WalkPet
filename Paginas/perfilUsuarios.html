@@ -23,6 +23,9 @@
             <button onclick="cambiarSeccion('config')" id="tab-config" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-gray-500 hover:bg-gray-100 hover:text-gray-700">
                 <i data-lucide="settings" class="w-5 h-5"></i> Configuración
             </button>
+            <button onclick="cambiarSeccion('comentarios')" id="tab-comentarios" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-gray-500 hover:bg-gray-100 hover:text-gray-700">
+                <i data-lucide="message-square" class="w-5 h-5"></i> Comentarios
+            </button>
             <hr class="border-gray-200 my-4">
             <button id="btn-cerrar-sesion-lateral" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-all text-red-600 hover:bg-red-50">
                 <i data-lucide="log-out" class="w-5 h-5"></i> Cerrar Sesión
@@ -98,6 +101,47 @@
                 </div>
             </div>
 
+            <div id="seccion-comentarios" class="space-y-6 hidden">
+                <div>
+                    <h2 class="text-2xl font-black text-gray-800 tracking-tight">Comentarios y Reseñas</h2>
+                    <p class="text-xs text-gray-400 mt-1">Comparte tu experiencia con nuestros servicios</p>
+                </div>
+
+                <div class="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Tu reseña</label>
+                    <textarea id="textarea-resena" rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent" placeholder="Escribe aquí tu comentario..."></textarea>
+                    <div class="mt-3 flex items-center justify-between gap-3">
+                        <div class="flex gap-1 text-amber-400">
+                            <i data-lucide="star" class="w-4 h-4"></i>
+                            <i data-lucide="star" class="w-4 h-4"></i>
+                            <i data-lucide="star" class="w-4 h-4"></i>
+                            <i data-lucide="star" class="w-4 h-4"></i>
+                            <i data-lucide="star" class="w-4 h-4"></i>
+                        </div>
+                        <button id="btn-enviar-resena" type="button" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-2.5 px-5 rounded-xl text-xs uppercase tracking-wider transition-colors">
+                            Enviar reseña
+                        </button>
+                    </div>
+                    <p id="mensaje-resena" class="mt-3 hidden rounded-xl bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-700">
+                        Reseña enviada
+                    </p>
+                </div>
+
+                <div class="rounded-2xl border border-gray-100 p-4 bg-white shadow-sm">
+                    <p class="text-sm font-bold text-gray-700">Reseñas recientes</p>
+                    <div class="mt-3 space-y-3">
+                        <div class="rounded-xl bg-gray-50 p-3">
+                            <p class="text-sm text-gray-700">“Excelente atención y muy buena experiencia con la clínica.”</p>
+                            <p class="text-xs text-gray-400 mt-1">Hace 2 días</p>
+                        </div>
+                        <div class="rounded-xl bg-gray-50 p-3">
+                            <p class="text-sm text-gray-700">“Me encantó la facilidad para agendar y recibir seguimiento.”</p>
+                            <p class="text-xs text-gray-400 mt-1">Hace 1 semana</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </div>
 </main>
@@ -138,6 +182,20 @@
         if (btnLateral) {
             btnLateral.addEventListener("click", cerrarSesion);
         }
+
+        const btnEnviarResena = document.getElementById("btn-enviar-resena");
+        const mensajeResena = document.getElementById("mensaje-resena");
+        const textareaResena = document.getElementById("textarea-resena");
+
+        if (btnEnviarResena && mensajeResena && textareaResena) {
+            btnEnviarResena.addEventListener("click", () => {
+                textareaResena.value = "";
+                mensajeResena.classList.remove("hidden");
+                setTimeout(() => {
+                    mensajeResena.classList.add("hidden");
+                }, 2500);
+            });
+        }
     });
 
     // Función global para alternar pestañas
@@ -145,13 +203,15 @@
         const secciones = {
             datos: document.getElementById("seccion-datos"),
             compras: document.getElementById("seccion-compras"),
-            config: document.getElementById("seccion-config")
+            config: document.getElementById("seccion-config"),
+            comentarios: document.getElementById("seccion-comentarios")
         };
 
         const tabs = {
             datos: document.getElementById("tab-datos"),
             compras: document.getElementById("tab-compras"),
-            config: document.getElementById("tab-config")
+            config: document.getElementById("tab-config"),
+            comentarios: document.getElementById("tab-comentarios")
         };
 
         // Verificar que existan los elementos antes de iterar
