@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market - WalkPet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans text-gray-800">
+    <div id="header-container"></div>
+
+    <main class="py-20 px-6">
+        <div class="max-w-6xl mx-auto space-y-10">
+            <section class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div class="max-w-3xl mx-auto text-center">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-[0.3em]">Market</span>
+                    <h1 class="mt-6 text-4xl font-black text-gray-900 sm:text-5xl">Publica y descubre productos</h1>
+                    <p class="mt-4 text-sm text-gray-600 leading-relaxed">Vende productos dentro de la comunidad o navega ejemplos de publicaciones simuladas para inspirarte.</p>
+                </div>
+            </section>
+
+            <div class="grid gap-10 xl:grid-cols-[1.4fr_0.9fr]">
+                <div class="space-y-8">
+                    <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                        <div class="flex items-start justify-between gap-6">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.32em] font-black text-violet-700">Publica tu producto</p>
+                                <h2 class="mt-4 text-3xl font-black text-gray-900">Vende dentro de la comunidad</h2>
+                            </div>
+                            <div class="rounded-3xl bg-violet-50 p-4 text-violet-700 text-xs font-bold uppercase tracking-[0.25em]">
+                                Simulado
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                            <p class="text-sm text-gray-600">Para publicar un producto, abre el formulario en el modal e inicia sesión.</p>
+                            <button id="btn-abrir-modal" type="button" class="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-700 focus:outline-none">Abrir modal</button>
+                        </div>
+                    </section>
+
+                    <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.32em] font-black text-emerald-600">Mis publicaciones</p>
+                                <h2 class="mt-3 text-3xl font-black text-gray-900">Productos publicados</h2>
+                            </div>
+                            <span id="contador-publicaciones" class="rounded-full bg-slate-100 px-4 py-2 text-xs font-bold text-slate-600">0 publicaciones</span>
+                        </div>
+
+                        <div id="publicaciones-lista" class="mt-8 space-y-5"></div>
+                    </section>
+
+                    <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.32em] font-black text-emerald-600">Subastas</p>
+                                <h2 class="mt-3 text-3xl font-black text-gray-900">Subastas activas</h2>
+                            </div>
+                            <span id="contador-subastas" class="rounded-full bg-slate-100 px-4 py-2 text-xs font-bold text-slate-600">0 subastas</span>
+                        </div>
+
+                        <div id="subastas-lista" class="mt-8 space-y-5"></div>
+                    </section>
+
+                    <div id="modal-publicacion" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 p-4">
+                        <div class="w-full max-w-2xl rounded-[32px] bg-white shadow-2xl overflow-hidden">
+                            <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+                                <div>
+                                    <p class="text-xs uppercase tracking-[0.32em] font-bold text-violet-700">Formulario de publicación</p>
+                                    <h2 class="mt-2 text-2xl font-black text-gray-900">Publicar producto</h2>
+                                </div>
+                                <button id="btn-cerrar-modal" type="button" class="text-gray-500 hover:text-gray-900">Cerrar</button>
+                            </div>
+                            <form id="form-publicacion" action="/Paginas/IniciarSesion.html" method="get" class="space-y-5 px-6 py-6">
+                                <div class="grid gap-4 sm:grid-cols-2">
+                                    <label class="space-y-2 text-sm text-gray-600">
+                                        <span>Nombre del producto</span>
+                                        <input id="input-producto-nombre" type="text" placeholder="Ej. Correa deluxe" class="w-full rounded-3xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent" />
+                                    </label>
+                                    <label class="space-y-2 text-sm text-gray-600">
+                                        <span>Precio</span>
+                                        <input id="input-producto-precio" type="number" step="0.01" placeholder="Ej. 299.99" class="w-full rounded-3xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent" />
+                                    </label>
+                                </div>
+
+                                <label class="space-y-2 text-sm text-gray-600">
+                                    <span>Descripción</span>
+                                    <textarea id="input-producto-descripcion" rows="4" placeholder="Describe el producto..." class="w-full resize-none rounded-3xl border border-gray-200 bg-slate-50 px-4 py-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"></textarea>
+                                </label>
+
+                                <label class="space-y-2 text-sm text-gray-600">
+                                    <span>Foto</span>
+                                    <input id="input-producto-foto" type="file" accept="image/*" class="w-full text-sm text-gray-700" />
+                                    <p id="nombre-foto" class="text-xs text-gray-500 mt-1">Sube una imagen para mostrar tu producto.</p>
+                                </label>
+
+                                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                    <button id="btn-cerrar-modal-bottom" type="button" class="inline-flex items-center justify-center rounded-full bg-gray-100 px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-gray-700 shadow-sm transition hover:bg-gray-200">Cancelar</button>
+                                    <button id="btn-publicar-producto" type="submit" class="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg shadow-emerald-200 transition hover:bg-emerald-700 focus:outline-none">Publicar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="space-y-6">
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                        <p class="text-xs uppercase tracking-[0.32em] font-bold text-violet-700">Consejos</p>
+                        <h3 class="mt-4 text-2xl font-black text-gray-900">Mejora tus publicaciones</h3>
+                        <ul class="mt-6 space-y-4 text-sm text-gray-600">
+                            <li class="rounded-3xl border border-gray-100 bg-slate-50 p-4">
+                                <strong class="font-bold">Usa títulos claros.</strong> Un buen nombre ayuda a que otros encuentren tu producto rápido.
+                            </li>
+                            <li class="rounded-3xl border border-gray-100 bg-slate-50 p-4">
+                                <strong class="font-bold">Describe beneficios.</strong> Explica cómo ayuda a la mascota o al dueño.
+                            </li>
+                            <li class="rounded-3xl border border-gray-100 bg-slate-50 p-4">
+                                <strong class="font-bold">Añade una foto nítida.</strong> Las imágenes aumentan el interés en la publicación.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="rounded-3xl bg-gradient-to-br from-emerald-500 to-violet-600 p-8 text-white shadow-2xl">
+                        <p class="text-xs uppercase tracking-[0.25em] font-bold text-emerald-200">Inspírate</p>
+                        <h3 class="mt-4 text-2xl font-black">Publica rápido y gestiona tus anuncios aquí.</h3>
+                        <p class="mt-4 text-sm text-white/80 leading-relaxed">Para publicar, comprar o agregar al carrito, primero inicia sesión.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script src="/header.js" defer></script>
+    <script src="/app.js" defer></script>
+    <script>
+        const productosIniciales = [
+            {
+                id: 1,
+                titulo: 'Collar ajustable Premium',
+                precio: 249.99,
+                descripcion: 'Collar suave y resistente con hebilla fácil de usar y diseño divertido.',
+                foto: 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=80'
+            },
+            {
+                id: 2,
+                titulo: 'Snack natural para perros',
+                precio: 119.50,
+                descripcion: 'Bocadillos saludables y sin aditivos para recompensas diarias.',
+                foto: 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80'
+            },
+            {
+                id: 3,
+                titulo: 'Cama ortopédica para gatos',
+                precio: 399.00,
+                descripcion: 'Cama con soporte extra y funda lavable, ideal para mascotas mayores.',
+                foto: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=900&q=80'
+            }
+        ];
+
+        let publicaciones = [...productosIniciales];
+        const subastasIniciales = [
+            {
+                id: 1,
+                titulo: 'Lote de juguetes para perro',
+                precio: 149.99,
+                descripcion: 'Incluye pelotas, mordedores y juguetes resistentes para perros activos.',
+                fechaFinal: 'Termina en 2 días'
+            },
+            {
+                id: 2,
+                titulo: 'Arnés para perro eco',
+                precio: 179.00,
+                descripcion: 'Arnés acolchado con materiales ecológicos de alta resistencia.',
+                fechaFinal: 'Termina en 1 día'
+            },
+            {
+                id: 3,
+                titulo: 'Set de baño para gato',
+                precio: 99.50,
+                descripcion: 'Kit completo con champú natural, toalla y cepillo suave.',
+                fechaFinal: 'Termina en 4 días'
+            }
+        ];
+
+        let subastas = [...subastasIniciales];
+
+        const listaPublicaciones = document.getElementById('publicaciones-lista');
+        const listaSubastas = document.getElementById('subastas-lista');
+        const contadorPublicaciones = document.getElementById('contador-publicaciones');
+        const contadorSubastas = document.getElementById('contador-subastas');
+        const modalPublicacion = document.getElementById('modal-publicacion');
+        const btnAbrirModal = document.getElementById('btn-abrir-modal');
+        const btnCerrarModal = document.getElementById('btn-cerrar-modal');
+        const btnCerrarModalBottom = document.getElementById('btn-cerrar-modal-bottom');
+
+        function crearPublicacionHTML(publicacion) {
+            return `
+                <article class="rounded-3xl border border-gray-100 bg-slate-50 p-6 shadow-sm">
+                    <div class="grid gap-4 sm:grid-cols-[1fr_auto] items-start">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.25em] font-bold text-emerald-600">Publicado</p>
+                            <h3 class="mt-3 text-xl font-black text-gray-900">${publicacion.titulo}</h3>
+                            <p class="mt-2 text-sm text-gray-600 leading-relaxed">${publicacion.descripcion}</p>
+                            <p class="mt-4 text-lg font-black text-violet-700">$${publicacion.precio.toFixed(2)}</p>
+                        </div>
+                        <div class="space-y-2 text-right sm:text-left">
+                            <button type="button" onclick="redirectALogin()" class="rounded-full bg-emerald-600 text-white border border-emerald-600 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-emerald-700 transition">Agregar al carrito</button>
+                            <button type="button" onclick="redirectALogin()" class="rounded-full bg-violet-50 border border-violet-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-700 hover:bg-violet-50 transition">Comprar</button>
+                        </div>
+                    </div>
+                    ${publicacion.foto ? `<img src="${publicacion.foto}" alt="${publicacion.titulo}" class="mt-6 w-full max-h-60 object-cover rounded-3xl border border-gray-200" />` : ''}
+                </article>
+            `;
+        }
+
+        function crearSubastaHTML(subasta) {
+            return `
+                <article class="rounded-3xl border border-gray-100 bg-slate-50 p-6 shadow-sm">
+                    <div class="grid gap-4 sm:grid-cols-[1fr_auto] items-start">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.25em] font-bold text-amber-600">Subasta</p>
+                            <h3 class="mt-3 text-xl font-black text-gray-900">${subasta.titulo}</h3>
+                            <p class="mt-2 text-sm text-gray-600 leading-relaxed">${subasta.descripcion}</p>
+                            <p class="mt-4 text-lg font-black text-violet-700">Precio base $${subasta.precio.toFixed(2)}</p>
+                            <p class="mt-2 text-sm text-slate-500">${subasta.fechaFinal}</p>
+                        </div>
+                        <div class="flex flex-col gap-2 text-right sm:text-left">
+                            <button type="button" onclick="redirectALogin()" class="rounded-full bg-amber-500 text-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-amber-600 transition">Hacer oferta</button>
+                            <button type="button" onclick="redirectALogin()" class="rounded-full bg-violet-50 border border-violet-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-700 hover:bg-violet-50 transition">Ver subasta</button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderPublicaciones() {
+            if (!listaPublicaciones) return;
+
+            listaPublicaciones.innerHTML = publicaciones.length
+                ? publicaciones.map(crearPublicacionHTML).join('')
+                : '<p class="text-sm text-gray-500">Aún no hay productos publicados.</p>';
+
+            if (contadorPublicaciones) {
+                contadorPublicaciones.textContent = `${publicaciones.length} publicación${publicaciones.length === 1 ? '' : 'es'}`;
+            }
+        }
+
+        function renderSubastas() {
+            if (!listaSubastas) return;
+
+            listaSubastas.innerHTML = subastas.length
+                ? subastas.map(crearSubastaHTML).join('')
+                : '<p class="text-sm text-gray-500">Aún no hay subastas activas.</p>';
+
+            if (contadorSubastas) {
+                contadorSubastas.textContent = `${subastas.length} subasta${subastas.length === 1 ? '' : 's'}`;
+            }
+        }
+
+        function toggleModal(visible) {
+            if (!modalPublicacion) return;
+            modalPublicacion.classList.toggle('hidden', !visible);
+            modalPublicacion.classList.toggle('flex', visible);
+        }
+
+        function redirectALogin() {
+            window.location.href = '/Paginas/IniciarSesion.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPublicaciones();
+            renderSubastas();
+
+            btnAbrirModal?.addEventListener('click', () => toggleModal(true));
+            btnCerrarModal?.addEventListener('click', () => toggleModal(false));
+            btnCerrarModalBottom?.addEventListener('click', () => toggleModal(false));
+            modalPublicacion?.addEventListener('click', (event) => {
+                if (event.target === modalPublicacion) {
+                    toggleModal(false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

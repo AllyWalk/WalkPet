@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad - WalkPet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans text-gray-800">
+    <div id="header-container"></div>
+
+    <main class="py-20 px-6">
+        <div class="max-w-6xl mx-auto space-y-10">
+            <section class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                <div class="max-w-3xl mx-auto text-center">
+                    <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-[0.3em]">Comunidad</span>
+                    <h1 class="mt-6 text-4xl font-black text-gray-900 sm:text-5xl">Comentarios de usuarios</h1>
+                    <p class="mt-4 text-sm text-gray-600 leading-relaxed">Comparte tus experiencias, deja consejos y publica un comentario simulado para que aparezca en la comunidad.</p>
+                </div>
+            </section>
+
+            <div class="grid gap-10 xl:grid-cols-[1.4fr_0.9fr]">
+                <div class="space-y-8">
+                    <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                        <div class="flex items-start justify-between gap-6">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.32em] font-black text-violet-700">Deja tu comentario</p>
+                                <h2 class="mt-4 text-3xl font-black text-gray-900">Publica tu voz en la comunidad</h2>
+                            </div>
+                            <div class="rounded-3xl bg-violet-50 p-4 text-violet-700 text-xs font-bold uppercase tracking-[0.25em]">
+                               Comentarios
+                            </div>
+                        </div>
+
+                        <form id="form-comentario" class="mt-8 space-y-5" onsubmit="event.preventDefault();">
+                            <div class="grid gap-4 sm:grid-cols-2">
+                                <label class="space-y-2 text-sm text-gray-600">
+                                    <span>Nombre</span>
+                                    <input id="input-nombre" type="text" placeholder="Ej. Noé" class="w-full rounded-3xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent" />
+                                </label>
+                                <label class="space-y-2 text-sm text-gray-600">
+                                    <span>Asunto</span>
+                                    <input id="input-asunto" type="text" placeholder="Ej. Consejo para la mascota" class="w-full rounded-3xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent" />
+                                </label>
+                            </div>
+
+                            <label class="space-y-2 text-sm text-gray-600">
+                                <span>Comentario</span>
+                                <textarea id="input-comentario" rows="5" placeholder="Escribe tu comentario aquí..." class="w-full resize-none rounded-3xl border border-gray-200 bg-slate-50 px-4 py-4 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"></textarea>
+                            </label>
+
+                            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                <p id="feedback-comentario" class="text-sm text-red-500 invisible">Escribe un comentario antes de publicar.</p>
+                                <button id="btn-publicar" type="submit" class="inline-flex items-center justify-center rounded-full bg-violet-700 px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg shadow-violet-200 transition hover:bg-violet-800 focus:outline-none">Publicar</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <section class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.32em] font-black text-emerald-600">Comentarios recientes</p>
+                                <h2 class="mt-3 text-3xl font-black text-gray-900">Últimos comentarios</h2>
+                            </div>
+                            <span id="contador-comentarios" class="rounded-full bg-slate-100 px-4 py-2 text-xs font-bold text-slate-600">0 comentarios</span>
+                        </div>
+
+                        <div id="comentarios-lista" class="mt-8 space-y-5"></div>
+                    </section>
+                </div>
+
+                <aside class="space-y-6">
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                        <p class="text-xs uppercase tracking-[0.32em] font-bold text-violet-700">Consejos</p>
+                        <h3 class="mt-4 text-2xl font-black text-gray-900">Tips para participar</h3>
+                        <ul class="mt-6 space-y-4 text-sm text-gray-600">
+                            <li class="rounded-3xl border border-gray-100 bg-slate-50 p-4">
+                                <strong class="font-bold">Comparte tu experiencia.</strong> Cuenta cómo te ayudó un producto o servicio.
+                            </li>
+                            <li class="rounded-3xl border border-gray-100 bg-slate-50 p-4">
+                                <strong class="font-bold">Sé claro y breve.</strong> Los mejores comentarios son fáciles de leer.
+                            </li>
+                            <li class="rounded-3xl border border-gray-100 bg-slate-50 p-4">
+                                <strong class="font-bold">Pregunta con tranquilidad.</strong> Si necesitas ayuda, haz una pregunta directa.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="rounded-3xl bg-gradient-to-br from-emerald-500 to-violet-600 p-8 text-white shadow-2xl">
+                        <p class="text-xs uppercase tracking-[0.25em] font-bold text-emerald-200">Inspírate</p>
+                        <h3 class="mt-4 text-2xl font-black">Tu comentario puede ayudar a otra familia de mascotas.</h3>
+                        <p class="mt-4 text-sm text-white/80 leading-relaxed">Publica un comentario simulado y observa cómo aparece en la lista de la comunidad al instante.</p>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <script src="/header.js" defer></script>
+    <script src="/app.js" defer></script>
+    <script>
+        const comentariosIniciales = [
+            {
+                nombre: 'María',
+                asunto: 'Paseo saludable',
+                texto: 'Mi perrita Lila ahora disfruta sus paseos gracias a los consejos sobre snacks y cuidado antes del viaje.',
+                fecha: 'Hace 2 horas'
+            },
+            {
+                nombre: 'Diego',
+                asunto: 'Visita al veterinario',
+                texto: 'Compartí la experiencia de mi gato con su primera vacuna y recibí recomendaciones muy útiles aquí.',
+                fecha: 'Ayer'
+            },
+            {
+                nombre: 'Ana',
+                asunto: 'Rutina de baño',
+                texto: 'Probé el champú recomendado por la comunidad y mi mascota quedó más suave y sin irritaciones.',
+                fecha: 'Hace 3 días'
+            }
+        ];
+
+        let comentarios = [...comentariosIniciales];
+
+        const listaComentarios = document.getElementById('comentarios-lista');
+        const contadorComentarios = document.getElementById('contador-comentarios');
+        const feedbackComentario = document.getElementById('feedback-comentario');
+        const inputNombre = document.getElementById('input-nombre');
+        const inputAsunto = document.getElementById('input-asunto');
+        const inputComentario = document.getElementById('input-comentario');
+        const formComentario = document.getElementById('form-comentario');
+
+        function crearComentarioHTML(comentario) {
+            return `
+                <article class="rounded-3xl border border-gray-100 bg-slate-50 p-6 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.25em] font-bold text-violet-700">${comentario.asunto || 'Sin asunto'}</p>
+                            <h3 class="mt-3 text-xl font-black text-gray-900">${comentario.nombre}</h3>
+                        </div>
+                        <span class="rounded-full bg-white px-4 py-2 text-xs font-bold text-slate-500 border border-slate-200">${comentario.fecha}</span>
+                    </div>
+                    <p class="mt-5 text-sm leading-6 text-gray-600">${comentario.texto}</p>
+                </article>
+            `;
+        }
+
+        function renderComentarios() {
+            if (!listaComentarios) return;
+
+            listaComentarios.innerHTML = comentarios.length
+                ? comentarios.map(crearComentarioHTML).join('')
+                : '<p class="text-sm text-gray-500">Aún no hay comentarios. Sé el primero en publicar uno.</p>';
+
+            if (contadorComentarios) {
+                contadorComentarios.textContent = `${comentarios.length} comentario${comentarios.length === 1 ? '' : 's'}`;
+            }
+        }
+
+        function mostrarFeedback(mensaje, esError = true) {
+            if (!feedbackComentario) return;
+            feedbackComentario.textContent = mensaje;
+            feedbackComentario.classList.remove('invisible');
+            feedbackComentario.classList.toggle('text-red-500', esError);
+            feedbackComentario.classList.toggle('text-emerald-600', !esError);
+
+            if (!esError) {
+                setTimeout(() => {
+                    feedbackComentario.classList.add('invisible');
+                }, 3000);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderComentarios();
+
+            formComentario?.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const nombre = inputNombre?.value.trim() || 'Usuario anónimo';
+                const asunto = inputAsunto?.value.trim() || 'Comentario de la comunidad';
+                const texto = inputComentario?.value.trim() || '';
+
+                comentarios = [
+                    {
+                        nombre,
+                        asunto,
+                        texto,
+                        fecha: 'Justo ahora'
+                    },
+                    ...comentarios
+                ];
+
+                renderComentarios();
+                mostrarFeedback('Comentario publicado correctamente.', false);
+                formComentario.reset();
+            });
+        });
+    </script>
+</body>
+</html>
