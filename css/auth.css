@@ -1,0 +1,83 @@
+/* Estilos para el indicador de sesión en el header */
+
+#session-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Estado activo - Sesión iniciada */
+#session-status.active {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #81c784;
+}
+
+#session-status.active .user-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+#session-status.active .session-indicator {
+  font-size: 12px;
+  color: #4caf50;
+  animation: pulse 2s infinite;
+}
+
+/* Estado inactivo - Sin sesión */
+#session-status.inactive {
+  background-color: #fff3e0;
+  color: #e65100;
+  border: 1px solid #ffb74d;
+}
+
+#session-status.inactive .session-icon {
+  font-size: 18px;
+  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ff9800;
+  border-radius: 50%;
+}
+
+#session-status.inactive .session-text {
+  font-size: 12px;
+}
+
+/* Animación de pulso para indicador activo */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Efecto hover */
+#session-status:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  #session-status {
+    padding: 6px 12px;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  #session-status.inactive .session-text {
+    display: none;
+  }
+}
