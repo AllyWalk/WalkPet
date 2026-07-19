@@ -1,3 +1,5 @@
+    const SESSION_STORAGE_KEY = 'walkpet-session';
+
     document.addEventListener("DOMContentLoaded", () => {
         // Inicializar iconos de Lucide al cargar la app
         lucide.createIcons();
@@ -90,7 +92,11 @@
         // ACCIÓN: Envío de Login (Redirección directa sin validar)
         formLogin.addEventListener("submit", (e) => {
             e.preventDefault();
-            window.location.href = "/paginas/perfilUsuarios.html";
+            localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({ activo: true, nombre: 'Noé Quintero' }));
+            window.dispatchEvent(new Event('auth:changed'));
+            const destino = new URLSearchParams(window.location.search).get('redirect') || localStorage.getItem('walkpet-return-url') || '/Paginas/perfilUsuarios.html';
+            const destinoFinal = destino.startsWith('http') ? destino : new URL(destino.startsWith('/') ? destino.slice(1) : destino, window.location.origin).toString();
+            window.location.href = destinoFinal;
         });
 
         // ACCIÓN: Envío de Registro (Volver a login + Mensaje exitoso sin validar)

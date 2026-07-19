@@ -253,23 +253,16 @@
             &copy; 2026 WalkPet Software. Todos los derechos reservados.
         </div>
     </footer>
+    <script src="/header.js"></script>
     <script src="app.js"></script>
     <script>
         // Inicializa los iconos de Lucide
         lucide.createIcons();
     </script>
     <script>
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(data => {
-                // Inserta todo el código del header dentro del div
-                document.getElementById('header-container').innerHTML = data;
-                
-                // Activa los iconos de Lucide (Menú, Home, Log-in, etc.)
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
-                }
-            });
+        if (window.cargarHeader) {
+            window.cargarHeader();
+        }
     </script>
     <script>
         const cookiesBanner = document.getElementById('cookies-banner');

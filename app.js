@@ -1,5 +1,65 @@
 let productosData = [];
 
+function estaAutenticado() {
+    try {
+        return JSON.parse(localStorage.getItem('walkpet-session') || 'null')?.activo === true;
+    } catch (error) {
+        return false;
+    }
+}
+
+function redirigirALogin(origen = null) {
+    const destino = origen || window.location.pathname + window.location.search + window.location.hash;
+    if (destino && !destino.includes('/IniciarSesion.html')) {
+        localStorage.setItem('walkpet-return-url', destino);
+    }
+
+    const loginUrl = new URL('/Paginas/IniciarSesion.html', window.location.origin);
+    loginUrl.searchParams.set('redirect', destino);
+    window.location.href = loginUrl.toString();
+}
+
+function mostrarPopupSimulado(titulo, mensaje) {
+    const popupExistente = document.getElementById('popup-simulado');
+    if (popupExistente) popupExistente.remove();
+
+    const popup = document.createElement('div');
+    popup.id = 'popup-simulado';
+    popup.className = 'fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/60 p-4';
+    popup.innerHTML = `
+        <div class="bg-white rounded-[32px] shadow-2xl p-8 max-w-md w-full text-center transform transition-all duration-300 scale-95 animate-[popIn_0.25s_ease-out_forwards]">
+            <button type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700" onclick="this.closest('#popup-simulado').remove()">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-100 flex items-center justify-center">
+                <i data-lucide="check-circle" class="w-8 h-8 text-emerald-600"></i>
+            </div>
+            <h3 class="text-2xl font-black text-gray-900">${titulo}</h3>
+            <p class="mt-3 text-sm text-gray-600">${mensaje}</p>
+            <div class="mt-6 h-2 rounded-full bg-emerald-100 overflow-hidden">
+                <div class="h-full w-full bg-emerald-500 rounded-full animate-[loadingBar_2.2s_linear_forwards]"></div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    setTimeout(() => {
+        popup.classList.add('opacity-0');
+        setTimeout(() => popup.remove(), 250);
+    }, 2200);
+}
+
+function manejarAccionProtegida(titulo, mensaje) {
+    if (!estaAutenticado()) {
+        redirigirALogin();
+        return false;
+    }
+
+    mostrarPopupSimulado(titulo, mensaje);
+    return true;
+}
+
 async function iniciarApp() {
     await cargarHeader(); // Primero cargamos el header
     await init();         // Luego cargamos los productos (tu función original)
@@ -74,10 +134,16 @@ function cerrarModalDetalles() {
 
 // 3. Lógica Modal Recomendados
 function agregarAlCarrito(id) {
+    if (!estaAutenticado()) {
+        redirigirALogin();
+        return;
+    }
+
     const p = productosData.find(item => item.id === id);
     const cantidad = document.getElementById(`cant-${id}`)?.value || 1;
     
     console.log(`Agregando ${cantidad} unidad(es) de: ${p.titulo}`);
+    mostrarPopupSimulado('Añadido con éxito', 'Producto añadido al carrito');
 
     const modalRec = document.getElementById('modal-recomendados');
     const gridRec = document.getElementById('grid-recomendados');

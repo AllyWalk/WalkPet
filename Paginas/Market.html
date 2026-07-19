@@ -131,6 +131,19 @@
         </div>
     </main>
 
+    <div id="modal-subasta-detalle" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-950/60 p-4">
+        <div class="w-full max-w-3xl rounded-[32px] bg-white shadow-2xl overflow-hidden">
+            <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.32em] font-bold text-amber-600">Detalle de la subasta</p>
+                    <h2 id="detalle-subasta-titulo" class="mt-2 text-2xl font-black text-gray-900"></h2>
+                </div>
+                <button id="btn-cerrar-modal-subasta" type="button" class="text-gray-500 hover:text-gray-900">Cerrar</button>
+            </div>
+            <div id="detalle-subasta-contenido" class="p-6 space-y-6"></div>
+        </div>
+    </div>
+
     <script src="/header.js" defer></script>
     <script src="/app.js" defer></script>
     <script>
@@ -158,6 +171,66 @@
             }
         ];
 
+        function estaAutenticado() {
+            try {
+                return JSON.parse(localStorage.getItem('walkpet-session') || 'null')?.activo === true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function redirigirALogin(origen = null) {
+            const destino = origen || window.location.pathname + window.location.search + window.location.hash;
+            if (destino && !destino.includes('/IniciarSesion.html')) {
+                localStorage.setItem('walkpet-return-url', destino);
+            }
+
+            const loginUrl = new URL('/Paginas/IniciarSesion.html', window.location.origin);
+            loginUrl.searchParams.set('redirect', destino);
+            window.location.href = loginUrl.toString();
+        }
+
+        function mostrarPopupSimulado(titulo, mensaje) {
+            const popupExistente = document.getElementById('popup-simulado');
+            if (popupExistente) popupExistente.remove();
+
+            const popup = document.createElement('div');
+            popup.id = 'popup-simulado';
+            popup.className = 'fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/60 p-4';
+            popup.innerHTML = `
+                <div class="bg-white rounded-[32px] shadow-2xl p-8 max-w-md w-full text-center transform transition-all duration-300 scale-95 animate-[popIn_0.25s_ease-out_forwards] relative">
+                    <button type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700" onclick="this.closest('#popup-simulado').remove()">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-100 flex items-center justify-center">
+                        <i data-lucide="check-circle" class="w-8 h-8 text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900">${titulo}</h3>
+                    <p class="mt-3 text-sm text-gray-600">${mensaje}</p>
+                    <div class="mt-6 h-2 rounded-full bg-emerald-100 overflow-hidden">
+                        <div class="h-full w-full bg-emerald-500 rounded-full animate-[loadingBar_2.2s_linear_forwards]"></div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(popup);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            setTimeout(() => {
+                popup.classList.add('opacity-0');
+                setTimeout(() => popup.remove(), 250);
+            }, 2200);
+        }
+
+        function manejarAccionProtegida(titulo, mensaje) {
+            if (!estaAutenticado()) {
+                redirigirALogin();
+                return false;
+            }
+
+            mostrarPopupSimulado(titulo, mensaje);
+            return true;
+        }
+
         let publicaciones = [...productosIniciales];
         const subastasIniciales = [
             {
@@ -165,21 +238,45 @@
                 titulo: 'Lote de juguetes para perro',
                 precio: 149.99,
                 descripcion: 'Incluye pelotas, mordedores y juguetes resistentes para perros activos.',
-                fechaFinal: 'Termina en 2 días'
+                descripcionDetallada: 'Conjunto ideal para perros activos que disfrutan correr, morder y jugar. Incluye tres juguetes resistentes, fáciles de limpiar y con colores llamativos para captar la atención de la mascota.',
+                fechaFinal: 'Termina en 2 días',
+                estado: 'En curso',
+                foto: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=900&q=80',
+                pujas: [
+                    { usuario: 'Ana', monto: 179.99 },
+                    { usuario: 'Luis', monto: 169.50 },
+                    { usuario: 'Marta', monto: 159.99 }
+                ]
             },
             {
                 id: 2,
                 titulo: 'Arnés para perro eco',
                 precio: 179.00,
                 descripcion: 'Arnés acolchado con materiales ecológicos de alta resistencia.',
-                fechaFinal: 'Termina en 1 día'
+                descripcionDetallada: 'Arnés cómodo y ergonómico para paseos diarios, diseñado con materiales reciclados y costuras reforzadas para mayor durabilidad.',
+                fechaFinal: 'Termina en 1 día',
+                estado: 'Próxima a cerrar',
+                foto: 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=900&q=80',
+                pujas: [
+                    { usuario: 'Sofía', monto: 199.00 },
+                    { usuario: 'Diego', monto: 189.50 },
+                    { usuario: 'Paula', monto: 181.00 }
+                ]
             },
             {
                 id: 3,
                 titulo: 'Set de baño para gato',
                 precio: 99.50,
                 descripcion: 'Kit completo con champú natural, toalla y cepillo suave.',
-                fechaFinal: 'Termina en 4 días'
+                descripcionDetallada: 'Set premium para el cuidado diario de gatos, con productos suaves, hipoalergénicos y una toalla absorbente para una experiencia más cómoda.',
+                fechaFinal: 'Termina en 4 días',
+                estado: 'En curso',
+                foto: 'https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=900&q=80',
+                pujas: [
+                    { usuario: 'Carmen', monto: 109.50 },
+                    { usuario: 'José', monto: 104.00 },
+                    { usuario: 'Nora', monto: 101.50 }
+                ]
             }
         ];
 
@@ -190,9 +287,29 @@
         const contadorPublicaciones = document.getElementById('contador-publicaciones');
         const contadorSubastas = document.getElementById('contador-subastas');
         const modalPublicacion = document.getElementById('modal-publicacion');
+        const modalSubastaDetalle = document.getElementById('modal-subasta-detalle');
         const btnAbrirModal = document.getElementById('btn-abrir-modal');
         const btnCerrarModal = document.getElementById('btn-cerrar-modal');
         const btnCerrarModalBottom = document.getElementById('btn-cerrar-modal-bottom');
+        const btnCerrarModalSubasta = document.getElementById('btn-cerrar-modal-subasta');
+        const detalleSubastaTitulo = document.getElementById('detalle-subasta-titulo');
+        const detalleSubastaContenido = document.getElementById('detalle-subasta-contenido');
+        const formPublicacion = document.getElementById('form-publicacion');
+
+        function abrirModalPublicacion() {
+            if (!estaAutenticado()) {
+                redirigirALogin();
+                return;
+            }
+
+            modalPublicacion.classList.remove('hidden');
+            modalPublicacion.classList.add('flex');
+        }
+
+        function cerrarModalPublicacion() {
+            modalPublicacion.classList.add('hidden');
+            modalPublicacion.classList.remove('flex');
+        }
 
         function crearPublicacionHTML(publicacion) {
             return `
@@ -205,8 +322,8 @@
                             <p class="mt-4 text-lg font-black text-violet-700">$${publicacion.precio.toFixed(2)}</p>
                         </div>
                         <div class="space-y-2 text-right sm:text-left">
-                            <button type="button" onclick="redirectALogin()" class="rounded-full bg-emerald-600 text-white border border-emerald-600 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-emerald-700 transition">Agregar al carrito</button>
-                            <button type="button" onclick="redirectALogin()" class="rounded-full bg-violet-50 border border-violet-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-700 hover:bg-violet-50 transition">Comprar</button>
+                            <button type="button" onclick="manejarAccionProtegida('Añadido con éxito', 'Producto añadido al carrito')" class="rounded-full bg-emerald-600 text-white border border-emerald-600 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-emerald-700 transition">Agregar al carrito</button>
+                            <button type="button" onclick="manejarAccionProtegida('Compra confirmada', 'Producto comprado con éxito')" class="rounded-full bg-violet-50 border border-violet-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-700 hover:bg-violet-50 transition">Comprar</button>
                         </div>
                     </div>
                     ${publicacion.foto ? `<img src="${publicacion.foto}" alt="${publicacion.titulo}" class="mt-6 w-full max-h-60 object-cover rounded-3xl border border-gray-200" />` : ''}
@@ -226,8 +343,8 @@
                             <p class="mt-2 text-sm text-slate-500">${subasta.fechaFinal}</p>
                         </div>
                         <div class="flex flex-col gap-2 text-right sm:text-left">
-                            <button type="button" onclick="redirectALogin()" class="rounded-full bg-amber-500 text-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-amber-600 transition">Hacer oferta</button>
-                            <button type="button" onclick="redirectALogin()" class="rounded-full bg-violet-50 border border-violet-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-700 hover:bg-violet-50 transition">Ver subasta</button>
+                            <button type="button" onclick="manejarAccionProtegida('Oferta realizada', 'Oferta realizada con éxito')" class="rounded-full bg-amber-500 text-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-amber-600 transition">Hacer oferta</button>
+                            <button type="button" onclick="abrirModalSubasta(${subasta.id})" class="rounded-full bg-violet-50 border border-violet-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-700 hover:bg-violet-50 transition">Ver subasta</button>
                         </div>
                     </div>
                 </article>
@@ -257,6 +374,107 @@
                 contadorSubastas.textContent = `${subastas.length} subasta${subastas.length === 1 ? '' : 's'}`;
             }
         }
+
+        function abrirModalSubasta(id) {
+            const subasta = subastas.find(item => item.id === id);
+            if (!subasta || !modalSubastaDetalle || !detalleSubastaTitulo || !detalleSubastaContenido) return;
+
+            detalleSubastaTitulo.textContent = subasta.titulo;
+            const pujasHTML = Array.isArray(subasta.pujas)
+                ? subasta.pujas.map(puja => `
+                    <div class="flex items-center justify-between rounded-2xl bg-white px-3 py-2 shadow-sm border border-gray-100">
+                        <span class="text-sm font-semibold text-gray-700">${puja.usuario}</span>
+                        <span class="text-sm font-black text-violet-700">$${puja.monto.toFixed(2)}</span>
+                    </div>
+                `).join('')
+                : '';
+
+            detalleSubastaContenido.innerHTML = `
+                <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+                    <div class="space-y-4">
+                        ${subasta.foto ? `<img src="${subasta.foto}" alt="${subasta.titulo}" class="w-full h-64 object-cover rounded-[24px] border border-gray-200" />` : ''}
+                        <div class="rounded-[24px] bg-amber-50 p-4">
+                            <p class="text-xs uppercase tracking-[0.25em] font-black text-amber-700">Estado</p>
+                            <p class="mt-2 font-black text-gray-900">${subasta.estado || 'En curso'}</p>
+                            <p class="mt-1 text-sm text-gray-600">${subasta.fechaFinal}</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.25em] font-black text-violet-700">Descripción detallada</p>
+                            <p class="mt-2 text-sm text-gray-600 leading-relaxed">${subasta.descripcionDetallada || subasta.descripcion}</p>
+                        </div>
+                        <div class="rounded-[24px] border border-gray-100 bg-slate-50 p-4">
+                            <div class="flex items-center justify-between">
+                                <p class="text-sm font-black text-gray-900">Simulación de pujas</p>
+                                <span class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">En vivo</span>
+                            </div>
+                            <div class="mt-4 space-y-3">
+                                ${pujasHTML}
+                            </div>
+                        </div>
+                        <div class="rounded-[24px] border border-violet-100 bg-violet-50 p-4">
+                            <p class="text-sm font-black text-violet-700">Precio base</p>
+                            <p class="mt-2 text-2xl font-black text-violet-700">$${subasta.precio.toFixed(2)}</p>
+                        </div>
+                        <button type="button" onclick="hacerOfertaDesdeModal(${subasta.id})" class="w-full rounded-full bg-amber-500 px-4 py-3 text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg shadow-amber-200 transition hover:bg-amber-600">
+                            Hacer oferta
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modalSubastaDetalle.classList.remove('hidden');
+            modalSubastaDetalle.classList.add('flex');
+        }
+
+        function cerrarModalSubasta() {
+            if (!modalSubastaDetalle) return;
+            modalSubastaDetalle.classList.add('hidden');
+            modalSubastaDetalle.classList.remove('flex');
+        }
+
+        function hacerOfertaDesdeModal(id) {
+            if (!estaAutenticado()) {
+                redirigirALogin();
+                return;
+            }
+
+            cerrarModalSubasta();
+            mostrarPopupSimulado('Oferta realizada', 'Oferta realizada con éxito');
+        }
+
+        btnAbrirModal?.addEventListener('click', abrirModalPublicacion);
+        btnCerrarModal?.addEventListener('click', cerrarModalPublicacion);
+        btnCerrarModalBottom?.addEventListener('click', cerrarModalPublicacion);
+        btnCerrarModalSubasta?.addEventListener('click', cerrarModalSubasta);
+        modalPublicacion?.addEventListener('click', (event) => {
+            if (event.target === modalPublicacion) cerrarModalPublicacion();
+        });
+        modalSubastaDetalle?.addEventListener('click', (event) => {
+            if (event.target === modalSubastaDetalle) cerrarModalSubasta();
+        });
+
+        formPublicacion?.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            if (!estaAutenticado()) {
+                redirigirALogin();
+                return;
+            }
+
+            const titulo = document.getElementById('input-producto-nombre')?.value.trim() || 'Producto sin título';
+            const precio = parseFloat(document.getElementById('input-producto-precio')?.value) || 0;
+            const descripcion = document.getElementById('input-producto-descripcion')?.value.trim() || 'Descripción no disponible';
+            const archivo = document.getElementById('input-producto-foto')?.files?.[0];
+            const foto = archivo ? URL.createObjectURL(archivo) : '';
+
+            publicaciones.unshift({ id: Date.now(), titulo, precio, descripcion, foto });
+            renderPublicaciones();
+            formPublicacion.reset();
+            cerrarModalPublicacion();
+            mostrarPopupSimulado('Producto publicado', 'Producto publicado con éxito');
+        });
 
         function toggleModal(visible) {
             if (!modalPublicacion) return;

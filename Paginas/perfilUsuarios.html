@@ -233,30 +233,27 @@
     </div>
 </main>
 
+<script src="/header.js"></script>
 <script>
     // Acción global para cerrar sesión
     const cerrarSesion = () => {
-        window.location.href = "IniciarSesion.html"; 
+        localStorage.removeItem('walkpet-session');
+        localStorage.removeItem('walkpet-return-url');
+        window.dispatchEvent(new Event('auth:changed'));
+        window.location.href = "/Paginas/IniciarSesion.html"; 
     };
 
-    // Carga asíncrona del header
-    fetch('/header.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('header-container').innerHTML = data;
-            
-            // Reinicializar iconos tras inyectar el HTML del header
-            if (window.lucide) {
-                lucide.createIcons();
-            }
+    if (window.cargarHeader) {
+        window.cargarHeader();
+    }
 
-            // Delegación o asignación segura para el botón del menú que viene del header externo
-            const btnMenu = document.getElementById("btn-cerrar-sesion-menu");
-            if (btnMenu) {
-                btnMenu.addEventListener("click", cerrarSesion);
-            }
-        })
-        .catch(err => console.error("Error cargando el header:", err));
+    // Delegación o asignación segura para el botón del menú que viene del header externo
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnMenu = document.getElementById("btn-cerrar-sesion-menu");
+        if (btnMenu) {
+            btnMenu.addEventListener("click", cerrarSesion);
+        }
+    });
 
     const publicaciones = [];
     let publicacionEditandoId = null;

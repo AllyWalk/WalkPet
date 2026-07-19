@@ -106,6 +106,83 @@
         </div>
     </div>
 
+    <div id="modal-pago" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/60 p-4">
+        <div class="w-full max-w-2xl rounded-3xl bg-white shadow-2xl overflow-hidden">
+            <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+                <div>
+                    <h3 class="text-lg font-black text-slate-800">Finalizar compra</h3>
+                    <p class="text-xs text-slate-500">Completa tus datos para continuar</p>
+                </div>
+                <button id="btn-cerrar-modal-pago" type="button" class="rounded-full p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors" aria-label="Cerrar">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <div class="max-h-[75vh] overflow-y-auto px-6 py-6 space-y-6">
+                <div>
+                    <p class="text-sm font-black text-slate-800 mb-3">Artículos que se están comprando</p>
+                    <div id="lista-articulos-pago" class="space-y-3"></div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Tipo de tarjeta</label>
+                        <select id="tipo-tarjeta" class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-violet-500 focus:outline-none">
+                            <option value="Crédito">Crédito</option>
+                            <option value="Débito">Débito</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Nombre en la tarjeta</label>
+                        <input id="nombre-tarjeta" type="text" class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-violet-500 focus:outline-none" placeholder="Noé Quintero">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Número de tarjeta</label>
+                        <input id="numero-tarjeta" type="text" class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-violet-500 focus:outline-none" placeholder="4242 4242 4242 4242">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">Fecha</label>
+                            <input id="fecha-tarjeta" type="text" class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-violet-500 focus:outline-none" placeholder="MM/AA">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">CVV</label>
+                            <input id="cvv-tarjeta" type="password" class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:border-violet-500 focus:outline-none" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-4 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm font-black text-slate-800">Facturación</p>
+                        <label class="flex items-center gap-2 text-sm text-slate-600">
+                            <input id="check-facturar" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500">
+                            Facturar yo mismo
+                        </label>
+                    </div>
+                    <div id="campos-facturacion" class="hidden space-y-3">
+                        <input id="rfc-factura" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none" placeholder="RFC">
+                        <input id="empresa-factura" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none" placeholder="Nombre o empresa">
+                        <input id="direccion-factura" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm focus:border-violet-500 focus:outline-none" placeholder="Dirección de facturación">
+
+                        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-3">
+                            <div>
+                                <label for="archivo-comprobante" class="block text-sm font-bold text-slate-700 mb-2">Adjuntar constancia o documento</label>
+                                <input id="archivo-comprobante" type="file" accept=".pdf,.jpg,.jpeg,.png" class="block w-full text-sm text-slate-600 file:mr-4 file:rounded-xl file:border-0 file:bg-violet-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-violet-700">
+                            </div>
+                            <p id="nombre-archivo" class="text-xs text-slate-500">No se ha seleccionado ningún archivo.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-procesar-pago" type="button" class="w-full rounded-2xl bg-violet-700 px-4 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-violet-800">
+                    Procesar pago
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/header.js"></script>
     <script>
         let carrito = [];
         let descuentoAplicado = 0;
@@ -138,11 +215,49 @@
             setTimeout(() => toast.classList.add('translate-y-[-150%]'), 2000);
         }
 
+        function obtenerSesionActiva() {
+            try {
+                const valor = localStorage.getItem('walkpet-session');
+                return valor ? JSON.parse(valor) : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function redirigirALoginCheckout() {
+            const destino = window.location.pathname + window.location.search + window.location.hash;
+            localStorage.setItem('walkpet-return-url', destino);
+            const loginUrl = new URL('/Paginas/IniciarSesion.html', window.location.origin);
+            loginUrl.searchParams.set('redirect', destino);
+            window.location.href = loginUrl.toString();
+        }
+
         function confirmarPago() {
-            mostrarToast('Necesitas logearte');
-            setTimeout(() => {
-                window.location.href = 'IniciarSesion.html';
-            }, 1500);
+            const sesion = obtenerSesionActiva();
+            if (!sesion?.activo) {
+                redirigirALoginCheckout();
+                return;
+            }
+
+            const modal = document.getElementById('modal-pago');
+            const lista = document.getElementById('lista-articulos-pago');
+            if (lista) {
+                lista.innerHTML = carrito.length
+                    ? carrito.map(item => `
+                        <div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-3">
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">${item.titulo}</p>
+                                <p class="text-xs text-slate-500">Cantidad: ${item.cantidad}</p>
+                            </div>
+                            <span class="text-sm font-black text-violet-700">$${(item.precio * item.cantidad).toFixed(2)}</span>
+                        </div>
+                    `).join('')
+                    : '<p class="text-sm text-slate-500">No hay artículos para comprar.</p>';
+            }
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
         }
 
         function vaciarCarrito() {
@@ -159,6 +274,12 @@
 
         function cerrarModalTerminos() {
             const modal = document.getElementById('modal-terminos-carrito');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function cerrarModalPago() {
+            const modal = document.getElementById('modal-pago');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
@@ -267,8 +388,35 @@
             document.getElementById('btn-aplicar-cupon').addEventListener('click', aplicarDescuento);
             document.getElementById('btn-terminos-carrito').addEventListener('click', abrirModalTerminos);
             document.getElementById('btn-cerrar-terminos-carrito').addEventListener('click', cerrarModalTerminos);
+            document.getElementById('btn-cerrar-modal-pago').addEventListener('click', cerrarModalPago);
+            document.getElementById('btn-procesar-pago').addEventListener('click', () => {
+                const sesion = obtenerSesionActiva();
+                if (!sesion?.activo) {
+                    redirigirALoginCheckout();
+                    return;
+                }
+
+                mostrarToast('Pago realizado');
+                cerrarModalPago();
+                setTimeout(() => {
+                    window.location.href = 'Catalogo.html';
+                }, 800);
+            });
+            document.getElementById('check-facturar').addEventListener('change', (e) => {
+                document.getElementById('campos-facturacion').classList.toggle('hidden', !e.target.checked);
+            });
+            document.getElementById('archivo-comprobante').addEventListener('change', (e) => {
+                const archivo = e.target.files[0];
+                const nombreArchivoEl = document.getElementById('nombre-archivo');
+                nombreArchivoEl.textContent = archivo
+                    ? `Archivo seleccionado: ${archivo.name}`
+                    : 'No se ha seleccionado ningún archivo.';
+            });
             document.getElementById('modal-terminos-carrito').addEventListener('click', (e) => {
                 if (e.target.id === 'modal-terminos-carrito') cerrarModalTerminos();
+            });
+            document.getElementById('modal-pago').addEventListener('click', (e) => {
+                if (e.target.id === 'modal-pago') cerrarModalPago();
             });
         });
     </script>
