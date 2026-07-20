@@ -193,7 +193,11 @@
                 ];
 
                 renderComentarios();
-                mostrarFeedback('Comentario publicado correctamente.', false);
+                if (typeof mostrarPopupSimulado === 'function') {
+                    mostrarPopupSimulado('Comentario publicado', 'Tu comentario se ha publicado correctamente.');
+                } else {
+                    mostrarFeedback('Comentario publicado correctamente.', false);
+                }
                 formComentario.reset();
             });
         });

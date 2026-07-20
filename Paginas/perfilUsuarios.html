@@ -46,18 +46,18 @@
                     <p class="text-xs text-gray-400 mt-1">Gestiona la información básica de tu cuenta</p>
                 </div>
                 
-                <form class="grid grid-cols-1 sm:grid-cols-2 gap-5" onsubmit="event.preventDefault();">
+                <form id="form-datos-personales" class="grid grid-cols-1 sm:grid-cols-2 gap-5" onsubmit="event.preventDefault();">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Nombre Completo</label>
-                        <input type="text" value="Noé Quintero" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
+                        <input id="input-nombre" type="text" value="Noé Quintero" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Correo Electrónico</label>
-                        <input type="text" value="NoéQuintero@ejemplo.com" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
+                        <input id="input-email" type="text" value="NoéQuintero@ejemplo.com" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
                     </div>
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Número Telefónico</label>
-                        <input type="text" value="4492988855" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
+                        <input id="input-telefono" type="text" value="4492988855" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 text-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-600 focus:border-transparent transition-all">
                     </div>
                     <div class="sm:col-span-2 pt-2">
                         <button type="submit" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-3 px-6 rounded-xl text-xs uppercase tracking-wider transition-colors shadow-lg shadow-violet-100">
@@ -68,17 +68,13 @@
             </div>
 
             <div id="seccion-compras" class="space-y-6 hidden">
-                <div class="text-center py-12 space-y-4">
-                    <div class="w-16 h-16 bg-emerald-100 rounded-3xl flex items-center justify-center mx-auto shadow-sm shadow-emerald-200">
-                        <i data-lucide="rocket" class="w-8 h-8 text-emerald-600"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-2xl font-black text-gray-800 tracking-tight">Mis Compras</h2>
-                        <p class="text-sm text-emerald-600 font-bold mt-1">¡Próximamente disponible!</p>
-                    </div>
-                    <p class="text-xs text-gray-400 max-w-sm mx-auto leading-relaxed">
-                        Estamos diseñando un historial detallado para que puedas consultar tus pedidos, vacunas adquiridas y citas veterinarias en un solo clic.
-                    </p>
+                <div>
+                    <h2 class="text-2xl font-black text-gray-800 tracking-tight">Mis Compras</h2>
+                    <p class="text-xs text-gray-400 mt-1">Consulta tu historial de pedidos recientes, detalles de envío y vuelve a comprar fácilmente.</p>
+                </div>
+
+                <div id="historial-compras" class="space-y-4">
+                    <!-- Las órdenes se inyectarán por JS -->
                 </div>
             </div>
 
@@ -104,13 +100,18 @@
                         </div>
                         <input type="checkbox" class="w-4 h-4 text-violet-600 border-gray-300 rounded focus:ring-violet-500 accent-violet-600">
                     </div>
+                <div class="pt-4 flex justify-end">
+                    <button id="btn-guardar-config" type="button" class="bg-violet-700 hover:bg-violet-800 text-white font-bold py-3 px-6 rounded-xl text-xs uppercase tracking-wider transition-colors shadow-lg shadow-violet-100">
+                        Guardar Cambios
+                    </button>
+                </div>
                 </div>
             </div>
 
             <div id="seccion-comentarios" class="space-y-6 hidden">
                 <div>
-                    <h2 class="text-2xl font-black text-gray-800 tracking-tight">Comentarios y Reseñas</h2>
-                    <p class="text-xs text-gray-400 mt-1">Comparte tu experiencia con nuestros servicios</p>
+                    <h2 class="text-2xl font-black text-gray-800 tracking-tight">Comentarios</h2>
+                    <p class="text-xs text-gray-400 mt-1">Escribe tu reseña y revisa los comentarios recientes.</p>
                 </div>
 
                 <div class="rounded-2xl border border-gray-100 bg-gray-50 p-4">
@@ -121,9 +122,6 @@
                             Enviar reseña
                         </button>
                     </div>
-                    <p id="mensaje-resena" class="mt-3 hidden rounded-xl bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-700">
-                        Reseña enviada
-                    </p>
                 </div>
 
                 <div class="rounded-2xl border border-gray-100 p-4 bg-white shadow-sm">
@@ -148,6 +146,11 @@
                 </div>
 
                 <div class="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                    <div class="mb-6">
+                        <p class="text-sm font-bold text-gray-700">Historial de publicaciones</p>
+                        <p class="text-xs text-gray-400">Tus últimas publicaciones creadas.</p>
+                        <div id="historial-publicaciones" class="mt-4 grid gap-3 sm:grid-cols-2"></div>
+                    </div>
                     <form id="form-publicacion" class="space-y-5" onsubmit="event.preventDefault();">
                         <div class="grid gap-4 sm:grid-cols-2">
                             <label class="space-y-2 text-sm text-gray-600">
@@ -190,6 +193,11 @@
                                     </div>
 
                                     <div class="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                                        <div class="mb-6">
+                                            <p class="text-sm font-bold text-gray-700">Historial de subastas</p>
+                                            <p class="text-xs text-gray-400">Tus últimas subastas creadas.</p>
+                                            <div id="historial-subastas" class="mt-4 grid gap-3 sm:grid-cols-2"></div>
+                                        </div>
                                         <form id="form-subasta" class="space-y-5" onsubmit="event.preventDefault();">
                                             <div class="grid gap-4 sm:grid-cols-2">
                                                 <label class="space-y-2 text-sm text-gray-600">
@@ -255,7 +263,24 @@
         }
     });
 
-    const publicaciones = [];
+    const publicaciones = [
+        {
+            id: Date.now() + 1,
+            titulo: 'Set de cepillos para mascotas',
+            descripcion: 'Kit completo para higiene diaria de perros y gatos.',
+            precio: 129.99,
+            foto: '/images/cepillos.jpg',
+            fecha: '2026-07-10'
+        },
+        {
+            id: Date.now() + 2,
+            titulo: 'Collar inteligente',
+            descripcion: 'Collar con monitor de actividad y localización GPS.',
+            precio: 349.00,
+            foto: '/images/collar.jpg',
+            fecha: '2026-07-08'
+        }
+    ];
     let publicacionEditandoId = null;
 
     function actualizarContadorPublicaciones() {
@@ -310,12 +335,61 @@
         publicacionEditandoId = null;
     }
 
+    function mostrarPopup(mensaje, tipo = 'success') {
+        let toast = document.getElementById('toast-perfil');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast-perfil';
+            toast.className = 'fixed bottom-6 right-6 z-50 rounded-2xl px-4 py-3 text-sm font-bold shadow-xl transition-all';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = mensaje;
+        toast.classList.remove('bg-emerald-600', 'bg-violet-600', 'bg-red-600', 'bg-slate-800');
+        toast.classList.add(tipo === 'error' ? 'bg-red-600' : tipo === 'info' ? 'bg-slate-800' : 'bg-emerald-600');
+        toast.classList.add('text-white');
+        toast.classList.add('opacity-100');
+        toast.style.transform = 'translateY(0)';
+        setTimeout(() => {
+            toast.style.transform = 'translateY(20px)';
+            toast.classList.remove('opacity-100');
+        }, 2200);
+    }
+
+    function mostrarConfirmacion(mensaje, callback) {
+        let modal = document.getElementById('confirm-popup');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'confirm-popup';
+            modal.className = 'fixed inset-0 z-70 hidden items-center justify-center bg-black/60 p-4';
+            modal.innerHTML = `
+                <div class="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
+                    <p id="confirm-popup-mensaje" class="text-sm text-gray-700"></p>
+                    <div class="mt-6 flex justify-end gap-3">
+                        <button id="confirm-popup-cancel" class="px-4 py-2 rounded-xl border border-gray-200 text-sm font-bold text-gray-600">Cancelar</button>
+                        <button id="confirm-popup-accept" class="px-4 py-2 rounded-xl bg-red-600 text-sm font-bold text-white">Eliminar</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        modal.querySelector('#confirm-popup-mensaje').textContent = mensaje;
+        const cancelBtn = modal.querySelector('#confirm-popup-cancel');
+        const acceptBtn = modal.querySelector('#confirm-popup-accept');
+        const cerrar = () => {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+        cancelBtn.onclick = cerrar;
+        acceptBtn.onclick = () => {
+            cerrar();
+            callback();
+        };
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
     function mostrarMensajePublicacion(mensaje) {
-        const mensajeElemento = document.getElementById("feedback-publicacion");
-        if (!mensajeElemento) return;
-        mensajeElemento.textContent = mensaje;
-        mensajeElemento.classList.remove("invisible");
-        setTimeout(() => mensajeElemento.classList.add("invisible"), 2500);
+        mostrarPopup(mensaje, 'success');
     }
 
     function crearPublicacionDesdeFormulario() {
@@ -331,7 +405,28 @@
     }
 
     // --- Subastas (perfil) ---
-    const subastasPerfil = [];
+    const subastasPerfil = [
+        {
+            id: Date.now() + 11,
+            titulo: 'Pienso premium para cachorros',
+            descripcion: 'Alimento completo con probióticos y omega 3.',
+            precio: 189.90,
+            fechaFinalRaw: '2026-08-05T12:00',
+            fechaFinalText: '05 ago 2026, 12:00',
+            foto: '/images/pienso.jpg',
+            fecha: '2026-07-09'
+        },
+        {
+            id: Date.now() + 12,
+            titulo: 'Cama refrescante para mascotas',
+            descripcion: 'Cama térmica ideal para climas cálidos.',
+            precio: 229.50,
+            fechaFinalRaw: '2026-08-12T17:00',
+            fechaFinalText: '12 ago 2026, 17:00',
+            foto: '/images/cama-refrescante.jpg',
+            fecha: '2026-07-07'
+        }
+    ];
     let subastaEditandoId = null;
 
     function actualizarContadorSubastasPerfil() {
@@ -390,18 +485,7 @@
     }
 
     function mostrarMensajeSubasta(mensaje) {
-        // Reuse feedback: we'll show a temporary alert near the form by creating one
-        const cont = document.getElementById('seccion-subastas');
-        if (!cont) return;
-        let aviso = document.getElementById('aviso-subasta');
-        if (!aviso) {
-            aviso = document.createElement('div');
-            aviso.id = 'aviso-subasta';
-            aviso.className = 'mt-3 rounded-xl bg-emerald-100 px-3 py-2 text-sm font-semibold text-emerald-700';
-            cont.prepend(aviso);
-        }
-        aviso.textContent = mensaje;
-        setTimeout(() => aviso.remove(), 2500);
+        mostrarPopup(mensaje, 'success');
     }
 
     function editarSubasta(id) {
@@ -418,11 +502,14 @@
     }
 
     function eliminarSubasta(id) {
-        const idx = subastasPerfil.findIndex(x => x.id === id);
-        if (idx === -1) return;
-        subastasPerfil.splice(idx, 1);
-        renderSubastasPerfil();
-        mostrarMensajeSubasta('Subasta eliminada');
+        mostrarConfirmacion('¿Deseas eliminar esta subasta?', () => {
+            const idx = subastasPerfil.findIndex(x => x.id === id);
+            if (idx === -1) return;
+            subastasPerfil.splice(idx, 1);
+            renderSubastasPerfil();
+            renderHistorialSubastas();
+            mostrarPopup('Subasta eliminada');
+        });
     }
 
     function editarPublicacion(id) {
@@ -437,10 +524,14 @@
     }
 
     function eliminarPublicacion(id) {
-        const indice = publicaciones.findIndex(item => item.id === id);
-        if (indice === -1) return;
-        publicaciones.splice(indice, 1);
-        renderPublicaciones();
+        mostrarConfirmacion('¿Deseas eliminar esta publicación?', () => {
+            const indice = publicaciones.findIndex(item => item.id === id);
+            if (indice === -1) return;
+            publicaciones.splice(indice, 1);
+            renderPublicaciones();
+            renderHistorialPublicaciones();
+            mostrarPopup('Publicación eliminada');
+        });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -456,20 +547,31 @@
         }
 
         const btnEnviarResena = document.getElementById("btn-enviar-resena");
-        const mensajeResena = document.getElementById("mensaje-resena");
         const textareaResena = document.getElementById("textarea-resena");
+        const formDatosPersonales = document.getElementById('form-datos-personales');
+        const btnGuardarConfig = document.getElementById('btn-guardar-config');
         const formPublicacion = document.getElementById("form-publicacion");
         const fotoInput = document.getElementById("input-producto-foto");
         const formSubasta = document.getElementById('form-subasta');
         const fotoSubastaInput = document.getElementById('input-subasta-foto');
 
-        if (btnEnviarResena && mensajeResena && textareaResena) {
+        if (btnEnviarResena) {
             btnEnviarResena.addEventListener("click", () => {
-                textareaResena.value = "";
-                mensajeResena.classList.remove("hidden");
-                setTimeout(() => {
-                    mensajeResena.classList.add("hidden");
-                }, 2500);
+                if (textareaResena) textareaResena.value = "";
+                mostrarPopup('Reseña enviada', 'success');
+            });
+        }
+
+        if (formDatosPersonales) {
+            formDatosPersonales.addEventListener('submit', (event) => {
+                event.preventDefault();
+                mostrarPopup('Datos guardados', 'success');
+            });
+        }
+
+        if (btnGuardarConfig) {
+            btnGuardarConfig.addEventListener('click', () => {
+                mostrarPopup('Configuración guardada', 'success');
             });
         }
 
@@ -482,13 +584,15 @@
                     const index = publicaciones.findIndex(item => item.id === publicacionEditandoId);
                     if (index !== -1) {
                         publicaciones[index] = { id: publicacionEditandoId, ...nueva };
+                        mostrarPopup('Publicación actualizada');
                     }
                 } else {
                     publicaciones.unshift({ id: Date.now(), ...nueva });
+                    mostrarPopup('Publicación creada');
                 }
 
                 renderPublicaciones();
-                mostrarMensajePublicacion('Publicado (simulado)');
+                renderHistorialPublicaciones();
                 resetPublicacionForm();
             });
         }
@@ -512,14 +616,15 @@
                     const idx = subastasPerfil.findIndex(x => x.id === subastaEditandoId);
                     if (idx !== -1) {
                         subastasPerfil[idx] = { id: subastaEditandoId, ...nueva };
-                        mostrarMensajeSubasta('Subasta actualizada');
+                        mostrarPopup('Subasta actualizada');
                     }
                 } else {
                     subastasPerfil.unshift(nueva);
-                    mostrarMensajeSubasta('Subasta creada');
+                    mostrarPopup('Subasta creada');
                 }
                 resetSubastaForm();
                 renderSubastasPerfil();
+                renderHistorialSubastas();
             });
         }
 
@@ -530,7 +635,222 @@
         }
 
         renderPublicaciones();
+        renderHistorialPublicaciones();
         renderSubastasPerfil();
+        renderHistorialSubastas();
+    });
+
+    function crearHistorialPublicacion(publicacion) {
+        return `
+            <div class="border border-gray-200 rounded-2xl p-3 bg-white shadow-sm">
+                <p class="text-xs text-slate-400">${publicacion.fecha}</p>
+                <p class="font-bold text-sm text-gray-800 truncate">${publicacion.titulo}</p>
+                <p class="text-xs text-gray-500">$${publicacion.precio.toFixed(2)}</p>
+            </div>
+        `;
+    }
+
+    function renderHistorialPublicaciones() {
+        const cont = document.getElementById('historial-publicaciones');
+        if (!cont) return;
+        cont.innerHTML = publicaciones.slice(0, 2).map(crearHistorialPublicacion).join('');
+    }
+
+    function crearHistorialSubasta(subasta) {
+        return `
+            <div class="border border-gray-200 rounded-2xl p-3 bg-white shadow-sm">
+                <p class="text-xs text-slate-400">${subasta.fecha}</p>
+                <p class="font-bold text-sm text-gray-800 truncate">${subasta.titulo}</p>
+                <p class="text-xs text-gray-500">Precio base $${subasta.precio.toFixed(2)}</p>
+            </div>
+        `;
+    }
+
+    function renderHistorialSubastas() {
+        const cont = document.getElementById('historial-subastas');
+        if (!cont) return;
+        cont.innerHTML = subastasPerfil.slice(0, 2).map(crearHistorialSubasta).join('');
+    }
+
+    // Historial de compras (ejemplos mínimos 2)
+    const ordenesEjemplo = [
+        {
+            id: 'ORD-1001',
+            fecha: '2026-07-15',
+            total: 249.98,
+            estado: 'Entregado',
+            items: [
+                { id: 1, titulo: 'Cama Ortopédica', cantidad: 1, precio: 149.99, imagen: '/images/Cama Ortopedica.jpg' },
+                { id: 2, titulo: 'Juguete Dispensador', cantidad: 1, precio: 99.99, imagen: '/images/Dispensador.jpg' }
+            ],
+            envio: { nombre: 'Noé Quintero', direccion: 'Av. Principal 123, Col. Centro, Aguascalientes', seguimiento: 'MX123456789', empresa: 'Correos Express' },
+            reseña: { puntuacion: 5, comentario: 'Muy buen producto, tal como esperaba.' }
+        },
+        {
+            id: 'ORD-1002',
+            fecha: '2026-06-30',
+            total: 89.90,
+            estado: 'Enviado',
+            items: [
+                { id: 3, titulo: 'Shampoo para mascotas', cantidad: 2, precio: 44.95, imagen: '/images/shampoo.jpg' }
+            ],
+            envio: { nombre: 'Noé Quintero', direccion: 'Calle Secundaria 45, Col. Del Valle, Aguascalientes', seguimiento: 'MX987654321', empresa: 'Paquetería Rápida' },
+            reseña: { puntuacion: 4, comentario: '' }
+        }
+    ];
+
+    function crearOrdenHTML(o) {
+        return `
+            <div class="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="flex items-start gap-4">
+                    <div class="w-14 h-14 bg-gray-50 rounded-lg flex items-center justify-center border">
+                        <img src="${o.items[0].imagen}" class="w-12 h-12 object-contain" />
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-gray-800">Orden <span class="font-mono text-xs text-slate-500">${o.id}</span></p>
+                        <p class="text-xs text-gray-500">${o.items.length} artículo(s) • ${o.fecha} • <span class="font-bold text-violet-700">$${o.total.toFixed(2)}</span></p>
+                        <p class="text-xs text-slate-400 mt-1">Estado: ${o.estado}</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 text-sm font-bold" onclick="verDetallesOrden('${o.id}')">Ver detalles</button>
+                    <button class="px-4 py-2 rounded-xl bg-violet-700 text-white text-sm font-bold" onclick="comprarOtraVez('${o.id}')">Comprar otra vez</button>
+                    <button class="px-4 py-2 rounded-xl bg-gray-50 text-gray-700 border border-gray-100 text-sm" onclick="abrirResena('${o.id}')">Reseñar</button>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderHistorial() {
+        const cont = document.getElementById('historial-compras');
+        if (!cont) return;
+        cont.innerHTML = ordenesEjemplo.map(crearOrdenHTML).join('');
+    }
+
+    // Modales: detalles y reseña
+    function verDetallesOrden(id) {
+        const orden = ordenesEjemplo.find(o => o.id === id);
+        if (!orden) return;
+        const htmlItems = orden.items.map(i => `
+            <div class="flex items-center gap-3 border-b border-gray-100 py-2">
+                <img src="${i.imagen}" class="w-12 h-12 object-contain rounded-lg" />
+                <div class="flex-1">
+                    <p class="font-bold text-sm">${i.titulo}</p>
+                    <p class="text-xs text-gray-500">Cantidad: ${i.cantidad} • $${i.precio.toFixed(2)}</p>
+                </div>
+                <div class="text-sm font-black text-violet-700">$${(i.precio * i.cantidad).toFixed(2)}</div>
+            </div>
+        `).join('');
+
+        const contenido = `
+            <div class="space-y-3">
+                <h4 class="font-bold">Elementos</h4>
+                ${htmlItems}
+                <h4 class="font-bold mt-3">Envío</h4>
+                <p class="text-sm text-gray-600">${orden.envio.nombre} • ${orden.envio.direccion}</p>
+                <p class="text-xs text-gray-400">Seguimiento: ${orden.envio.seguimiento} — ${orden.envio.empresa}</p>
+            </div>
+        `;
+
+        abrirModalGenerico('Detalles de la orden ' + id, contenido);
+    }
+
+    function comprarOtraVez(id) {
+        const orden = ordenesEjemplo.find(o => o.id === id);
+        if (!orden) return;
+        // Guardar los ids de productos en localStorage para el carrito
+        const productos = orden.items.map(i => ({ id: i.id, cantidad: i.cantidad }));
+        localStorage.setItem('walkpet-reorder', JSON.stringify(productos));
+        // Redirigir al carrito y abrir la sección de pago
+        window.location.href = '/Paginas/carrito.html?reorder=1&checkout=1';
+    }
+
+    // Modal genérico simple
+    function abrirModalGenerico(titulo, html) {
+        let modal = document.getElementById('modal-generico');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'modal-generico';
+            modal.className = 'fixed inset-0 z-60 hidden items-center justify-center bg-black/60 p-4';
+            modal.innerHTML = `
+                <div class="w-full max-w-2xl rounded-3xl bg-white p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 id="modal-generico-titulo" class="text-lg font-black"></h3>
+                        <button id="modal-generico-cerrar" class="p-2 text-gray-500"><i data-lucide="x" class="w-4 h-4"></i></button>
+                    </div>
+                    <div id="modal-generico-contenido" class="text-sm text-gray-600 max-h-[60vh] overflow-auto"></div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            document.getElementById('modal-generico-cerrar').addEventListener('click', cerrarModalGenerico);
+        }
+        document.getElementById('modal-generico-titulo').textContent = titulo;
+        document.getElementById('modal-generico-contenido').innerHTML = html;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function cerrarModalGenerico() {
+        const modal = document.getElementById('modal-generico');
+        if (!modal) return;
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    // Reseñas: abrir modal simple con estrellas
+    function abrirResena(id) {
+        const orden = ordenesEjemplo.find(o => o.id === id);
+        if (!orden) return;
+        let html = `
+            <div class="space-y-3">
+                <p class="text-sm text-gray-600">Deja tu puntuación y comentario para la orden <span class="font-mono text-xs">${id}</span></p>
+                <div id="stars-${id}" class="flex gap-1 text-amber-400 text-xl">`;
+        for (let s = 1; s <= 5; s++) html += `<button class="star" data-value="${s}" onclick="marcarEstrella('${id}', ${s})">★</button>`;
+        html += `</div>
+                <textarea id="comentario-${id}" rows="3" class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm"></textarea>
+                <div class="flex justify-end gap-2">
+                    <button class="px-4 py-2 rounded-xl bg-gray-50" onclick="cerrarModalGenerico()">Cancelar</button>
+                    <button class="px-4 py-2 rounded-xl bg-violet-700 text-white" onclick="guardarResena('${id}')">Enviar</button>
+                </div>
+            </div>`;
+
+        abrirModalGenerico('Reseñar Orden ' + id, html);
+        // marcar estrellas si ya hay reseña
+        if (orden.reseña?.puntuacion) marcarEstrella(id, orden.reseña.puntuacion);
+    }
+
+    function marcarEstrella(id, valor) {
+        const cont = document.getElementById('stars-' + id);
+        if (!cont) return;
+        cont.querySelectorAll('button.star').forEach(b => {
+            const v = parseInt(b.getAttribute('data-value'));
+            b.style.opacity = v <= valor ? '1' : '0.3';
+        });
+        // store chosen value on container dataset
+        cont.dataset.value = valor;
+    }
+
+    function guardarResena(id) {
+        const orden = ordenesEjemplo.find(o => o.id === id);
+        if (!orden) return;
+        const cont = document.getElementById('stars-' + id);
+        const valor = parseInt(cont?.dataset?.value || '0');
+        const texto = document.getElementById('comentario-' + id)?.value || '';
+        orden.reseña = { puntuacion: valor, comentario: texto };
+        cerrarModalGenerico();
+        renderHistorial();
+        // Mostrar confirmación rápida
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-6 right-6 bg-emerald-600 text-white px-4 py-2 rounded-xl shadow-lg z-70';
+        toast.textContent = 'Reseña enviada';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', () => {
+        renderHistorial();
     });
 
     // Función global para alternar pestañas

@@ -188,19 +188,41 @@
         let descuentoAplicado = 0;
         let codigoDescuento = '';
 
-        // Inicialización y carga de datos desde JSON
+        // Inicialización y carga de datos desde JSON (soporta reorder desde historial)
         async function inicializarCarrito() {
             try {
                 const response = await fetch('/productos.json');
                 if (!response.ok) throw new Error('Error al cargar JSON');
                 const todosLosProductos = await response.json();
-                
-                // Filtramos solo los dos productos deseados
-                carrito = todosLosProductos
-                    .filter(p => p.id === 1 || p.id === 2)
-                    .map(p => ({ ...p, cantidad: 1 }));
-                
+
+                const params = new URLSearchParams(window.location.search);
+                const reorderFlag = params.get('reorder');
+                const checkoutFlag = params.get('checkout');
+
+                if (reorderFlag && localStorage.getItem('walkpet-reorder')) {
+                    try {
+                        const reorder = JSON.parse(localStorage.getItem('walkpet-reorder')) || [];
+                        carrito = reorder.map(r => {
+                            const prod = todosLosProductos.find(p => p.id === r.id);
+                            return prod ? { ...prod, cantidad: r.cantidad || 1 } : null;
+                        }).filter(Boolean);
+                    } catch (e) {
+                        carrito = [];
+                    }
+                } else {
+                    // Filtramos solo los dos productos deseados por defecto
+                    carrito = todosLosProductos
+                        .filter(p => p.id === 1 || p.id === 2)
+                        .map(p => ({ ...p, cantidad: 1 }));
+                }
+
                 renderizarPagos();
+
+                // Si se solicitó checkout abrir modal de pago
+                if (checkoutFlag === '1' || checkoutFlag === 'true') {
+                    // Abrir modal de pago tras render
+                    setTimeout(() => confirmarPago(), 300);
+                }
             } catch (error) {
                 console.error("Error:", error);
                 document.getElementById('resumen-carrito').innerHTML = 

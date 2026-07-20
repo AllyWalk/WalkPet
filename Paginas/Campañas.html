@@ -40,9 +40,9 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 gap-4">
-                    <a href="/Paginas/Catalogo.html" class="inline-flex items-center justify-center rounded-full bg-violet-700 px-8 py-4 text-sm font-black uppercase tracking-[0.2em] text-white transition-transform hover:-translate-y-0.5 hover:bg-violet-800 shadow-xl shadow-violet-700/20">
+                    <button id="btn-comprar-campana" class="inline-flex items-center justify-center rounded-full bg-violet-700 px-8 py-4 text-sm font-black uppercase tracking-[0.2em] text-white transition-transform hover:-translate-y-0.5 hover:bg-violet-800 shadow-xl shadow-violet-700/20">
                         Comprar ahora
-                    </a>
+                    </button>
                     <a href="#testimonios" class="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-bold text-gray-700 border border-gray-200 transition hover:bg-gray-50">
                         Ver reseñas
                     </a>
@@ -156,11 +156,112 @@
                 </article>
             </div>
         </section>
+
     </main>
+
+    <div id="modal-pago" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/60 p-4">
+        <div class="relative w-full max-w-3xl rounded-[2.5rem] bg-white p-8 shadow-2xl">
+            <button id="btn-cerrar-modal-pago" class="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 transition hover:bg-gray-50">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="mb-6">
+                <span class="inline-flex items-center gap-2 rounded-full bg-violet-50 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-violet-700">
+                    <i data-lucide="credit-card" class="w-4 h-4"></i> Pago seguro
+                </span>
+                <h2 class="mt-4 text-3xl font-black text-gray-900">Completa tus datos de tarjeta</h2>
+                <p class="max-w-2xl text-sm text-gray-600 leading-relaxed mt-3">Ingresa los datos de tu tarjeta para finalizar la compra de la campaña.</p>
+            </div>
+
+            <form id="form-pago" class="grid gap-4 sm:grid-cols-2">
+                <label class="space-y-2 text-sm text-gray-600">
+                    <span>Titular de la tarjeta</span>
+                    <input id="tarjeta-nombre" type="text" placeholder="Nombre en la tarjeta" class="w-full rounded-3xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent" />
+                </label>
+                <label class="space-y-2 text-sm text-gray-600">
+                    <span>Número de tarjeta</span>
+                    <input id="tarjeta-numero" type="text" placeholder="1234 5678 9012 3456" class="w-full rounded-3xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent" />
+                </label>
+                <label class="space-y-2 text-sm text-gray-600">
+                    <span>Fecha de expiración</span>
+                    <input id="tarjeta-exp" type="text" placeholder="MM/AA" class="w-full rounded-3xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent" />
+                </label>
+                <label class="space-y-2 text-sm text-gray-600">
+                    <span>CVC</span>
+                    <input id="tarjeta-cvc" type="text" placeholder="123" class="w-full rounded-3xl border border-gray-200 bg-slate-50 px-4 py-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent" />
+                </label>
+                <div class="sm:col-span-2 flex justify-end">
+                    <button id="btn-finalizar-pago" type="button" class="inline-flex items-center justify-center rounded-full bg-emerald-600 px-8 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-emerald-600/20 transition hover:bg-emerald-700 focus:outline-none">
+                        Finalizar pago
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <script src="/header.js" defer></script>
     <script>
+        function mostrarPopupSimulado(titulo, mensaje) {
+            const popupExistente = document.getElementById('popup-simulado');
+            if (popupExistente) popupExistente.remove();
+
+            const popup = document.createElement('div');
+            popup.id = 'popup-simulado';
+            popup.className = 'fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/60 p-4';
+            popup.innerHTML = `
+                <div class="relative w-full max-w-sm rounded-[32px] bg-white p-8 text-center shadow-2xl">
+                    <button type="button" class="absolute right-4 top-4 text-gray-400 hover:text-gray-700" onclick="document.getElementById('popup-simulado')?.remove()">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                    <div class="mx-auto mb-4 h-16 w-16 rounded-full bg-emerald-100 flex items-center justify-center">
+                        <i data-lucide="check-circle" class="w-8 h-8 text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-2xl font-black text-gray-900">${titulo}</h3>
+                    <p class="mt-3 text-sm text-gray-600">${mensaje}</p>
+                </div>
+            `;
+            document.body.appendChild(popup);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            setTimeout(() => popup.remove(), 2400);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            const btnComprarCampana = document.getElementById('btn-comprar-campana');
+            const modalPago = document.getElementById('modal-pago');
+            const btnCerrarModalPago = document.getElementById('btn-cerrar-modal-pago');
+            const btnFinalizarPago = document.getElementById('btn-finalizar-pago');
+
+            function mostrarModalPago() {
+                modalPago?.classList.remove('hidden');
+            }
+
+            function cerrarModalPago() {
+                modalPago?.classList.add('hidden');
+            }
+
+            btnComprarCampana?.addEventListener('click', () => {
+                if (typeof estaAutenticado === 'function' && !estaAutenticado()) {
+                    if (typeof redirigirALogin === 'function') {
+                        redirigirALogin();
+                        return;
+                    }
+                    window.location.href = '/Paginas/IniciarSesion.html';
+                    return;
+                }
+
+                mostrarPopupSimulado('Bienvenido', 'Completa tus datos de tarjeta en el modal de pago.');
+                mostrarModalPago();
+            });
+
+            btnCerrarModalPago?.addEventListener('click', cerrarModalPago);
+            modalPago?.addEventListener('click', (event) => {
+                if (event.target === modalPago) cerrarModalPago();
+            });
+
+            btnFinalizarPago?.addEventListener('click', () => {
+                cerrarModalPago();
+                mostrarPopupSimulado('Pago completado', 'Tu pago se completó con éxito.');
+            });
         });
     </script>
 </body>
