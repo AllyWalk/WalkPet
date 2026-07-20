@@ -200,7 +200,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="tel:+1234567890" class="mt-6 p-4 bg-amber-50/60 rounded-xl border border-amber-100 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-amber-50 block no-underline">
+                    <a href="/Paginas/Nosotros.html" class="mt-6 p-4 bg-amber-50/60 rounded-xl border border-amber-100 flex items-center gap-4 cursor-pointer transition-colors duration-200 hover:bg-amber-50 block no-underline">
                         <div class="w-10 h-10 rounded-lg bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-md shadow-amber-500/20">
                             <i data-lucide="phone-call" class="w-5 h-5"></i>
                         </div>
@@ -253,6 +253,16 @@
             &copy; 2026 WalkPet Software. Todos los derechos reservados.
         </div>
     </footer>
+    <!-- Modal Términos / Privacidad -->
+    <div id="modal-legal" class="hidden fixed inset-0 z-[90] items-center justify-center bg-slate-950/60 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 max-w-3xl w-full relative transform transition-all duration-300 scale-95">
+            <button id="btn-cerrar-legal" type="button" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 id="legal-titulo" class="text-xl font-black text-gray-900 mb-3"></h3>
+            <div id="legal-contenido" class="text-sm text-gray-600 leading-relaxed max-h-72 overflow-auto"></div>
+        </div>
+    </div>
     <script src="/header.js"></script>
     <script src="app.js"></script>
     <script>

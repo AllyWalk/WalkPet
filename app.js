@@ -338,3 +338,54 @@ document.querySelectorAll('.btn-filtro').forEach(btn => {
             toast.classList.remove('translate-y-[-100px]');
             setTimeout(() => toast.classList.add('translate-y-[-100px]'), 2000);
         }
+
+        // Modal Términos y Privacidad
+        function abrirModalLegal(tipo) {
+            const modal = document.getElementById('modal-legal');
+            const titulo = document.getElementById('legal-titulo');
+            const contenido = document.getElementById('legal-contenido');
+            if (!modal || !titulo || !contenido) return;
+
+            if (tipo === 'terminos') {
+                titulo.textContent = 'Términos de Servicio';
+                contenido.innerHTML = `
+                    <h4 class="font-bold mb-2">Uso del servicio</h4>
+                    <p>Estos términos describen las reglas y responsabilidades al usar WalkPet. Reemplaza este texto con los términos completos de tu servicio.</p>
+                    <h4 class="font-bold mt-4 mb-2">Limitación de responsabilidad</h4>
+                    <p>WalkPet no se hace responsable por daños indirectos. Añade aquí la redacción legal pertinente.</p>
+                `;
+            } else {
+                titulo.textContent = 'Política de Privacidad';
+                contenido.innerHTML = `
+                    <h4 class="font-bold mb-2">Información recopilada</h4>
+                    <p>Recopilamos datos para mejorar el servicio. Reemplaza este texto con tu política de privacidad completa.</p>
+                    <h4 class="font-bold mt-4 mb-2">Uso de datos</h4>
+                    <p>Explicamos cómo usamos y protegemos los datos personales de los usuarios.</p>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex', 'items-center', 'justify-center');
+            setTimeout(() => modal.classList.add('opacity-100'), 10);
+        }
+
+        function cerrarModalLegal() {
+            const modal = document.getElementById('modal-legal');
+            if (!modal) return;
+            modal.classList.remove('opacity-100');
+            setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex', 'items-center', 'justify-center'); }, 200);
+        }
+
+        // Listeners para abrir/cerrar el modal legal
+        document.getElementById('btn-cerrar-legal')?.addEventListener('click', cerrarModalLegal);
+        document.querySelectorAll('a[href="#terminos"], a[href="#privacidad"]').forEach(a => {
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                const tipo = this.getAttribute('href') === '#terminos' ? 'terminos' : 'privacidad';
+                abrirModalLegal(tipo);
+            });
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal-legal')) cerrarModalLegal();
+        });
