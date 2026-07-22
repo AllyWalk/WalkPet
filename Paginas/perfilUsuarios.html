@@ -712,10 +712,12 @@
                         <p class="text-xs text-slate-400 mt-1">Estado: ${o.estado}</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
+                <div class="flex flex-wrap items-center gap-2">
                     <button class="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 text-sm font-bold" onclick="verDetallesOrden('${o.id}')">Ver detalles</button>
                     <button class="px-4 py-2 rounded-xl bg-violet-700 text-white text-sm font-bold" onclick="comprarOtraVez('${o.id}')">Comprar otra vez</button>
                     <button class="px-4 py-2 rounded-xl bg-gray-50 text-gray-700 border border-gray-100 text-sm" onclick="abrirResena('${o.id}')">Reseñar</button>
+                    <button class="px-3 py-2 rounded-xl bg-slate-100 text-slate-700 border border-slate-200 text-sm" onclick="descargarReciboOrden('${o.id}')">Recibo</button>
+                    <button class="px-3 py-2 rounded-xl bg-slate-100 text-slate-700 border border-slate-200 text-sm" onclick="descargarFacturaOrden('${o.id}')">Factura</button>
                 </div>
             </div>
         `;
@@ -763,6 +765,34 @@
         localStorage.setItem('walkpet-reorder', JSON.stringify(productos));
         // Redirigir al carrito y abrir la sección de pago
         window.location.href = '/Paginas/carrito.html?reorder=1&checkout=1';
+    }
+
+    function descargarReciboOrden(id) {
+        const link = document.createElement('a');
+        link.href = '/Resources/recibo_walkpet.pdf';
+        link.download = 'recibo_walkpet.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-6 right-6 bg-violet-700 text-white px-4 py-2 rounded-xl shadow-lg z-70';
+        toast.textContent = 'Recibo descargado';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+    }
+
+    function descargarFacturaOrden(id) {
+        const link = document.createElement('a');
+        link.href = '/Resources/Factura.pdf';
+        link.download = 'Factura.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        const toast = document.createElement('div');
+        toast.className = 'fixed bottom-6 right-6 bg-violet-700 text-white px-4 py-2 rounded-xl shadow-lg z-70';
+        toast.textContent = 'Factura descargada';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
     }
 
     // Modal genérico simple
@@ -890,5 +920,6 @@
         }
     }
 </script>
+<div id="main-footer"></div>
 </body>
 </html>

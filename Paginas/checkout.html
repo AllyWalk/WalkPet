@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | WalkPet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+    <header id="main-header" class="w-full bg-white shadow-sm h-16"></header>
+
+    <div id="toast" class="fixed top-5 right-5 z-50 hidden rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-xl transition-all duration-300">
+        Pedido confirmado
+    </div>
+
+    <main class="px-4 py-10 lg:px-6">
+        <div class="mx-auto max-w-6xl">
+            <div class="mb-8 text-center">
+                <p class="text-sm font-semibold uppercase tracking-[0.3em] text-violet-600">Checkout</p>
+                <h1 class="text-4xl font-black tracking-tight text-slate-900">Finaliza tu compra con confianza</h1>
+                <p class="mx-auto mt-2 max-w-2xl text-sm text-slate-600">Completa tu información de envío, elige cómo pagar y revisa tu pedido antes de confirmar.</p>
+            </div>
+
+            <div class="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+                <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/60">
+                    <div class="mb-6 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-xl font-black text-slate-800">Resumen de compra</h2>
+                            <p class="text-sm text-slate-500">Revisa los productos y el total antes de continuar.</p>
+                        </div>
+                        <button id="btn-abrir-modal" type="button" class="rounded-2xl bg-violet-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-800">
+                            Completar pedido
+                        </button>
+                    </div>
+
+                    <div id="resumen-checkout" class="space-y-3"></div>
+
+                    <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <div class="flex justify-between text-sm text-slate-500">
+                            <span>Subtotal</span>
+                            <span id="subtotal-checkout">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-slate-500">
+                            <span>IVA (16%)</span>
+                            <span id="iva-checkout">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm text-slate-500">
+                            <span>Envío</span>
+                            <span>$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center border-t border-slate-200 pt-3 text-lg font-black text-slate-900">
+                            <span>Total</span>
+                            <span id="total-checkout" class="text-violet-700">$0.00</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/60">
+                    <h2 class="text-xl font-black text-slate-800">¿Qué incluye tu compra?</h2>
+                    <ul class="mt-4 space-y-3 text-sm text-slate-600">
+                        <li class="flex items-start gap-2"><span class="mt-1 text-violet-600">•</span> Envío rápido a la dirección que registres.</li>
+                        <li class="flex items-start gap-2"><span class="mt-1 text-violet-600">•</span> Pago seguro con varias opciones.</li>
+                        <li class="flex items-start gap-2"><span class="mt-1 text-violet-600">•</span> Opción para solicitar factura en el mismo proceso.</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <div id="modal-checkout" class="fixed inset-0 z-[60] hidden items-center justify-center bg-slate-950/70 p-4">
+        <div class="w-full max-w-4xl rounded-3xl bg-white shadow-2xl overflow-hidden">
+            <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+                <div>
+                    <h3 class="text-lg font-black text-slate-800">Completa tu pedido</h3>
+                    <p class="text-xs text-slate-500">Paso a paso para finalizar tu compra</p>
+                </div>
+                <button id="btn-cerrar-modal" type="button" class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700" aria-label="Cerrar">
+                    <i data-lucide="x" class="h-4 w-4"></i>
+                </button>
+            </div>
+
+            <div class="max-h-[78vh] overflow-y-auto px-6 py-6">
+                <div class="mb-6 flex flex-wrap gap-2">
+                    <div id="step-badge-1" class="rounded-full bg-violet-700 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">1. Envío</div>
+                    <div id="step-badge-2" class="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold uppercase tracking-wide text-slate-600">2. Pago</div>
+                    <div id="step-badge-3" class="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold uppercase tracking-wide text-slate-600">3. Confirmación</div>
+                </div>
+
+                <div id="panel-envio" class="space-y-4">
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-slate-700">Nombre completo</label>
+                            <input id="nombre-envio" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Tu nombre">
+                        </div>
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-slate-700">Teléfono</label>
+                            <input id="telefono-envio" type="tel" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="55 1234 5678">
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-slate-700">Calle y número</label>
+                            <input id="direccion-envio" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Av. Siempre Viva 123">
+                        </div>
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-slate-700">Colonia</label>
+                            <input id="colonia-envio" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Centro">
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-slate-700">Ciudad</label>
+                            <input id="ciudad-envio" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Ciudad de México">
+                        </div>
+                        <div>
+                            <label class="mb-2 block text-sm font-bold text-slate-700">Código postal</label>
+                            <input id="cp-envio" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="01000">
+                        </div>
+                    </div>
+
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <label class="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                            <input id="check-factura" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-500">
+                            Solicitar factura
+                        </label>
+                        <div id="campos-factura" class="mt-4 hidden space-y-3">
+                            <input id="rfc-factura" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="RFC">
+                            <input id="razon-factura" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Razón social o empresa">
+                            <input id="direccion-factura" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Dirección fiscal">
+                            <input id="regimen-fiscal" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Régimen fiscal">
+                            <input id="uso-cdfi" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Uso de CFDI">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="panel-pago" class="hidden space-y-4">
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <p class="mb-3 text-sm font-black text-slate-800">Selecciona tu método de pago</p>
+                        <div class="space-y-3">
+                            <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3">
+                                <span class="text-sm font-semibold text-slate-700">Tarjeta</span>
+                                <input type="radio" name="metodo-pago" value="tarjeta" class="h-4 w-4 text-violet-600" checked>
+                            </label>
+                            <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3">
+                                <span class="text-sm font-semibold text-slate-700">Monedero electrónico</span>
+                                <input type="radio" name="metodo-pago" value="monedero" class="h-4 w-4 text-violet-600">
+                            </label>
+                            <label class="flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3">
+                                <span class="text-sm font-semibold text-slate-700">Transferencia</span>
+                                <input type="radio" name="metodo-pago" value="deposito" class="h-4 w-4 text-violet-600">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="detalle-tarjeta" class="rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <div>
+                                <label class="mb-2 block text-sm font-bold text-slate-700">Nombre en la tarjeta</label>
+                                <input id="nombre-tarjeta" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Noé Quintero">
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-bold text-slate-700">Número de tarjeta</label>
+                                <input id="numero-tarjeta" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="4242 4242 4242 4242">
+                            </div>
+                        </div>
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <div>
+                                <label class="mb-2 block text-sm font-bold text-slate-700">Fecha</label>
+                                <input id="fecha-tarjeta" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="MM/AA">
+                            </div>
+                            <div>
+                                <label class="mb-2 block text-sm font-bold text-slate-700">CVV</label>
+                                <input id="cvv-tarjeta" type="password" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="detalle-monedero" class="hidden rounded-2xl border border-slate-200 bg-white p-4 space-y-3">
+                        <label class="mb-2 block text-sm font-bold text-slate-700">Cuenta de monedero</label>
+                        <input type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-violet-500" placeholder="Correo o número de cuenta">
+                    </div>
+
+                    <div id="detalle-deposito" class="hidden rounded-2xl border border-slate-200 bg-white p-4 space-y-2 text-sm text-slate-600">
+                        <p class="font-black text-slate-800">Transferencia bancaria</p>
+                        <p>Banco: Banco WalkPet</p>
+                        <p>Cuenta: 1234567890</p>
+                        <p>CLABE: 012345678901234567</p>
+                    </div>
+                </div>
+
+                <div id="panel-confirmacion" class="hidden space-y-4">
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                        <p class="text-sm font-black text-slate-800">Resumen de la compra</p>
+                        <div id="confirmacion-items" class="mt-3 space-y-2"></div>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-600">
+                        <div class="flex justify-between"><span>Dirección</span><span id="resumen-direccion" class="font-semibold text-slate-800">—</span></div>
+                        <div class="mt-2 flex justify-between"><span>Método de pago</span><span id="resumen-pago" class="font-semibold text-slate-800">Tarjeta</span></div>
+                        <div class="mt-2 flex justify-between"><span>Factura</span><span id="resumen-factura" class="font-semibold text-slate-800">No solicitada</span></div>
+                    </div>
+
+                    <div id="factura-visual" class="rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 to-white p-4 shadow-sm"></div>
+                </div>
+
+                <div class="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-between">
+                    <button id="btn-volver" type="button" class="rounded-2xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">Volver</button>
+                    <button id="btn-siguiente" type="button" class="rounded-2xl bg-violet-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-800">Siguiente</button>
+                    <button id="btn-confirmar" type="button" class="hidden rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700">Confirmar compra</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/header.js"></script>
+    <script>
+        const carritoKey = 'walkpet-checkout-cart';
+        let carrito = [];
+        let pasoActual = 1;
+        let metodoPago = 'tarjeta';
+
+        async function cargarCarrito() {
+            try {
+                const carritoGuardado = localStorage.getItem(carritoKey);
+                if (carritoGuardado) {
+                    carrito = JSON.parse(carritoGuardado);
+                } else {
+                    const response = await fetch('/productos.json');
+                    const productos = await response.json();
+                    carrito = productos.filter(p => p.id === 1 || p.id === 2).map(p => ({ ...p, cantidad: 1 }));
+                    localStorage.setItem(carritoKey, JSON.stringify(carrito));
+                }
+            } catch (error) {
+                console.error('No se pudo cargar el carrito', error);
+                carrito = [];
+            }
+
+            renderResumen();
+            renderConfirmacion();
+        }
+
+        function renderResumen() {
+            const container = document.getElementById('resumen-checkout');
+            const subtotalEl = document.getElementById('subtotal-checkout');
+            const ivaEl = document.getElementById('iva-checkout');
+            const totalEl = document.getElementById('total-checkout');
+
+            if (!carrito.length) {
+                container.innerHTML = '<p class="py-4 text-center text-sm text-slate-500">Tu carrito está vacío.</p>';
+                subtotalEl.textContent = '$0.00';
+                ivaEl.textContent = '$0.00';
+                totalEl.textContent = '$0.00';
+                return;
+            }
+
+            container.innerHTML = carrito.map(item => `
+                <div class="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">${item.titulo}</p>
+                        <p class="text-xs text-slate-500">Cantidad: ${item.cantidad}</p>
+                    </div>
+                    <span class="text-sm font-black text-violet-700">$${(item.precio * item.cantidad).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            const subtotal = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+            const iva = subtotal * 0.16;
+            const total = subtotal + iva;
+            subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+            ivaEl.textContent = `$${iva.toFixed(2)}`;
+            totalEl.textContent = `$${total.toFixed(2)}`;
+        }
+
+        function renderConfirmacion() {
+            const lista = document.getElementById('confirmacion-items');
+            if (!carrito.length) {
+                lista.innerHTML = '<p class="text-sm text-slate-500">No hay artículos para confirmar.</p>';
+                return;
+            }
+
+            lista.innerHTML = carrito.map(item => `
+                <div class="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-3">
+                    <span class="text-sm text-slate-700">${item.titulo}</span>
+                    <span class="text-sm font-semibold text-slate-900">$${(item.precio * item.cantidad).toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            renderFacturaVisual();
+        }
+
+        function renderFacturaVisual() {
+            const contenedor = document.getElementById('factura-visual');
+            if (!contenedor) return;
+
+            const nombreCliente = document.getElementById('nombre-envio').value.trim() || 'Cliente';
+            const telefonoCliente = document.getElementById('telefono-envio').value.trim() || 'Sin teléfono';
+            const rfc = document.getElementById('rfc-factura').value.trim();
+            const razon = document.getElementById('razon-factura').value.trim();
+            const direccionFactura = document.getElementById('direccion-factura').value.trim();
+            const regimenFiscal = document.getElementById('regimen-fiscal').value.trim();
+            const usoCdfi = document.getElementById('uso-cdfi').value.trim();
+            const facturaSolicitada = document.getElementById('check-factura').checked;
+            const subtotal = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+            const iva = subtotal * 0.16;
+            const total = subtotal + iva;
+            const fecha = new Date().toLocaleDateString('es-MX', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            const folio = `WP-${Date.now().toString().slice(-6)}`;
+
+            contenedor.innerHTML = `
+                <div class="rounded-2xl border border-violet-200 bg-white p-4">
+                    <div class="flex items-start justify-between gap-3 border-b border-slate-200 pb-3">
+                        <div>
+                            <p class="text-lg font-black text-slate-900">WalkPet</p>
+                            <p class="text-xs text-slate-500">Ticket / Factura visual</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-violet-600">Folio</p>
+                            <p class="text-sm font-black text-slate-800">${folio}</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 space-y-2 text-sm text-slate-600">
+                        <p><span class="font-semibold text-slate-800">Cliente:</span> ${nombreCliente}</p>
+                        <p><span class="font-semibold text-slate-800">Teléfono:</span> ${telefonoCliente}</p>
+                        ${facturaSolicitada ? `
+                            <p><span class="font-semibold text-slate-800">RFC:</span> ${rfc || 'Sin RFC'}</p>
+                            <p><span class="font-semibold text-slate-800">Razón social:</span> ${razon || 'Sin razón social'}</p>
+                            <p><span class="font-semibold text-slate-800">Dirección fiscal:</span> ${direccionFactura || 'Sin dirección'}</p>
+                            <p><span class="font-semibold text-slate-800">Régimen fiscal:</span> ${regimenFiscal || 'Sin régimen'}</p>
+                            <p><span class="font-semibold text-slate-800">Uso de CFDI:</span> ${usoCdfi || 'Sin uso'}</p>
+                        ` : '<p class="text-slate-500">Factura no solicitada.</p>'}
+                    </div>
+
+                    <div class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                        <p class="text-sm font-black text-slate-800">Lista de productos</p>
+                        <div class="mt-2 space-y-2">
+                            ${carrito.map(item => `
+                                <div class="flex justify-between text-sm text-slate-600">
+                                    <span>${item.titulo} x${item.cantidad}</span>
+                                    <span>$${(item.precio * item.cantidad).toFixed(2)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="mt-4 space-y-2 text-sm text-slate-700">
+                        <div class="flex justify-between"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
+                        <div class="flex justify-between"><span>IVA</span><span>$${iva.toFixed(2)}</span></div>
+                        <div class="flex justify-between border-t border-slate-200 pt-2 text-base font-black text-slate-900"><span>Total</span><span>$${total.toFixed(2)}</span></div>
+                        <div class="flex justify-between pt-2 text-xs text-slate-500"><span>Fecha</span><span>${fecha}</span></div>
+                    </div>
+
+                    <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+                        <button id="btn-descargar-factura" type="button" class="w-full rounded-2xl bg-violet-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-violet-800">
+                            Descargar recibo
+                        </button>
+                        <button id="btn-descargar-factura-real" type="button" class="w-full rounded-2xl border border-violet-200 bg-white px-4 py-2 text-sm font-semibold text-violet-700 transition hover:bg-violet-50">
+                            Descargar factura
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function obtenerSesionActiva() {
+            try {
+                return JSON.parse(localStorage.getItem('walkpet-session') || 'null');
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function redirigirALoginCheckout() {
+            const destino = window.location.pathname + window.location.search + window.location.hash;
+            localStorage.setItem('walkpet-return-url', destino);
+            const loginUrl = new URL('/Paginas/IniciarSesion.html', window.location.origin);
+            loginUrl.searchParams.set('redirect', destino);
+            window.location.href = loginUrl.toString();
+        }
+
+        function mostrarToast(mensaje = 'Pedido confirmado') {
+            const toast = document.getElementById('toast');
+            toast.textContent = mensaje;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2200);
+        }
+
+        function abrirModal() {
+            const sesion = obtenerSesionActiva();
+            if (!sesion?.activo) {
+                redirigirALoginCheckout();
+                return;
+            }
+            document.getElementById('modal-checkout').classList.remove('hidden');
+            document.getElementById('modal-checkout').classList.add('flex');
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-checkout').classList.add('hidden');
+            document.getElementById('modal-checkout').classList.remove('flex');
+        }
+
+        function actualizarPaso() {
+            const badges = [1, 2, 3].map(numero => document.getElementById(`step-badge-${numero}`));
+            badges.forEach((badge, index) => {
+                const activo = index + 1 === pasoActual;
+                badge.className = activo
+                    ? 'rounded-full bg-violet-700 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white'
+                    : 'rounded-full bg-slate-200 px-3 py-1 text-xs font-bold uppercase tracking-wide text-slate-600';
+            });
+
+            document.getElementById('panel-envio').classList.toggle('hidden', pasoActual !== 1);
+            document.getElementById('panel-pago').classList.toggle('hidden', pasoActual !== 2);
+            document.getElementById('panel-confirmacion').classList.toggle('hidden', pasoActual !== 3);
+
+            document.getElementById('btn-volver').classList.toggle('hidden', pasoActual === 1);
+            document.getElementById('btn-siguiente').classList.toggle('hidden', pasoActual === 3);
+            document.getElementById('btn-confirmar').classList.toggle('hidden', pasoActual !== 3);
+
+            const siguienteTexto = pasoActual === 2 ? 'Revisar confirmación' : 'Siguiente';
+            document.getElementById('btn-siguiente').textContent = siguienteTexto;
+        }
+
+        function actualizarMetodoPago() {
+            const metodo = document.querySelector('input[name="metodo-pago"]:checked')?.value || 'tarjeta';
+            metodoPago = metodo;
+            document.getElementById('detalle-tarjeta').classList.toggle('hidden', metodo !== 'tarjeta');
+            document.getElementById('detalle-monedero').classList.toggle('hidden', metodo !== 'monedero');
+            document.getElementById('detalle-deposito').classList.toggle('hidden', metodo !== 'deposito');
+            document.getElementById('resumen-pago').textContent = metodo === 'tarjeta' ? 'Tarjeta' : metodo === 'monedero' ? 'Monedero electrónico' : 'Depósito';
+        }
+
+        function actualizarResumenDireccion() {
+            const direccion = [
+                document.getElementById('direccion-envio').value,
+                document.getElementById('colonia-envio').value,
+                document.getElementById('ciudad-envio').value,
+                document.getElementById('cp-envio').value
+            ].filter(Boolean).join(', ');
+            document.getElementById('resumen-direccion').textContent = direccion || 'Por definir';
+        }
+
+        function actualizarFactura() {
+            const mostrar = document.getElementById('check-factura').checked;
+            document.getElementById('campos-factura').classList.toggle('hidden', !mostrar);
+            document.getElementById('resumen-factura').textContent = mostrar ? 'Solicitada' : 'No solicitada';
+            renderFacturaVisual();
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await cargarCarrito();
+            lucide.createIcons();
+            actualizarPaso();
+            actualizarMetodoPago();
+            actualizarFactura();
+            setTimeout(abrirModal, 250);
+
+            document.getElementById('btn-abrir-modal').addEventListener('click', abrirModal);
+            document.getElementById('btn-cerrar-modal').addEventListener('click', cerrarModal);
+            document.getElementById('btn-volver').addEventListener('click', () => {
+                if (pasoActual > 1) {
+                    pasoActual -= 1;
+                    actualizarPaso();
+                }
+            });
+            document.getElementById('btn-siguiente').addEventListener('click', () => {
+                if (pasoActual === 1) {
+                    actualizarResumenDireccion();
+                    pasoActual = 2;
+                    actualizarPaso();
+                } else if (pasoActual === 2) {
+                    actualizarMetodoPago();
+                    renderFacturaVisual();
+                    pasoActual = 3;
+                    actualizarPaso();
+                }
+            });
+            document.getElementById('btn-confirmar').addEventListener('click', () => {
+                mostrarToast('Pedido confirmado');
+                cerrarModal();
+                setTimeout(() => {
+                    window.location.href = 'Catalogo.html';
+                }, 800);
+            });
+
+            document.querySelectorAll('input[name="metodo-pago"]').forEach(radio => {
+                radio.addEventListener('change', actualizarMetodoPago);
+            });
+            document.getElementById('check-factura').addEventListener('change', actualizarFactura);
+            document.querySelectorAll('#direccion-envio, #colonia-envio, #ciudad-envio, #cp-envio, #nombre-envio, #telefono-envio, #rfc-factura, #razon-factura, #direccion-factura, #regimen-fiscal, #uso-cdfi').forEach(input => {
+                input.addEventListener('input', () => {
+                    actualizarResumenDireccion();
+                    renderFacturaVisual();
+                });
+            });
+            document.getElementById('modal-checkout').addEventListener('click', (event) => {
+                if (event.target.id === 'modal-checkout') cerrarModal();
+            });
+
+            document.addEventListener('click', (event) => {
+                if (event.target.id === 'btn-descargar-factura') {
+                    const link = document.createElement('a');
+                    link.href = '/Resources/recibo_walkpet.pdf';
+                    link.download = 'recibo_walkpet.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    mostrarToast('Recibo descargado');
+                }
+
+                if (event.target.id === 'btn-descargar-factura-real') {
+                    const link = document.createElement('a');
+                    link.href = '/Resources/Factura.pdf';
+                    link.download = 'Factura.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    mostrarToast('Factura descargada');
+                }
+            });
+        });
+    </script>
+    <div id="main-footer"></div>
+</body>
+</html>

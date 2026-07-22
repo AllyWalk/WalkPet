@@ -144,6 +144,8 @@
         </div>
     </div>
 
+    <div id="main-footer"></div>
+
     <script src="/header.js" defer></script>
     <script src="/app.js" defer></script>
     <script>
@@ -323,7 +325,7 @@
                         </div>
                         <div class="space-y-2 text-right sm:text-left">
                             <button type="button" onclick="manejarAccionProtegida('Añadido con éxito', 'Producto añadido al carrito')" class="rounded-full bg-emerald-600 text-white border border-emerald-600 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] hover:bg-emerald-700 transition">Agregar al carrito</button>
-                            <button type="button" onclick="manejarAccionProtegida('Compra confirmada', 'Producto comprado con éxito')" class="rounded-full bg-violet-50 border border-violet-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-700 hover:bg-violet-50 transition">Comprar</button>
+                            <button type="button" onclick="window.location.href='/Paginas/checkout.html'" class="rounded-full bg-violet-50 border border-violet-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-violet-700 hover:bg-violet-50 transition">Comprar</button>
                         </div>
                     </div>
                     ${publicacion.foto ? `<img src="${publicacion.foto}" alt="${publicacion.titulo}" class="mt-6 w-full max-h-60 object-cover rounded-3xl border border-gray-200" />` : ''}

@@ -138,6 +138,26 @@ function getFallbackHeaderMarkup() {
     `;
 }
 
+async function cargarFooter() {
+    const footerElement = document.getElementById('main-footer');
+
+    if (!footerElement) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(resolveAppUrl('/footer.html'));
+        if (!respuesta.ok) throw new Error(`HTTP error! status: ${respuesta.status}`);
+
+        const data = await respuesta.text();
+        footerElement.innerHTML = data;
+        ajustarEnlacesHeader(footerElement);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    } catch (e) {
+        console.error('Error al cargar el footer:', e);
+    }
+}
+
 async function cargarHeader() {
     const headerElement = document.getElementById('main-header') || document.getElementById('header-container');
 
@@ -162,9 +182,13 @@ async function cargarHeader() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', cargarHeader);
+document.addEventListener('DOMContentLoaded', async () => {
+    await cargarHeader();
+    await cargarFooter();
+});
 window.addEventListener('auth:changed', actualizarEstadoHeader);
 window.cargarHeader = cargarHeader;
+window.cargarFooter = cargarFooter;
 window.actualizarEstadoHeader = actualizarEstadoHeader;
 window.resolveAppUrl = resolveAppUrl;
 window.walkpetAuth = {
